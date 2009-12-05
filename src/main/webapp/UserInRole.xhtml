@@ -1,0 +1,151 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">User in role Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{userInRoleHome.instance.id}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/UserInRoleEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty userInRoleFrom ? 'UserInRoleList' : userInRoleFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Account</h:panelGroup>
+        </f:facet>
+    <div class="association" id="accountParent">
+
+        <h:outputText value="There is no account associated with this userInRole."
+                   rendered="#{userInRoleHome.instance.account == null}"/>
+
+        <rich:dataTable var="_account"
+                   value="#{userInRoleHome.instance.account}"
+                rendered="#{userInRoleHome.instance.account != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="accountTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_account.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Firstname</f:facet>
+                <h:outputText value="#{_account.firstname}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Lastlogin</f:facet>
+                <h:outputText value="#{_account.lastlogin}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Lastname</f:facet>
+                <h:outputText value="#{_account.lastname}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Logincredits</f:facet>
+                <h:outputText value="#{_account.logincredits}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Loginused</f:facet>
+                <h:outputText value="#{_account.loginused}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Password</f:facet>
+                <h:outputText value="#{_account.password}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Printcredits</f:facet>
+                <h:outputText value="#{_account.printcredits}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Printpagesused</f:facet>
+                <h:outputText value="#{_account.printpagesused}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Unixcreated</f:facet>
+                <h:outputText value="#{_account.unixcreated}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Username</f:facet>
+                <h:outputText value="#{_account.username}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewaccount"
+                     value="View"
+                      view="/Account.xhtml">
+                    <f:param name="accountId"
+                           value="#{_account.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Userrole</h:panelGroup>
+        </f:facet>
+    <div class="association" id="userroleParent">
+
+        <h:outputText value="There is no userrole associated with this userInRole."
+                   rendered="#{userInRoleHome.instance.userrole == null}"/>
+
+        <rich:dataTable var="_userrole"
+                   value="#{userInRoleHome.instance.userrole}"
+                rendered="#{userInRoleHome.instance.userrole != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="userroleTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_userrole.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                <h:outputText value="#{_userrole.name}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewuserrole"
+                     value="View"
+                      view="/Userrole.xhtml">
+                    <f:param name="userroleId"
+                           value="#{_userrole.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

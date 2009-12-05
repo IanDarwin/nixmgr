@@ -1,0 +1,120 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="userrole" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{userroleHome.managed ? 'Edit' : 'Add'} Userrole</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{userroleHome.managed}"
+                          value="#{userroleHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="nameField" template="layout/edit.xhtml">
+                <ui:define name="label">Name</ui:define>
+                <h:inputText id="name"
+                           size="8"
+                      maxlength="8"
+                          value="#{userroleHome.instance.name}">
+                    <a:support event="onblur" reRender="nameField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{userroleHome.persist}"
+                       disabled="#{!userroleHome.wired}"
+                       rendered="#{!userroleHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{userroleHome.update}"
+                       rendered="#{userroleHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{userroleHome.remove}"
+                      immediate="true"
+                       rendered="#{userroleHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Userrole.xhtml"
+                rendered="#{userroleHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty userroleFrom ? 'UserroleList' : userroleFrom}.xhtml"
+                rendered="#{!userroleHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="User in roles">
+        <h:form styleClass="association" id="userInRolesChildren">
+
+            <h:outputText value="There are no userInRoles associated with this userrole."
+                       rendered="#{empty userroleHome.userInRoles}"/>
+
+            <rich:dataTable value="#{userroleHome.userInRoles}"
+                           var="_userInRole"
+                      rendered="#{not empty userroleHome.userInRoles}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="userInRolesTable">
+                <rich:column sortBy="#{_userInRole.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_userInRole.id}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{userroleHome.managed}" id="userInRoles">
+        <div class="actionButtons">
+            <s:button id="adduserInRole"
+                   value="Add userInRole"
+                    view="/UserInRoleEdit.xhtml"
+             propagation="none">
+                 <f:param name="userroleId"
+                         value="#{userroleHome.instance.id}"/>
+                 <f:param name="userInRoleFrom" value="Userrole"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

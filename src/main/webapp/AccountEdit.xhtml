@@ -1,0 +1,203 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="account" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{accountHome.managed ? 'Edit' : 'Add'} Account</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{accountHome.managed}"
+                          value="#{accountHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="firstnameField" template="layout/edit.xhtml">
+                <ui:define name="label">Firstname</ui:define>
+                <h:inputText id="firstname"
+                           size="15"
+                      maxlength="15"
+                          value="#{accountHome.instance.firstname}">
+                    <a:support event="onblur" reRender="firstnameField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="lastloginField" template="layout/edit.xhtml">
+                <ui:define name="label">Lastlogin</ui:define>
+                <rich:calendar id="lastlogin"
+                          value="#{accountHome.instance.lastlogin}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="lastnameField" template="layout/edit.xhtml">
+                <ui:define name="label">Lastname</ui:define>
+                <h:inputText id="lastname"
+                           size="15"
+                      maxlength="15"
+                          value="#{accountHome.instance.lastname}">
+                    <a:support event="onblur" reRender="lastnameField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="logincreditsField" template="layout/edit.xhtml">
+                <ui:define name="label">Logincredits</ui:define>
+                <h:inputText id="logincredits"
+                          value="#{accountHome.instance.logincredits}">
+                    <a:support event="onblur" reRender="logincreditsField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="loginusedField" template="layout/edit.xhtml">
+                <ui:define name="label">Loginused</ui:define>
+                <h:inputText id="loginused"
+                          value="#{accountHome.instance.loginused}">
+                    <a:support event="onblur" reRender="loginusedField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="passwordField" template="layout/edit.xhtml">
+                <ui:define name="label">Password</ui:define>
+                <h:inputText id="password"
+                           size="8"
+                      maxlength="8"
+                          value="#{accountHome.instance.password}">
+                    <a:support event="onblur" reRender="passwordField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="printcreditsField" template="layout/edit.xhtml">
+                <ui:define name="label">Printcredits</ui:define>
+                <h:inputText id="printcredits"
+                          value="#{accountHome.instance.printcredits}">
+                    <a:support event="onblur" reRender="printcreditsField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="printpagesusedField" template="layout/edit.xhtml">
+                <ui:define name="label">Printpagesused</ui:define>
+                <h:inputText id="printpagesused"
+                          value="#{accountHome.instance.printpagesused}">
+                    <a:support event="onblur" reRender="printpagesusedField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="unixcreatedField" template="layout/edit.xhtml">
+                <ui:define name="label">Unixcreated</ui:define>
+                <h:selectBooleanCheckbox id="unixcreated"
+                                      value="#{accountHome.instance.unixcreated}"/>
+            </s:decorate>
+
+
+
+            <s:decorate id="usernameField" template="layout/edit.xhtml">
+                <ui:define name="label">Username</ui:define>
+                <h:inputText id="username"
+                           size="8"
+                      maxlength="8"
+                          value="#{accountHome.instance.username}">
+                    <a:support event="onblur" reRender="usernameField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{accountHome.persist}"
+                       disabled="#{!accountHome.wired}"
+                       rendered="#{!accountHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{accountHome.update}"
+                       rendered="#{accountHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{accountHome.remove}"
+                      immediate="true"
+                       rendered="#{accountHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Account.xhtml"
+                rendered="#{accountHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty accountFrom ? 'AccountList' : accountFrom}.xhtml"
+                rendered="#{!accountHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="User in roles">
+        <h:form styleClass="association" id="userInRolesChildren">
+
+            <h:outputText value="There are no userInRoles associated with this account."
+                       rendered="#{empty accountHome.userInRoles}"/>
+
+            <rich:dataTable value="#{accountHome.userInRoles}"
+                           var="_userInRole"
+                      rendered="#{not empty accountHome.userInRoles}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="userInRolesTable">
+                <rich:column sortBy="#{_userInRole.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_userInRole.id}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{accountHome.managed}" id="userInRoles">
+        <div class="actionButtons">
+            <s:button id="adduserInRole"
+                   value="Add userInRole"
+                    view="/UserInRoleEdit.xhtml"
+             propagation="none">
+                 <f:param name="accountId"
+                         value="#{accountHome.instance.id}"/>
+                 <f:param name="userInRoleFrom" value="Account"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

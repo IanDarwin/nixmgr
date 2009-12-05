@@ -1,0 +1,133 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="userroleSearch" styleClass="edit">
+
+        <rich:simpleTogglePanel label="Userrole Search Filter" switchType="ajax">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Name</ui:define>
+                <h:inputText id="name" value="#{userroleList.userrole.name}"/>
+            </s:decorate>
+
+
+        </rich:simpleTogglePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Search" action="/UserroleList.xhtml"/>
+            <s:button id="reset" value="Reset" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">Userrole Search Results</f:facet>
+    <div class="results" id="userroleList">
+
+    <h:outputText value="The userrole search returned no results."
+               rendered="#{empty userroleList.resultList}"/>
+
+    <rich:dataTable id="userroleList"
+                var="_userrole"
+              value="#{userroleList.resultList}"
+           rendered="#{not empty userroleList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{userroleList}"/>
+                    <ui:param name="propertyLabel" value="Id"/>
+                    <ui:param name="propertyPath" value="userrole.id"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_userrole.id}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{userroleList}"/>
+                    <ui:param name="propertyLabel" value="Name"/>
+                    <ui:param name="propertyPath" value="userrole.name"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_userrole.name}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Action</f:facet>
+            <s:link view="/#{empty from ? 'Userrole' : from}.xhtml"
+                   value="#{empty from ? 'View' : 'Select'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="userrole">
+                <f:param name="userroleId"
+                        value="#{_userrole.id}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/UserroleEdit.xhtml"
+                   value="Edit"
+             propagation="none"
+                      id="userroleEdit"
+                rendered="#{empty from}">
+                <f:param name="userroleId"
+                        value="#{_userrole.id}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/UserroleList.xhtml"
+            rendered="#{userroleList.previousExists}"
+               value="#{messages.left}#{messages.left} First Page"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/UserroleList.xhtml"
+            rendered="#{userroleList.previousExists}"
+               value="#{messages.left} Previous Page"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{userroleList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/UserroleList.xhtml"
+            rendered="#{userroleList.nextExists}"
+               value="Next Page #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{userroleList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/UserroleList.xhtml"
+            rendered="#{userroleList.nextExists}"
+               value="Last Page #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{userroleList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/UserroleEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Create userrole">
+            <f:param name="userroleId"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

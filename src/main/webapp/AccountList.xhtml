@@ -1,0 +1,240 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="accountSearch" styleClass="edit">
+
+        <rich:simpleTogglePanel label="Account Search Filter" switchType="ajax">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Firstname</ui:define>
+                <h:inputText id="firstname" value="#{accountList.account.firstname}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Lastname</ui:define>
+                <h:inputText id="lastname" value="#{accountList.account.lastname}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Password</ui:define>
+                <h:inputText id="password" value="#{accountList.account.password}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Username</ui:define>
+                <h:inputText id="username" value="#{accountList.account.username}"/>
+            </s:decorate>
+
+
+        </rich:simpleTogglePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Search" action="/AccountList.xhtml"/>
+            <s:button id="reset" value="Reset" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">Account Search Results</f:facet>
+    <div class="results" id="accountList">
+
+    <h:outputText value="The account search returned no results."
+               rendered="#{empty accountList.resultList}"/>
+
+    <rich:dataTable id="accountList"
+                var="_account"
+              value="#{accountList.resultList}"
+           rendered="#{not empty accountList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{accountList}"/>
+                    <ui:param name="propertyLabel" value="Id"/>
+                    <ui:param name="propertyPath" value="account.id"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_account.id}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{accountList}"/>
+                    <ui:param name="propertyLabel" value="Firstname"/>
+                    <ui:param name="propertyPath" value="account.firstname"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_account.firstname}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{accountList}"/>
+                    <ui:param name="propertyLabel" value="Lastlogin"/>
+                    <ui:param name="propertyPath" value="account.lastlogin"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_account.lastlogin}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{accountList}"/>
+                    <ui:param name="propertyLabel" value="Lastname"/>
+                    <ui:param name="propertyPath" value="account.lastname"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_account.lastname}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{accountList}"/>
+                    <ui:param name="propertyLabel" value="Logincredits"/>
+                    <ui:param name="propertyPath" value="account.logincredits"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_account.logincredits}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{accountList}"/>
+                    <ui:param name="propertyLabel" value="Loginused"/>
+                    <ui:param name="propertyPath" value="account.loginused"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_account.loginused}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{accountList}"/>
+                    <ui:param name="propertyLabel" value="Password"/>
+                    <ui:param name="propertyPath" value="account.password"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_account.password}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{accountList}"/>
+                    <ui:param name="propertyLabel" value="Printcredits"/>
+                    <ui:param name="propertyPath" value="account.printcredits"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_account.printcredits}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{accountList}"/>
+                    <ui:param name="propertyLabel" value="Printpagesused"/>
+                    <ui:param name="propertyPath" value="account.printpagesused"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_account.printpagesused}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{accountList}"/>
+                    <ui:param name="propertyLabel" value="Unixcreated"/>
+                    <ui:param name="propertyPath" value="account.unixcreated"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_account.unixcreated}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{accountList}"/>
+                    <ui:param name="propertyLabel" value="Username"/>
+                    <ui:param name="propertyPath" value="account.username"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_account.username}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Action</f:facet>
+            <s:link view="/#{empty from ? 'Account' : from}.xhtml"
+                   value="#{empty from ? 'View' : 'Select'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="account">
+                <f:param name="accountId"
+                        value="#{_account.id}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/AccountEdit.xhtml"
+                   value="Edit"
+             propagation="none"
+                      id="accountEdit"
+                rendered="#{empty from}">
+                <f:param name="accountId"
+                        value="#{_account.id}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/AccountList.xhtml"
+            rendered="#{accountList.previousExists}"
+               value="#{messages.left}#{messages.left} First Page"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/AccountList.xhtml"
+            rendered="#{accountList.previousExists}"
+               value="#{messages.left} Previous Page"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{accountList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/AccountList.xhtml"
+            rendered="#{accountList.nextExists}"
+               value="Next Page #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{accountList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/AccountList.xhtml"
+            rendered="#{accountList.nextExists}"
+               value="Last Page #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{accountList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/AccountEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Create account">
+            <f:param name="accountId"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,177 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="userInRole" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{userInRoleHome.managed ? 'Edit' : 'Add'} User in role</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{userInRoleHome.managed}"
+                          value="#{userInRoleHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{userInRoleHome.persist}"
+                       disabled="#{!userInRoleHome.wired}"
+                       rendered="#{!userInRoleHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{userInRoleHome.update}"
+                       rendered="#{userInRoleHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{userInRoleHome.remove}"
+                      immediate="true"
+                       rendered="#{userInRoleHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/UserInRole.xhtml"
+                rendered="#{userInRoleHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty userInRoleFrom ? 'UserInRoleList' : userInRoleFrom}.xhtml"
+                rendered="#{!userInRoleHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Account">
+    <div class="association" id="accountParent">
+
+        <h:outputText value="There is no account associated with this userInRole."
+                   rendered="#{userInRoleHome.instance.account == null}"/>
+
+        <rich:dataTable var="_account"
+                   value="#{userInRoleHome.instance.account}"
+                rendered="#{userInRoleHome.instance.account != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="accountTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_account.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Firstname</f:facet>
+                <h:outputText value="#{_account.firstname}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Lastlogin</f:facet>
+                <h:outputText value="#{_account.lastlogin}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Lastname</f:facet>
+                <h:outputText value="#{_account.lastname}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Logincredits</f:facet>
+                <h:outputText value="#{_account.logincredits}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Loginused</f:facet>
+                <h:outputText value="#{_account.loginused}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Password</f:facet>
+                <h:outputText value="#{_account.password}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Printcredits</f:facet>
+                <h:outputText value="#{_account.printcredits}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Printpagesused</f:facet>
+                <h:outputText value="#{_account.printpagesused}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Unixcreated</f:facet>
+                <h:outputText value="#{_account.unixcreated}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Username</f:facet>
+                <h:outputText value="#{_account.username}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button value="#{userInRoleHome.instance.account != null ? 'Change' : 'Select'} account"
+                       view="/AccountList.xhtml">
+                <f:param name="from" value="UserInRoleEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Userrole">
+    <div class="association" id="userroleParent">
+
+        <h:outputText value="There is no userrole associated with this userInRole."
+                   rendered="#{userInRoleHome.instance.userrole == null}"/>
+
+        <rich:dataTable var="_userrole"
+                   value="#{userInRoleHome.instance.userrole}"
+                rendered="#{userInRoleHome.instance.userrole != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="userroleTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_userrole.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                <h:outputText value="#{_userrole.name}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button value="#{userInRoleHome.instance.userrole != null ? 'Change' : 'Select'} userrole"
+                       view="/UserroleList.xhtml">
+                <f:param name="from" value="UserInRoleEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>
