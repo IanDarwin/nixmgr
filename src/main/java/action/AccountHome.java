@@ -1,13 +1,47 @@
 package action;
 
-import model.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import model.Account;
+import model.UserInRole;
+
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityHome;
 
+import unix.SystemAccountAccessor;
+
+/** Uses the Seam Entity Framework but also uses
+ * the SystemAccount class to save the Account data
+ * into the operating system account.
+ * @author ian
+ */
 @Name("accountHome")
 public class AccountHome extends EntityHome<Account> {
+
+	private SystemAccountAccessor osDAO =
+		SystemAccountAccessor.getInstance();
+	
+	@Override
+	public String persist() {
+		osDAO.addAccount(getInstance());
+		getInstance().setSystemAccountCreated(true);
+		return super.persist();
+	}
+
+	@Override
+	public String remove() {
+		// TODO Auto-generated method stub
+		return super.remove();
+	}
+
+	@Override
+	public String update() {
+		// TODO Auto-generated method stub
+		return super.update();
+	}
+
+	private static final long serialVersionUID = 1306635550541105929L;
 
 	public void setAccountId(Integer id) {
 		setId(id);
