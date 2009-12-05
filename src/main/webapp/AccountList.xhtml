@@ -151,11 +151,11 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{accountList}"/>
-                    <ui:param name="propertyLabel" value="Unixcreated"/>
-                    <ui:param name="propertyPath" value="account.unixcreated"/>
+                    <ui:param name="propertyLabel" value="systemAccountcreated"/>
+                    <ui:param name="propertyPath" value="account.systemAccountcreated"/>
                 </ui:include>
             </f:facet>
-            <h:outputText value="#{_account.unixcreated}"/>
+            <h:outputText value="#{_account.systemAccountCreated}"/>
         </h:column>
         <h:column>
             <f:facet name="header">
