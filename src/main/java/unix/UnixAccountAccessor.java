@@ -19,7 +19,7 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 	 * XXX The BSD "login class" 'student' is hard-coded here for now.
 	 */
 	private final static String ADD_STRING =
-	"sudo useradd -m -g =uid -L student -p \"$(encrypt %2$s)\" -s /sbin/nologin -c %3$s '%1$s'";
+	"sudo useradd -m -g =uid -L student -p \"$(encrypt %2$s)\" -s /sbin/nologin -c '%3$s' '%1$s'";
 
 	/** Create this Account to the operating system. */
 	public void addAccount(Account a) {

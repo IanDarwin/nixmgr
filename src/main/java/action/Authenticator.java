@@ -27,7 +27,7 @@ public class Authenticator {
 		log.info("authenticating {0}", credentials.getUsername());
 		Account p = null;
 		try {
-			p = (Account) entityManager.createQuery("from Account p where p.login = #{credentials.username}").getSingleResult();
+			p = (Account) entityManager.createQuery("from Account a where a.username = #{credentials.username}").getSingleResult();
 		} catch (Exception e) {
 			System.err.println("FAIL: " + e);
 			return false;
