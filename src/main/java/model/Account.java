@@ -161,6 +161,15 @@ public class Account implements java.io.Serializable {
 	public void setPrintpagesused(Integer printpagesused) {
 		this.printpagesused = printpagesused;
 	}
+	
+	@Transient
+	public Set<Userrole> getRoles() {
+		Set<Userrole> results = new HashSet<Userrole>();
+		for (UserInRole uir : getUserInRoles()) {
+			results.add(uir.getUserrole());
+		}
+		return results;
+	}
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account")
 	public Set<UserInRole> getUserInRoles() {
 		return this.userInRoles;
