@@ -8,9 +8,13 @@
     <rich:toolBarGroup>
         <h:outputText value="#{projectName}:"/>
         <s:link view="/home.xhtml" value="Home" propagation="none"/>
+    <s:link view="/ChPass.xhtml"
+           value="Change My Password"
+     propagation="none"/>
     </rich:toolBarGroup>
-    <s:link view="/UserInRoleList.xhtml"
-           value="UserInRole List"
+    <rich:toolBarGroup rendered="#{identity.hasRole('admin')}">
+    <s:link view="/AccountEdit.xhtml"
+           value="Add Account"
 includePageParams="false"
      propagation="none"/>
     <s:link view="/AccountList.xhtml"
@@ -21,6 +25,7 @@ includePageParams="false"
            value="Userrole List"
 includePageParams="false"
      propagation="none"/>
+    </rich:toolBarGroup>
     <!-- @newMenuItem@ -->
     <rich:toolBarGroup location="right">
         <h:outputText value="signed in as: #{identity.username}" rendered="#{identity.loggedIn}"/>

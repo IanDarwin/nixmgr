@@ -8,11 +8,18 @@
     xmlns:rich="http://richfaces.org/rich"
     template="layout/template.xhtml">
 
+<ui:define name="head"><title>usermgmt: Account List</title></ui:define>
+
 <ui:define name="body">
 
     <h:form id="accountSearch" styleClass="edit">
 
         <rich:simpleTogglePanel label="Account Search Filter" switchType="ajax">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Username</ui:define>
+                <h:inputText id="username" value="#{accountList.account.username}"/>
+            </s:decorate>
 
             <s:decorate template="layout/display.xhtml">
                 <ui:define name="label">Firstname</ui:define>
@@ -23,17 +30,6 @@
                 <ui:define name="label">Lastname</ui:define>
                 <h:inputText id="lastname" value="#{accountList.account.lastname}"/>
             </s:decorate>
-
-            <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Password</ui:define>
-                <h:inputText id="password" value="#{accountList.account.password}"/>
-            </s:decorate>
-
-            <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Username</ui:define>
-                <h:inputText id="username" value="#{accountList.account.username}"/>
-            </s:decorate>
-
 
         </rich:simpleTogglePanel>
 
@@ -55,16 +51,18 @@
                 var="_account"
               value="#{accountList.resultList}"
            rendered="#{not empty accountList.resultList}">
+
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{accountList}"/>
-                    <ui:param name="propertyLabel" value="Id"/>
-                    <ui:param name="propertyPath" value="account.id"/>
+                    <ui:param name="propertyLabel" value="Username"/>
+                    <ui:param name="propertyPath" value="account.username"/>
                 </ui:include>
             </f:facet>
-            <h:outputText value="#{_account.id}"/>
+            <h:outputText value="#{_account.username}"/>
         </h:column>
+
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
@@ -75,6 +73,18 @@
             </f:facet>
             <h:outputText value="#{_account.firstname}"/>
         </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{accountList}"/>
+                    <ui:param name="propertyLabel" value="Lastname"/>
+                    <ui:param name="propertyPath" value="account.lastname"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_account.lastname}"/>
+        </h:column>
+
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
@@ -87,16 +97,7 @@
                 <s:convertDateTime type="date" dateStyle="short"/>
             </h:outputText>
         </h:column>
-        <h:column>
-            <f:facet name="header">
-                <ui:include src="layout/sort.xhtml">
-                    <ui:param name="entityList" value="#{accountList}"/>
-                    <ui:param name="propertyLabel" value="Lastname"/>
-                    <ui:param name="propertyPath" value="account.lastname"/>
-                </ui:include>
-            </f:facet>
-            <h:outputText value="#{_account.lastname}"/>
-        </h:column>
+
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
@@ -107,6 +108,7 @@
             </f:facet>
             <h:outputText value="#{_account.logincredits}"/>
         </h:column>
+
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
@@ -117,16 +119,7 @@
             </f:facet>
             <h:outputText value="#{_account.loginused}"/>
         </h:column>
-        <h:column>
-            <f:facet name="header">
-                <ui:include src="layout/sort.xhtml">
-                    <ui:param name="entityList" value="#{accountList}"/>
-                    <ui:param name="propertyLabel" value="Password"/>
-                    <ui:param name="propertyPath" value="account.password"/>
-                </ui:include>
-            </f:facet>
-            <h:outputText value="#{_account.password}"/>
-        </h:column>
+
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
@@ -137,6 +130,7 @@
             </f:facet>
             <h:outputText value="#{_account.printcredits}"/>
         </h:column>
+
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
@@ -147,6 +141,7 @@
             </f:facet>
             <h:outputText value="#{_account.printpagesused}"/>
         </h:column>
+
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
@@ -157,16 +152,7 @@
             </f:facet>
             <h:outputText value="#{_account.systemAccountCreated}"/>
         </h:column>
-        <h:column>
-            <f:facet name="header">
-                <ui:include src="layout/sort.xhtml">
-                    <ui:param name="entityList" value="#{accountList}"/>
-                    <ui:param name="propertyLabel" value="Username"/>
-                    <ui:param name="propertyPath" value="account.username"/>
-                </ui:include>
-            </f:facet>
-            <h:outputText value="#{_account.username}"/>
-        </h:column>
+
         <rich:column styleClass="action">
             <f:facet name="header">Action</f:facet>
             <s:link view="/#{empty from ? 'Account' : from}.xhtml"

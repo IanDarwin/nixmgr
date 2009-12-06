@@ -1,0 +1,18 @@
+Write password-change page.
+
+Check for duplicates
+	by reading pwent (code in darwinsys) AND
+	by unique constraint on db.
+
+	
+Permissions:
+	admin can do all
+	!admin can change own password
+	(@Outject user when logged in)
+	
+Merge in "bugola" project (better, 
+provide a way to deploy 2 projects
+with singlesignon).
+	
+Long-range:
+	let users buy credit on visa/paypal?

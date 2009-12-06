@@ -14,12 +14,12 @@ public abstract class SystemAccountAccessor  {
 	}
 	
 	/** Create this Account to the operating system. */
-	public abstract void addAccount(Account a);
+	public abstract boolean addAccount(Account a);
 
 	/** Sync this Account's password out to its system account. */
-	public abstract void setPassword(Account a);
+	public abstract boolean setPassword(Account a);
 
 	/** Remove this account from the operating system accounts database. */
-	public abstract void deleteAccount(Account a);
+	public abstract boolean deleteAccount(Account a);
 
 }

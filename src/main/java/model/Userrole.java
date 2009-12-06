@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -20,6 +22,7 @@ import org.hibernate.validator.NotNull;
 @Table(name = "userrole", schema = "public")
 public class Userrole implements java.io.Serializable {
 
+	private static final long serialVersionUID = 7297100880725209484L;
 	private int id;
 	private String name;
 	private Set<UserInRole> userInRoles = new HashSet<UserInRole>(0);
@@ -36,7 +39,8 @@ public class Userrole implements java.io.Serializable {
 		this.userInRoles = userInRoles;
 	}
 
-	@Id
+	@Id 
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false)
 	@NotNull
 	public int getId() {

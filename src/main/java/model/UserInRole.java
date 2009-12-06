@@ -4,6 +4,8 @@ package model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,6 +19,7 @@ import org.hibernate.validator.NotNull;
 @Table(name = "user_in_role", schema = "public")
 public class UserInRole implements java.io.Serializable {
 
+	private static final long serialVersionUID = -1226728322100990451L;
 	private int id;
 	private Userrole userrole;
 	private Account account;
@@ -34,6 +37,7 @@ public class UserInRole implements java.io.Serializable {
 	}
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false)
 	@NotNull
 	public int getId() {

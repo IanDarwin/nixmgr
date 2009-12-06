@@ -9,13 +9,14 @@
     xmlns:rich="http://richfaces.org/rich"
     template="layout/template.xhtml">
 
+<ui:define name="head"><title>usermgmt: Account Edit</title></ui:define>
+
 <ui:define name="body">
 
     <h:form id="account" styleClass="edit">
 
         <rich:panel>
             <f:facet name="header">#{accountHome.managed ? 'Edit' : 'Add'} Account</f:facet>
-
 
             <s:decorate id="idField" template="layout/edit.xhtml">
                 <ui:define name="label">Id</ui:define>
@@ -27,10 +28,19 @@
                 </h:inputText>
             </s:decorate>
 
-
+            <s:decorate id="usernameField" template="layout/edit.xhtml">
+                <ui:define name="label">Username</ui:define>
+                <h:inputText id="username"
+                           size="8"
+                      maxlength="8"
+                          value="#{accountHome.instance.username}">
+                    <a:support event="onblur" reRender="usernameField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
             <s:decorate id="firstnameField" template="layout/edit.xhtml">
                 <ui:define name="label">Firstname</ui:define>
                 <h:inputText id="firstname"
+                       required="true"
                            size="15"
                       maxlength="15"
                           value="#{accountHome.instance.firstname}">
@@ -39,16 +49,10 @@
             </s:decorate>
 
 
-            <s:decorate id="lastloginField" template="layout/edit.xhtml">
-                <ui:define name="label">Lastlogin</ui:define>
-                <rich:calendar id="lastlogin"
-                          value="#{accountHome.instance.lastlogin}" datePattern="MM/dd/yyyy" />
-            </s:decorate>
-
-
             <s:decorate id="lastnameField" template="layout/edit.xhtml">
                 <ui:define name="label">Lastname</ui:define>
                 <h:inputText id="lastname"
+                       required="true"
                            size="15"
                       maxlength="15"
                           value="#{accountHome.instance.lastname}">
@@ -78,6 +82,7 @@
             <s:decorate id="passwordField" template="layout/edit.xhtml">
                 <ui:define name="label">Password</ui:define>
                 <h:inputText id="password"
+                       required="true"
                            size="8"
                       maxlength="8"
                           value="#{accountHome.instance.password}">
@@ -100,25 +105,6 @@
                 <h:inputText id="printpagesused"
                           value="#{accountHome.instance.printpagesused}">
                     <a:support event="onblur" reRender="printpagesusedField" bypassUpdates="true" ajaxSingle="true"/>
-                </h:inputText>
-            </s:decorate>
-
-
-            <s:decorate id="systemaccountcreatedField" template="layout/edit.xhtml">
-                <ui:define name="label">SystemAccountCreated</ui:define>
-                <h:selectBooleanCheckbox id="systemaccountcreated"
-                                      value="#{accountHome.instance.systemAccountCreated}"/>
-            </s:decorate>
-
-
-
-            <s:decorate id="usernameField" template="layout/edit.xhtml">
-                <ui:define name="label">Username</ui:define>
-                <h:inputText id="username"
-                           size="8"
-                      maxlength="8"
-                          value="#{accountHome.instance.username}">
-                    <a:support event="onblur" reRender="usernameField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
             </s:decorate>
 
