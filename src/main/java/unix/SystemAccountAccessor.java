@@ -8,9 +8,13 @@ import model.Account;
  */
 public abstract class SystemAccountAccessor  {
 	
+	private static SystemAccountAccessor instance;
+	
 	/** Simple factory, in case we need to run on other OSes */
 	public static SystemAccountAccessor getInstance() {
-		return new UnixAccountAccessor();
+		if (instance == null)
+			instance = new UnixAccountAccessor();
+		return instance;
 	}
 	
 	/** Create this Account to the operating system. */

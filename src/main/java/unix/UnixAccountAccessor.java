@@ -21,15 +21,30 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 	 * use this if you allow non-admins to login to the machine
 	 * that the accounts are created on!!!!!
 	 * XXX The BSD "login class" 'student' is hard-coded here for now.
+	 * XXX ADD_STRING and MOD_STRING *must* take the same 3 args
 	 */
 	private final static String ADD_STRING =
-	"sudo useradd -m -g =uid -L student -p \"$(encrypt %2$s)\" -s /sbin/nologin -c \'%3$s\' \'%1$s\'";
+	"sudo useradd -m -g =uid -L student -p \"$(encrypt %2$s)\" -s /bin/ksh -c \'%3$s\' \'%1$s\'";
+
+	private final static String MOD_STRING =
+	"sudo usermod -p \"$(encrypt %2$s)\" -s /bin/ksh -c \'%3$s\' \'%1$s\'";
 
 	/** Create this Account to the operating system. */
 	public boolean addAccount(Account a) {
 		System.out.println("Adding " + a);
+		return addModUser(a, ADD_STRING);
+	}
+
+	/** Sync Account's password out to its system account. */
+	public boolean updateAccount(Account a) {
+		System.out.println("Synching " + a + "'s password to the os");
+		return addModUser(a, MOD_STRING);
+	}
+
+	/** Obviously common code for add and mod account */
+	private boolean addModUser(Account a, String template) {
 		final String osCommand = 
-			String.format(ADD_STRING, 
+			String.format(template, 
 				a.getUsername(),
 				a.getPassword(),
 				a.getFullName());
@@ -41,18 +56,14 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 			final Process proc = builder.start();
 			BufferedReader is = new BufferedReader(
 				new InputStreamReader(proc.getInputStream()));
-			StringBuilder sb = new StringBuilder();
 			String line;
 			while ((line = is.readLine()) != null) {
 				System.out.println("-->" + line);
-				sb.append(line).append(' ');
+				FacesMessages.instance().add(
+				"Account Creation failed:\n" + line);
 			}
 			int ret = proc.waitFor();
-			if (ret != 0) {
-				FacesMessages.instance().add("Account Create command failed:\n" + sb);
-				return false;
-			}
-			return true;
+			return ret == 0;
 		} catch (IOException e) {
 			FacesMessages.instance().add("Could not execute system command: " + e);
 			return false;
@@ -63,11 +74,6 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 		}
 	}
 
-	/** Sync this Account's password out to its system account. */
-	public boolean updateAccount(Account a) {
-		System.out.println("Synching " + a + "'s password to the os");
-		throw new RuntimeException("Not written yet");
-	}
 
 	/** Remove this account from the operating system accounts database. */
 	public boolean deleteAccount(Account a) {

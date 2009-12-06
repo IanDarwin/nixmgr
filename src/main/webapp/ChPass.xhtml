@@ -16,9 +16,23 @@
 
     <h:form id="userrole" styleClass="edit">
 
-	<h:outputText value="Sorry, this page is not functional yet."/>
+	<h:panelGrid columns="2">
 
-	</h:form>
+	User:
+	<h:outputText value="#{loggedInUser.username}"/>
+
+	OldPW:
+	<h:inputSecret value="#{chPassAction.oldPassword}" required='true'/>
+	NewPW:
+	<h:inputSecret value="#{chPassAction.newPassword1}" required='true'/>
+	RepNewPw:
+	<h:inputSecret value="#{chPassAction.newPassword2}" required='true'/>
+
+	</h:panelGrid>
+
+	<h:commandButton value="Change my password" action="#{chPassAction.change()}"/>
+
+    </h:form>
 
 </rich:panel>
 </ui:define>

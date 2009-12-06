@@ -1,14 +1,17 @@
-Write password-change page.
+Remove extraneous jars from deployed-jars list.
+
+Don't display password in user list/edit?
+
+Delete userInRole object, just use one-many
 
 Implement forgotten password logic?
 
 Check for duplicates
-	by reading pwent (code in darwinsys) AND
+	by reading pwent (code in darwinsys)
 	
 Permissions:
 	admin can do all
 	!admin can change own password
-	(@Outject user when logged in)
 	
 Merge in "bugola" project (better, 
 	provide a way to deploy 2 projects

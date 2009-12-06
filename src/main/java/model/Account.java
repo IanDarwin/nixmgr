@@ -18,14 +18,19 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Pattern;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 
 /**
  * Account represents one external operating-system account
  */
 @Entity
+@Name("loggedInUser")@Scope(ScopeType.SESSION)
 @Table(name = "account", schema = "public",
     uniqueConstraints = @UniqueConstraint(columnNames="username"))
 public class Account implements java.io.Serializable {
@@ -34,12 +39,13 @@ public class Account implements java.io.Serializable {
 	/** names etc. can contain letters, spaces, apostrophe for the irish */
 	private final static String NAME_PATT = "[\\w '.]+";
 	/** login names must be lowercase, fit this length range */
-	private static final String USERNAME_PATTERN = "[a-z]{4,8}";
+	private static final String USERNAME_PATTERN = "[a-z]{3,8}";
 	/** passwords must have this minimu length */
 	private static final String PASSWORD_PATT = ".{6,}";
 	private int id;
 	private String firstname;
 	private String lastname;
+	private String email;
 	private Boolean systemAccountCreated;
 	private String username;
 	private String password;
@@ -56,6 +62,15 @@ public class Account implements java.io.Serializable {
 	public Account(int id) {
 		this.id = id;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Account[").append(getFirstname()).
+			append(" ").append(getLastname()).
+			append(']');
+		return sb.toString();
+	}
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -70,7 +85,6 @@ public class Account implements java.io.Serializable {
 	}
 
 	@Column(name = "firstname", length = 15)
-	@Length(max = 15)
 	@NotNull
 	@Pattern(regex=NAME_PATT)
 	public String getFirstname() {
@@ -91,6 +105,18 @@ public class Account implements java.io.Serializable {
 
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
+	}
+
+	@Column(name = "email", length = 100)
+	@Length(max = 100)
+	@NotNull
+	@Email
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Column(name = "unixcreated")
