@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
@@ -25,7 +26,8 @@ import org.hibernate.validator.Pattern;
  * Account represents one external operating-system account
  */
 @Entity
-@Table(name = "account", schema = "public")
+@Table(name = "account", schema = "public",
+    uniqueConstraints = @UniqueConstraint(columnNames="username"))
 public class Account implements java.io.Serializable {
 
 	private static final long serialVersionUID = 8446621948625634088L;
@@ -33,6 +35,8 @@ public class Account implements java.io.Serializable {
 	private final static String NAME_PATT = "[\\w '.]+";
 	/** login names must be lowercase, fit this length range */
 	private static final String USERNAME_PATTERN = "[a-z]{4,8}";
+	/** passwords must have this minimu length */
+	private static final String PASSWORD_PATT = ".{6,}";
 	private int id;
 	private String firstname;
 	private String lastname;
@@ -112,6 +116,7 @@ public class Account implements java.io.Serializable {
 
 	@Column(name = "password", length = 8)
 	@Length(max = 8)
+	@Pattern(regex=PASSWORD_PATT)
 	public String getPassword() {
 		return this.password;
 	}

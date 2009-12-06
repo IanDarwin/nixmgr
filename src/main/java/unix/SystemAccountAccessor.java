@@ -17,7 +17,7 @@ public abstract class SystemAccountAccessor  {
 	public abstract boolean addAccount(Account a);
 
 	/** Sync this Account's password out to its system account. */
-	public abstract boolean setPassword(Account a);
+	public abstract boolean updateAccount(Account a);
 
 	/** Remove this account from the operating system accounts database. */
 	public abstract boolean deleteAccount(Account a);

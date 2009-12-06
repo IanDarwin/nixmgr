@@ -24,20 +24,26 @@ public class AccountHome extends EntityHome<Account> {
 	
 	@Override
 	public String persist() {
-		osDAO.addAccount(getInstance());
+		if (!osDAO.addAccount(getInstance())) {
+			return "failed";
+		}
 		getInstance().setSystemAccountCreated(true);
 		return super.persist();
 	}
 
 	@Override
 	public String remove() {
-		// TODO Auto-generated method stub
+		if (!osDAO.deleteAccount(getInstance())) {
+			return "failed";
+		}
 		return super.remove();
 	}
 
 	@Override
 	public String update() {
-		// TODO Auto-generated method stub
+		if (!osDAO.updateAccount(getInstance())) {
+			return "failed";
+		}
 		return super.update();
 	}
 

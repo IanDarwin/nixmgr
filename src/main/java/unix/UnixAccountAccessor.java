@@ -64,7 +64,7 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 	}
 
 	/** Sync this Account's password out to its system account. */
-	public boolean setPassword(Account a) {
+	public boolean updateAccount(Account a) {
 		System.out.println("Synching " + a + "'s password to the os");
 		throw new RuntimeException("Not written yet");
 	}
