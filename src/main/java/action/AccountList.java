@@ -8,7 +8,7 @@ import org.jboss.seam.framework.EntityQuery;
 import org.jboss.seam.annotations.security.Restrict;
 
 @Name("accountList")
-@Restrict("#{identity.inRole('admin')}")
+@Restrict("#{identity.hasRole('admin')}")
 public class AccountList extends EntityQuery<Account> {
 
 	private static final String EJBQL = "select account from Account account";

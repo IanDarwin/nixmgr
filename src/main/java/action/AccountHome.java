@@ -18,7 +18,7 @@ import unix.SystemAccountAccessor;
  * @author ian
  */
 @Name("accountHome")
-@Restrict("#{identity.inRole('admin')}")
+@Restrict("#{identity.hasRole('admin')}")
 public class AccountHome extends EntityHome<Account> {
 
 	private SystemAccountAccessor osDAO =
