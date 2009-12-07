@@ -31,6 +31,7 @@
             <s:decorate id="usernameField" template="layout/edit.xhtml">
                 <ui:define name="label">Username</ui:define>
                 <h:inputText id="username"
+                       required="true"
                            size="8"
                       maxlength="8"
                           value="#{accountHome.instance.username}">

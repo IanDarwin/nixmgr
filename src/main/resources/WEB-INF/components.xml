@@ -27,6 +27,13 @@
                  conversation-id-parameter="cid"
                  parent-conversation-id-parameter="pid"/>
 
+	<core:resource-loader>
+		<core:bundle-names>			<!-- List of I18N/L9N files -->
+   			<value>messages</value>		<!-- seam-provided -->
+   			<value>application</value>	<!-- we provided -->
+		</core:bundle-names>
+	</core:resource-loader>
+
    <persistence:managed-persistence-context name="entityManager"
                                      auto-create="true"
                           entity-manager-factory="#{usermgmtEntityManagerFactory}"/>

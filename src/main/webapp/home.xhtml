@@ -10,24 +10,19 @@
 
     <ui:define name="body">
 
-        <h1>Welcome to the %s User Management System!</h1>
+        <h1>Welcome to the #{messages['sitename.short']} User Management System!</h1>
         <rich:panel>
             <h:panelGrid columns="2">
 			    <h:graphicImage value="/img/seamlogo.png" alt="Seam logo"/>
                 <s:div styleClass="info">
-                    <p><strong>Your seam-gen project is deployed!</strong> Here are some of the features this project provides:</p>
+                    <p>
+			<strong>Welcome to the #{messages['sitename.short']} User Management Syste!</strong> 
+			If you are a normal, non-administrator user, you can:
+		</p>
                     <ul class="bullets">
-                        <li>Ant build script</li>
-                        <li>Deployment to JBoss AS (EAR or WAR)</li>
-                        <li>Development and production profiles</li>
-                        <li>Integration testing using TestNG and Embedded JBoss</li>
-                        <li>JavaBean or EJB 3.0 Seam components</li>
-                        <li>JPA entity classes</li>
-                        <li>A configurable DataSource and JPA EntityManager</li>
-                        <li>Templated Facelets views</li>
-                        <li>RichFaces panels and tables</li>
-                        <li>Default CSS stylesheet</li>
-                        <li>Internationalization support</li>
+                        <li><s:link action="/ChPass.xhtml">Change your password</s:link>.</li>
+                        <li>Check your print account balance (not yet).</li>
+                        <li>Update your print account balance (not yet).</li>
                     </ul>
                 </s:div>
             </h:panelGrid>

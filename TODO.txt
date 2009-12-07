@@ -1,5 +1,7 @@
 Remove extraneous jars from deployed-jars list.
 
+Rewrite home page!
+
 Don't display password in user list/edit?
 
 Delete userInRole object, just use one-many
@@ -9,7 +11,7 @@ Implement forgotten password logic?
 Check for duplicates
 	by reading pwent (code in darwinsys)
 	
-Permissions:
+Permissions: add @Restrict to all Account* stuff.
 	admin can do all
 	!admin can change own password
 	
