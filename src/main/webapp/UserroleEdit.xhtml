@@ -80,41 +80,6 @@
         </div>
     </h:form>
 
-<rich:tabPanel switchType="ajax">
-
-    <rich:tab label="User in roles">
-        <h:form styleClass="association" id="userrolesChildren">
-
-            <h:outputText value="There are no userroles associated with this userrole."
-                       rendered="#{empty userroleHome.userroles}"/>
-
-            <rich:dataTable value="#{userroleHome.userroles}"
-                           var="_userrole"
-                      rendered="#{not empty userroleHome.userroles}"
-                    rowClasses="rvgRowOne,rvgRowTwo"
-                            id="userrolesTable">
-                <rich:column sortBy="#{_userrole.id}">
-                    <f:facet name="header">Id</f:facet>
-                    <h:outputText value="#{_userrole.id}"/>
-                </rich:column>
-            </rich:dataTable>
-
-        </h:form>
-
-        <f:subview rendered="#{userroleHome.managed}" id="userroles">
-        <div class="actionButtons">
-            <s:button id="adduserrole"
-                   value="Add userrole"
-                    view="/UserroleEdit.xhtml"
-             propagation="none">
-                 <f:param name="userroleId"
-                         value="#{userroleHome.instance.id}"/>
-                 <f:param name="userroleFrom" value="Userrole"/>
-            </s:button>
-        </div>
-        </f:subview>
-    </rich:tab>
-</rich:tabPanel>
 </ui:define>
 
 </ui:composition>
