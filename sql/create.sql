@@ -5,11 +5,12 @@
 drop table if exists account;
 create table account (
 	id serial primary key,
-	firstname varchar(15),
-	lastname varchar(15),
+	firstname varchar(15) not null,
+	lastname varchar(15) not null,
 	unixcreated boolean default false,
-	username varchar(8),
-	password varchar(8),
+	username varchar(8) not null,
+	password varchar(32) not null,
+	email varchar(100) not null,
 	lastlogin date,
 	logincredits float(7),
 	loginused float(7),
@@ -23,9 +24,8 @@ create table userrole (
 	name varchar(8)
 );
 
-drop table if exists user_in_role;
-create table user_in_role (
-	id serial primary key,
-	account integer references account(id),
-	role integer references userrole(id)
+drop table if exists account_userrole;
+create table account_userrole (
+	account_id integer not null references account(id),
+	roles_id integer not null references userrole(id)
 );
