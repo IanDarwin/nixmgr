@@ -49,7 +49,6 @@
                 </h:inputText>
             </s:decorate>
 
-
             <s:decorate id="lastnameField" template="layout/edit.xhtml">
                 <ui:define name="label">Lastname</ui:define>
                 <h:inputText id="lastname"
@@ -61,6 +60,16 @@
                 </h:inputText>
             </s:decorate>
 
+            <s:decorate id="emailField" template="layout/edit.xhtml">
+                <ui:define name="label">Email</ui:define>
+                <h:inputText id="email"
+                       required="true"
+                           size="15"
+                      maxlength="60"
+                          value="#{accountHome.instance.email}">
+                    <a:support event="onblur" reRender="emailField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
 
             <s:decorate id="logincreditsField" template="layout/edit.xhtml">
                 <ui:define name="label">Logincredits</ui:define>
