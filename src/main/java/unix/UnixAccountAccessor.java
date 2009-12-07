@@ -21,7 +21,6 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 	 * use this if you allow non-admins to login to the machine
 	 * that the accounts are created on!!!!!
 	 * XXX The BSD "login class" 'student' is hard-coded here for now.
-	 * XXX ADD_STRING and MOD_STRING *must* take the same 3 args
 	 */
 	private final static String ADD_STRING =
 	"sudo useradd -m -g =uid -L student -p \"$(encrypt %2$s)\" -s /bin/ksh -c \'%3$s\' \'%1$s\'";
@@ -30,24 +29,37 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 	"sudo usermod -p \"$(encrypt %2$s)\" -s /bin/ksh -c \'%3$s\' \'%1$s\'";
 
 	/** Create this Account to the operating system. */
-	public boolean addAccount(Account a) {
-		System.out.println("Adding " + a);
-		return addModUser(a, ADD_STRING);
+	public boolean addAccount(Account acct) {
+		System.out.println("Adding " + acct);
+		final String osCommand = 
+			String.format(ADD_STRING, 
+				acct.getUsername(),
+				acct.getPassword(),
+				acct.getFullName());
+		return runCommand("Account creation", acct, osCommand);
 	}
 
 	/** Sync Account's password out to its system account. */
-	public boolean updateAccount(Account a) {
-		System.out.println("Synching " + a + "'s password to the os");
-		return addModUser(a, MOD_STRING);
+	public boolean updateAccount(Account acct) {
+		System.out.println("Synching " + acct + "'s password to the os");
+		final String osCommand = 
+			String.format(MOD_STRING, 
+				acct.getUsername(),
+				acct.getPassword(),
+				acct.getFullName());
+		return runCommand("Account update", acct, osCommand);
 	}
 
-	/** Obviously common code for add and mod account */
-	private boolean addModUser(Account a, String template) {
+	public boolean deleteAccount(Account acct) {
+		System.out.println("Deleting " + acct + "'s password to the os");
 		final String osCommand = 
-			String.format(template, 
-				a.getUsername(),
-				a.getPassword(),
-				a.getFullName());
+			String.format("userdel -r %s", 
+				acct.getUsername());
+		return runCommand("Account deletion", acct, osCommand);
+	}
+
+	/** Obvious common code for account work */
+	private boolean runCommand(String runType, Account acct, String osCommand) {
 		// System.out.println("Running " + osCommand);
 		try {
 			String args[] = { "sh", "-c", osCommand };
@@ -61,7 +73,7 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 			while ((line = is.readLine()) != null) {
 				System.out.println("-->" + line);
 				FacesMessages.instance().add(
-				"Account Creation failed:\n" + line);
+				"System command for " + runType + " failed: " + line);
 			}
 			int ret = proc.waitFor();
 			return ret == 0;
@@ -74,11 +86,4 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 			return false;
 		}
 	}
-
-
-	/** Remove this account from the operating system accounts database. */
-	public boolean deleteAccount(Account a) {
-		throw new RuntimeException("Cannot remove accounts yet");
-	}
-
 }
