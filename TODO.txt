@@ -1,7 +1,5 @@
 Remove extraneous jars from deployed-jars list.
 
-Don't display password in user list/edit?
-
 Delete userInRole object, just use one-many
 
 Implement forgotten password logic?
