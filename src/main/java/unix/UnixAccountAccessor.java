@@ -53,7 +53,7 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 	public boolean deleteAccount(Account acct) {
 		System.out.println("Deleting " + acct + "'s password to the os");
 		final String osCommand = 
-			String.format("userdel -r %s", 
+			String.format("sudo userdel -r %s", 
 				acct.getUsername());
 		return runCommand("Account deletion", acct, osCommand);
 	}
