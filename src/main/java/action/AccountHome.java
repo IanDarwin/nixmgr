@@ -1,14 +1,18 @@
 package action;
 
+import global.Constants;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Query;
 
 import model.Account;
 import model.Userrole;
 
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.annotations.security.Restrict;
+import org.jboss.seam.framework.EntityHome;
 
 import unix.SystemAccountAccessor;
 
@@ -21,7 +25,7 @@ import unix.SystemAccountAccessor;
 @Restrict("#{identity.hasRole('admin')}")
 public class AccountHome extends EntityHome<Account> {
 
-	private SystemAccountAccessor osDAO =
+	private static SystemAccountAccessor osDAO =
 		SystemAccountAccessor.getInstance();
 	
 	@Override
@@ -62,6 +66,10 @@ public class AccountHome extends EntityHome<Account> {
 	@Override
 	protected Account createInstance() {
 		Account account = new Account();
+		Query q = getEntityManager().createQuery(
+		"from Userrole u where u.name='" + Constants.DEFAULT_USER_ROLE + "'");
+		Userrole r = (Userrole) q.getSingleResult();
+		account.getRoles().add(r);
 		return account;
 	}
 
