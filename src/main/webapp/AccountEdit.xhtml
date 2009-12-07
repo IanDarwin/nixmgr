@@ -174,24 +174,14 @@
                     <f:facet name="header">Id</f:facet>
                     <h:outputText value="#{_userrole.id}"/>
                 </rich:column>
+                <rich:column sortBy="#{_userrole.name}">
+                    <f:facet name="header">Name</f:facet>
+                    <h:outputText value="#{_userrole.name}"/>
+                </rich:column>
             </rich:dataTable>
 
         </h:form>
 
-	<!-- NOT USED ...
-        <f:subview rendered="#{accountHome.managed}" id="userroles">
-        <div class="actionButtons">
-            <s:button id="adduserrole"
-                   value="Add userrole"
-                    view="/UserroleEdit.xhtml"
-             propagation="none">
-                 <f:param name="accountId"
-                         value="#{accountHome.instance.id}"/>
-                 <f:param name="userroleFrom" value="Account"/>
-            </s:button>
-        </div>
-        </f:subview>
-	..... -->
     </rich:tab>
 </rich:tabPanel>
 </ui:define>
