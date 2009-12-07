@@ -48,7 +48,7 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 				a.getUsername(),
 				a.getPassword(),
 				a.getFullName());
-		System.out.println("Running " + osCommand);
+		// System.out.println("Running " + osCommand);
 		try {
 			String args[] = { "sh", "-c", osCommand };
 			final ProcessBuilder builder = new ProcessBuilder(args);
@@ -57,6 +57,7 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 			BufferedReader is = new BufferedReader(
 				new InputStreamReader(proc.getInputStream()));
 			String line;
+			// Any line it prints on {stdout,stderr} becomes a FacesMessage
 			while ((line = is.readLine()) != null) {
 				System.out.println("-->" + line);
 				FacesMessages.instance().add(
