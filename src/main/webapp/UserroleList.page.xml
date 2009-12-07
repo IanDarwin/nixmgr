@@ -3,6 +3,8 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd">
 
+	<restrict>#{identity.hasRole('admin')}</restrict>
+
    <param name="firstResult" value="#{userroleList.firstResult}"/>
    <param name="sort" value="#{userroleList.orderColumn}"/>
    <param name="dir" value="#{userroleList.orderDirection}"/>

@@ -8,6 +8,7 @@ import model.UserInRole;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityHome;
+import org.jboss.seam.annotations.security.Restrict;
 
 import unix.SystemAccountAccessor;
 
@@ -17,6 +18,7 @@ import unix.SystemAccountAccessor;
  * @author ian
  */
 @Name("accountHome")
+@Restrict("#{identity.inRole('admin')}")
 public class AccountHome extends EntityHome<Account> {
 
 	private SystemAccountAccessor osDAO =

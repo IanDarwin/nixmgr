@@ -5,10 +5,12 @@ import model.Account;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.annotations.security.Restrict;
 
 import unix.SystemAccountAccessor;
 
 @Name("chPassAction")
+@Restrict("#{identity.loggedIn}")
 public class ChPassAction {
 	
 	private String oldPassword;

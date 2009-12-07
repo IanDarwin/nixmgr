@@ -5,6 +5,8 @@
       no-conversation-view-id="/AccountList.xhtml"
       login-required="true">
 
+	<restrict>#{identity.hasRole('admin')}</restrict>
+
    <begin-conversation join="true" flush-mode="MANUAL"/>
 
    <action execute="#{accountHome.wire}"/>

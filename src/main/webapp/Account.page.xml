@@ -4,6 +4,8 @@
       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
       login-required='true'>
 
+	<restrict>#{identity.hasRole('admin')}</restrict>
+
    <param name="accountFrom"/>
    <param name="accountId" value="#{accountHome.accountId}"/>
 

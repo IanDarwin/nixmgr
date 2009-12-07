@@ -5,6 +5,8 @@
       no-conversation-view-id="/UserroleList.xhtml"
       login-required="true">
 
+	<restrict>#{identity.hasRole('admin')}</restrict>
+
    <begin-conversation join="true" flush-mode="MANUAL"/>
 
    <action execute="#{userroleHome.wire}"/>
