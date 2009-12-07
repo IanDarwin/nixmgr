@@ -1,14 +1,16 @@
 package action;
 
+import java.util.Date;
+
 import javax.persistence.EntityManager;
 
 import model.Account;
 import model.Userrole;
 
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
@@ -45,6 +47,7 @@ public class Authenticator {
 		for (Userrole r : loggedInUser.getRoles()) {
 			identity.addRole(r.getName());
 		}
+		loggedInUser.setLastlogin(new Date());
 		return true;
 	}
 }
