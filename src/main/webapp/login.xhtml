@@ -13,16 +13,18 @@
     <h:form id="login">
 
         <rich:panel>
-            <f:facet name="header">Login</f:facet>
+            <f:facet name="header">#{messages['login.login']}</f:facet>
 
-            <p>Please login here</p>
+            <p>#{messages['login.pleaseLogin']}</p>
 
             <div class="dialog">
                 <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
-                    <h:outputLabel for="username">Username</h:outputLabel>
+                    <h:outputLabel for="username">#{messages['login.userName']}
+			</h:outputLabel>
                     <h:inputText id="username"
                               value="#{credentials.username}"/>
-                    <h:outputLabel for="password">Password</h:outputLabel>
+
+                    <h:outputLabel for="password">#{messages['login.password']}</h:outputLabel>
                     <h:inputSecret id="password"
                                 value="#{credentials.password}"/>
                 </h:panelGrid>
@@ -31,7 +33,7 @@
         </rich:panel>
 
         <div class="actionButtons">
-            <h:commandButton value="Login" action="#{identity.login}"/>
+            <h:commandButton value="#{messages['login.login']}" action="#{identity.login}"/>
         </div>
 
     </h:form>

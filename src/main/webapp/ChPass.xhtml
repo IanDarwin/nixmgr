@@ -9,7 +9,7 @@
     xmlns:rich="http://richfaces.org/rich"
     template="layout/template.xhtml">
 
-<ui:define name="head"><title>Change Password</title></ui:define>
+<ui:define name="head"><title>#{messages['login.changepass']}</title></ui:define>
 
 <ui:define name="body">
 <rich:panel>
@@ -18,19 +18,18 @@
 
 	<h:panelGrid columns="2">
 
-	User:
+	#{messages['login.userName']}
 	<h:outputText value="#{loggedInUser.username}"/>
-
-	OldPW:
+	#{messages['login.password']}:
 	<h:inputSecret value="#{chPassAction.oldPassword}" required='true'/>
-	NewPW:
+	#{messages['login.newpass']}:
 	<h:inputSecret value="#{chPassAction.newPassword1}" required='true'/>
-	RepNewPw:
+	#{messages['login.newpass']}:
 	<h:inputSecret value="#{chPassAction.newPassword2}" required='true'/>
 
 	</h:panelGrid>
 
-	<h:commandButton value="Change my password" action="#{chPassAction.change()}"/>
+	<h:commandButton value="#{messages['login.changepass']}" action="#{chPassAction.change()}"/>
 
     </h:form>
 
