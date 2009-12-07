@@ -32,12 +32,25 @@
                 <ui:define name="label">Username</ui:define>
                 <h:inputText id="username"
                        required="true"
+                       disabled="#{accountHome.managed}"
                            size="8"
                       maxlength="8"
                           value="#{accountHome.instance.username}">
                     <a:support event="onblur" reRender="usernameField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
             </s:decorate>
+            
+            <s:decorate id="passwordField" template="layout/edit.xhtml">
+                <ui:define name="label">Password</ui:define>
+                <h:inputText id="password"
+                       required="true"
+                           size="8"
+                      maxlength="8"
+                          value="#{accountHome.instance.password}">
+                    <a:support event="onblur" reRender="passwordField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+            
             <s:decorate id="firstnameField" template="layout/edit.xhtml">
                 <ui:define name="label">Firstname</ui:define>
                 <h:inputText id="firstname"
@@ -79,7 +92,6 @@
                 </h:inputText>
             </s:decorate>
 
-
             <s:decorate id="loginusedField" template="layout/edit.xhtml">
                 <ui:define name="label">Loginused</ui:define>
                 <h:inputText id="loginused"
@@ -88,19 +100,6 @@
                 </h:inputText>
             </s:decorate>
 
-
-            <s:decorate id="passwordField" template="layout/edit.xhtml">
-                <ui:define name="label">Password</ui:define>
-                <h:inputText id="password"
-                       required="true"
-                           size="8"
-                      maxlength="8"
-                          value="#{accountHome.instance.password}">
-                    <a:support event="onblur" reRender="passwordField" bypassUpdates="true" ajaxSingle="true"/>
-                </h:inputText>
-            </s:decorate>
-
-
             <s:decorate id="printcreditsField" template="layout/edit.xhtml">
                 <ui:define name="label">Printcredits</ui:define>
                 <h:inputText id="printcredits"
@@ -108,7 +107,6 @@
                     <a:support event="onblur" reRender="printcreditsField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
             </s:decorate>
-
 
             <s:decorate id="printpagesusedField" template="layout/edit.xhtml">
                 <ui:define name="label">Printpagesused</ui:define>
@@ -180,6 +178,7 @@
 
         </h:form>
 
+	<!-- NOT USED ...
         <f:subview rendered="#{accountHome.managed}" id="userroles">
         <div class="actionButtons">
             <s:button id="adduserrole"
@@ -192,6 +191,7 @@
             </s:button>
         </div>
         </f:subview>
+	..... -->
     </rich:tab>
 </rich:tabPanel>
 </ui:define>

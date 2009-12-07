@@ -1,5 +1,7 @@
 Remove extraneous jars from deployed-jars list.
 
+Delete lastLogin field.
+
 Save passwords hashed in database, only clear when changing
 
 Implement forgotten password logic?

@@ -20,21 +20,31 @@
             <h:outputText value="#{accountHome.instance.id}"/>
         </s:decorate>
 
+        <s:decorate id="username" template="layout/display.xhtml">
+            <ui:define name="label">Username</ui:define>
+            <h:outputText value="#{accountHome.instance.username}"/>
+        </s:decorate>
+
+        <s:decorate id="password" template="layout/display.xhtml">
+            <ui:define name="label">Password</ui:define>
+            <h:outputText value="(not shown)"/>
+        </s:decorate>
+
         <s:decorate id="firstname" template="layout/display.xhtml">
             <ui:define name="label">Firstname</ui:define>
             <h:outputText value="#{accountHome.instance.firstname}"/>
         </s:decorate>
 
-        <s:decorate id="lastlogin" template="layout/display.xhtml">
+        <s:decorate id="lastname" template="layout/display.xhtml">
+            <ui:define name="label">Lastname</ui:define>
+            <h:outputText value="#{accountHome.instance.lastname}"/>
+        </s:decorate>
+
+		<s:decorate id="lastlogin" template="layout/display.xhtml">
             <ui:define name="label">Lastlogin</ui:define>
             <h:outputText value="#{accountHome.instance.lastlogin}">
                 <s:convertDateTime type="date" dateStyle="short"/>
             </h:outputText>
-        </s:decorate>
-
-        <s:decorate id="lastname" template="layout/display.xhtml">
-            <ui:define name="label">Lastname</ui:define>
-            <h:outputText value="#{accountHome.instance.lastname}"/>
         </s:decorate>
 
         <s:decorate id="logincredits" template="layout/display.xhtml">
@@ -47,11 +57,6 @@
             <h:outputText value="#{accountHome.instance.loginused}"/>
         </s:decorate>
 
-        <s:decorate id="password" template="layout/display.xhtml">
-            <ui:define name="label">Password</ui:define>
-            <h:outputText value="#{accountHome.instance.password}"/>
-        </s:decorate>
-
         <s:decorate id="printcredits" template="layout/display.xhtml">
             <ui:define name="label">Printcredits</ui:define>
             <h:outputText value="#{accountHome.instance.printcredits}"/>
@@ -60,16 +65,6 @@
         <s:decorate id="printpagesused" template="layout/display.xhtml">
             <ui:define name="label">Printpagesused</ui:define>
             <h:outputText value="#{accountHome.instance.printpagesused}"/>
-        </s:decorate>
-
-        <s:decorate id="systemaccountcreated" template="layout/display.xhtml">
-            <ui:define name="label">SystemAccountCreated</ui:define>
-            <h:outputText value="#{accountHome.instance.systemAccountCreated}"/>
-        </s:decorate>
-
-        <s:decorate id="username" template="layout/display.xhtml">
-            <ui:define name="label">Username</ui:define>
-            <h:outputText value="#{accountHome.instance.username}"/>
         </s:decorate>
 
         <div style="clear:both"/>
@@ -122,6 +117,7 @@
 
     </h:form>
 
+    <!-- NOT USED ...
     <div class="actionButtons">
         <s:button
                value="Add userRole"
@@ -131,6 +127,7 @@
             <f:param name="userroleFrom" value="Account"/>
         </s:button>
     </div>
+    ..... -->
     </rich:tab>
 </rich:tabPanel>
 </ui:define>
