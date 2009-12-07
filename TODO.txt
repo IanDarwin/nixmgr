@@ -1,3 +1,5 @@
+FIX UP NAVIGATION RULES - esp. ch pw, add/edit when fail...
+
 Remove extraneous jars from deployed-jars list.
 
 Save passwords hashed in database, only clear when changing
