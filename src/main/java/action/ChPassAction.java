@@ -25,23 +25,31 @@ public class ChPassAction {
 	}
 
 	public String change() {
-		if (loggedInUser == null)
-			return fail("loggedInUser is null");
+		if (loggedInUser == null) {
+			fail("Interal error: loggedInUser is null");
+			return null;
+		}
 		final String userPassword = loggedInUser.getPassword();
 		if (!oldPassword.equals(userPassword)) {
-			return fail("Old password incorrect");
+			fail("Old password incorrect");
+			return null;
 		}
 		if (!newPassword1.equals(newPassword2)) {
-			return fail("New passwords do not match");
+			fail("New passwords do not match");
+			return null;
+		}
+		if (newPassword1.equals(oldPassword)) {
+			fail("New and old passwords are the same");
+			return null;
 		}
 
 		loggedInUser.setPassword(newPassword1);
 
-		// Update the system account first!
+		// Now update the system account
 		if (!SystemAccountAccessor.getInstance().updateAccount(loggedInUser)) {
-			return fail("System error: Could not update password");
+			fail("System error: Could not update password");
+			return null;
 		}
-
 		// No need to explicitly update the database.
 		// since loggedInUser is known to JPA and all
 		// Seam methods are Transactional, the above
