@@ -9,10 +9,6 @@ Implement forgotten password logic?
 Check for duplicates
 	by reading pwent (code in darwinsys)
 	
-Permissions: add @Restrict to all Account* stuff.
-	admin can do all
-	!admin can change own password
-	
 Merge in "bugola" project (better, 
 	provide a way to deploy 2 projects
 	with singlesignon).
