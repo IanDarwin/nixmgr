@@ -9,6 +9,8 @@ insert into account(id,firstname,lastname,email,unixcreated,username,password) v
 -- user in roles
 insert into account_userrole(account_id,roles_id) values(0,0);
 insert into account_userrole(account_id,roles_id) values(0,5);
+insert into account_userrole(account_id,roles_id) values(1,0);
+insert into account_userrole(account_id,roles_id) values(1,5);
 
 -- skip over id values given out
 select setval('hibernate_sequence', 10) from account;
