@@ -10,20 +10,23 @@
 
     <ui:define name="body">
 
-        <h1>Welcome to the #{messages['sitename.short']} User Management System!</h1>
+        <h1>#{messages['home.welcome']} #{messages['sitename.short']}</h1> 
         <rich:panel>
             <h:panelGrid columns="2">
-			    <h:graphicImage value="/img/seamlogo.png" alt="Seam logo"/>
+		<h:graphicImage value="/img/seamlogo.png" alt="Seam logo"/>
                 <s:div styleClass="info">
-                    <p>
-			<strong>Welcome to the #{messages['sitename.short']} User Management Syste!</strong> 
-			If you are a normal, non-administrator user, you can:
+                <p>
+			<strong>#{messages['home.welcome']} #{messages['sitename.short']}
+			</strong> 
 		</p>
-                    <ul class="bullets">
-                        <li><s:link action="/ChPass.xhtml">Change your password</s:link>.</li>
-                        <li>Check your print account balance (not yet).</li>
-                        <li>Update your print account balance (not yet).</li>
-                    </ul>
+		<p>
+			#{messages['home.youcan']}
+		</p>
+                <ul class="bullets">
+			<li><h:outputText escape="no" value="#{messages['home.canchangepw']}"/></li>
+			<li>#{messages['home.cancheckbal']}</li>
+			<li>#{messages['home.canrenewbal']}</li>
+                </ul>
                 </s:div>
             </h:panelGrid>
         </rich:panel>
