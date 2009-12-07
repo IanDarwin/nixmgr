@@ -33,6 +33,6 @@ includePageParams="false"
     <rich:toolBarGroup location="right">
         <h:outputText value="#{messages['general.loggedinas']} #{identity.username}" rendered="#{identity.loggedIn}"/>
         <s:link view="/login.xhtml" value="#{messages['login.login']}" rendered="#{not identity.loggedIn}" propagation="none"/>
-        <s:link view="/home.xhtml" action="#{identity.logout}" value="#{messages['logout.logout']}" rendered="#{identity.loggedIn}" propagation="none"/>
+        <s:link view="/home.xhtml" action="#{identity.logout}" value="#{messages['login.logout']}" rendered="#{identity.loggedIn}" propagation="none"/>
     </rich:toolBarGroup>
 </rich:toolBar>
