@@ -34,10 +34,4 @@ public class UserroleHome extends EntityHome<Userrole> {
 	public Userrole getDefinedInstance() {
 		return isIdDefined() ? getInstance() : null;
 	}
-
-	public List<UserInRole> getUserInRoles() {
-		return getInstance() == null ? null : new ArrayList<UserInRole>(
-				getInstance().getUserInRoles());
-	}
-
 }

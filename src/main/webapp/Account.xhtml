@@ -94,28 +94,28 @@
         <f:facet name="label">
             <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>User in roles</h:panelGroup>
         </f:facet>
-    <h:form styleClass="association" id="userInRolesChildren">
+    <h:form styleClass="association" id="userrolesChildren">
 
-        <h:outputText value="There are no userInRoles associated with this account."
-                   rendered="#{empty accountHome.userInRoles}"/>
+        <h:outputText value="There are no Userroles associated with this account."
+                   rendered="#{empty accountHome.userroles}"/>
 
-        <rich:dataTable value="#{accountHome.userInRoles}"
-                       var="_userInRole"
-                  rendered="#{not empty accountHome.userInRoles}"
+        <rich:dataTable value="#{accountHome.userroles}"
+                       var="_userrole"
+                  rendered="#{not empty accountHome.userroles}"
                 rowClasses="rvgRowOne,rvgRowTwo"
-                        id="userInRolesTable">
-            <rich:column sortBy="#{_userInRole.id}">
+                        id="userrolesTable">
+            <rich:column sortBy="#{_userrole.id}">
                 <f:facet name="header">Id</f:facet>
-                <h:outputText value="#{_userInRole.id}"/>
+                <h:outputText value="#{_userrole.id}"/>
             </rich:column>
             <h:column>
                 <f:facet name="header">Action</f:facet>
-                <s:link id="selectuserInRole"
+                <s:link id="selectuserrole"
                      value="Select"
-                      view="/UserInRole.xhtml">
-                    <f:param name="userInRoleId"
-                            value="#{_userInRole.id}"/>
-                    <f:param name="userInRoleFrom" value="Account"/>
+                      view="/Userrole.xhtml">
+                    <f:param name="userroleId"
+                            value="#{_userrole.id}"/>
+                    <f:param name="userRoleFrom" value="Account"/>
                 </s:link>
             </h:column>
         </rich:dataTable>
@@ -124,11 +124,11 @@
 
     <div class="actionButtons">
         <s:button
-               value="Add userInRole"
-                view="/UserInRoleEdit.xhtml">
+               value="Add userRole"
+                view="/UserroleEdit.xhtml">
             <f:param name="accountId"
                     value="#{accountHome.instance.id}"/>
-            <f:param name="userInRoleFrom" value="Account"/>
+            <f:param name="userroleFrom" value="Account"/>
         </s:button>
     </div>
     </rich:tab>

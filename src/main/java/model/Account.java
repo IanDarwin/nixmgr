@@ -54,7 +54,7 @@ public class Account implements java.io.Serializable {
 	private Float loginused;
 	private Integer printcredits;
 	private Integer printpagesused;
-	private Set<UserInRole> userInRoles = new HashSet<UserInRole>(0);
+	private Set<Userrole> userroles = new HashSet<Userrole>(0);
 
 	public Account() {
 	}
@@ -196,21 +196,13 @@ public class Account implements java.io.Serializable {
 		this.printpagesused = printpagesused;
 	}
 	
-	@Transient
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public Set<Userrole> getRoles() {
-		Set<Userrole> results = new HashSet<Userrole>();
-		for (UserInRole uir : getUserInRoles()) {
-			results.add(uir.getUserrole());
-		}
-		return results;
-	}
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account")
-	public Set<UserInRole> getUserInRoles() {
-		return this.userInRoles;
+		return this.userroles;
 	}
 
-	public void setUserInRoles(Set<UserInRole> userInRoles) {
-		this.userInRoles = userInRoles;
+	public void setRoles(Set<Userrole> userroles) {
+		this.userroles = userroles;
 	}
 
 	@Transient

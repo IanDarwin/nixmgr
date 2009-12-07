@@ -1,6 +1,6 @@
 Remove extraneous jars from deployed-jars list.
 
-Delete userInRole object, just use one-many
+Save passwords hashed in database, only clear when changing
 
 Implement forgotten password logic?
 

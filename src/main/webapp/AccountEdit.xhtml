@@ -162,33 +162,33 @@
 <rich:tabPanel switchType="ajax">
 
     <rich:tab label="User in roles">
-        <h:form styleClass="association" id="userInRolesChildren">
+        <h:form styleClass="association" id="userrolesChildren">
 
-            <h:outputText value="There are no userInRoles associated with this account."
-                       rendered="#{empty accountHome.userInRoles}"/>
+            <h:outputText value="There are no userroles associated with this account."
+                       rendered="#{empty accountHome.userroles}"/>
 
-            <rich:dataTable value="#{accountHome.userInRoles}"
-                           var="_userInRole"
-                      rendered="#{not empty accountHome.userInRoles}"
+            <rich:dataTable value="#{accountHome.userroles}"
+                           var="_userrole"
+                      rendered="#{not empty accountHome.userroles}"
                     rowClasses="rvgRowOne,rvgRowTwo"
-                            id="userInRolesTable">
-                <rich:column sortBy="#{_userInRole.id}">
+                            id="userrolesTable">
+                <rich:column sortBy="#{_userrole.id}">
                     <f:facet name="header">Id</f:facet>
-                    <h:outputText value="#{_userInRole.id}"/>
+                    <h:outputText value="#{_userrole.id}"/>
                 </rich:column>
             </rich:dataTable>
 
         </h:form>
 
-        <f:subview rendered="#{accountHome.managed}" id="userInRoles">
+        <f:subview rendered="#{accountHome.managed}" id="userroles">
         <div class="actionButtons">
-            <s:button id="adduserInRole"
-                   value="Add userInRole"
-                    view="/UserInRoleEdit.xhtml"
+            <s:button id="adduserrole"
+                   value="Add userrole"
+                    view="/UserroleEdit.xhtml"
              propagation="none">
                  <f:param name="accountId"
                          value="#{accountHome.instance.id}"/>
-                 <f:param name="userInRoleFrom" value="Account"/>
+                 <f:param name="userroleFrom" value="Account"/>
             </s:button>
         </div>
         </f:subview>

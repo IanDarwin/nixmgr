@@ -25,18 +25,12 @@ public class Userrole implements java.io.Serializable {
 	private static final long serialVersionUID = 7297100880725209484L;
 	private int id;
 	private String name;
-	private Set<UserInRole> userInRoles = new HashSet<UserInRole>(0);
 
 	public Userrole() {
 	}
 
 	public Userrole(int id) {
 		this.id = id;
-	}
-	public Userrole(int id, String name, Set<UserInRole> userInRoles) {
-		this.id = id;
-		this.name = name;
-		this.userInRoles = userInRoles;
 	}
 
 	@Id 
@@ -60,13 +54,4 @@ public class Userrole implements java.io.Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userrole")
-	public Set<UserInRole> getUserInRoles() {
-		return this.userInRoles;
-	}
-
-	public void setUserInRoles(Set<UserInRole> userInRoles) {
-		this.userInRoles = userInRoles;
-	}
-
 }

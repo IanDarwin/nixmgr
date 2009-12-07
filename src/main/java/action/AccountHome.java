@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Account;
-import model.UserInRole;
+import model.Userrole;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityHome;
@@ -77,9 +77,8 @@ public class AccountHome extends EntityHome<Account> {
 		return isIdDefined() ? getInstance() : null;
 	}
 
-	public List<UserInRole> getUserInRoles() {
-		return getInstance() == null ? null : new ArrayList<UserInRole>(
-				getInstance().getUserInRoles());
+	public List<Userrole> getUserroles() {
+		return getInstance() == null ? null : new ArrayList<Userrole>(
+				getInstance().getRoles());
 	}
-
 }
