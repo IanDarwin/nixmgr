@@ -1,13 +1,14 @@
-FIX UP NAVIGATION RULES - esp. ch pw, add/edit when fail...
+TODO for 'usermgmt' accounting system
 
-Remove extraneous jars from deployed-jars list.
+Remove extraneous jars from deployed-jars list?
 
 Save passwords hashed in database, only clear when changing
 
 Implement forgotten password logic?
 
-Check for duplicates
-	by reading pwent (code in darwinsys)
+Read pwent (code in darwinsys) & merge with list in database?
+
+Handle case where account is in db but not in passwd file (using pwent?)
 	
 Merge in "bugola" project (better, 
 	provide a way to deploy 2 projects
