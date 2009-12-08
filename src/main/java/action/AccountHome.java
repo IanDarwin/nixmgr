@@ -25,13 +25,15 @@ import unix.SystemAccountAccessor;
 @Restrict("#{identity.hasRole('admin')}")
 public class AccountHome extends EntityHome<Account> {
 
+	private static final long serialVersionUID = 1306635550541105929L;
+
 	private static SystemAccountAccessor osDAO =
 		SystemAccountAccessor.getInstance();
 	
 	@Override
 	public String persist() {
 		if (!osDAO.addAccount(getInstance())) {
-			return "failed";
+			return null;
 		}
 		getInstance().setSystemAccountCreated(true);
 		return super.persist();
@@ -40,7 +42,7 @@ public class AccountHome extends EntityHome<Account> {
 	@Override
 	public String remove() {
 		if (!osDAO.deleteAccount(getInstance())) {
-			return "failed";
+			return null;
 		}
 		return super.remove();
 	}
@@ -48,12 +50,10 @@ public class AccountHome extends EntityHome<Account> {
 	@Override
 	public String update() {
 		if (!osDAO.updateAccount(getInstance())) {
-			return "failed";
+			return null;
 		}
 		return super.update();
 	}
-
-	private static final long serialVersionUID = 1306635550541105929L;
 
 	public void setAccountId(Integer id) {
 		setId(id);
