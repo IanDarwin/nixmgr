@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import javax.faces.application.FacesMessage;
+
 import model.Account;
 
 import org.jboss.seam.faces.FacesMessages;
@@ -72,7 +74,7 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 			// Any line it prints on {stdout,stderr} becomes a FacesMessage
 			while ((line = is.readLine()) != null) {
 				System.out.println("-->" + line);
-				FacesMessages.instance().add(
+				FacesMessages.instance().add(FacesMessage.SEVERITY_ERROR,
 				"System command for " + runType + " failed: " + line);
 			}
 			int ret = proc.waitFor();
