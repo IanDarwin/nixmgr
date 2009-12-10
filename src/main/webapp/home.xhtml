@@ -23,12 +23,17 @@
 			#{messages['home.youcan']}
 		</p>
                 <ul class="bullets">
+
 			<li><h:outputText escape="no" value="#{messages['home.canchangepw']}"/></li>
+
 			<li><s:link value="#{messages['home.cancheckbal']}"
-				action="Account.xhtml">
+				view="/Account.xhtml">
 				<f:param name="accountFrom" value="home"/>
+				</s:link>
 				</li>
+
 			<li><strike>#{messages['home.canrenewbal']}</strike></li>
+
                 </ul>
                 </s:div>
             </h:panelGrid>

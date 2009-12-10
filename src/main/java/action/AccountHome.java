@@ -22,7 +22,6 @@ import unix.SystemAccountAccessor;
  * @author ian
  */
 @Name("accountHome")
-@Restrict("#{identity.hasRole('admin')}")
 public class AccountHome extends EntityHome<Account> {
 
 	private static final long serialVersionUID = 1306635550541105929L;
@@ -40,6 +39,7 @@ public class AccountHome extends EntityHome<Account> {
 	}
 
 	@Override
+	@Restrict("#{identity.hasRole('admin')}")
 	public String remove() {
 		if (!osDAO.deleteAccount(getInstance())) {
 			return null;
