@@ -15,11 +15,6 @@
     <rich:panel>
         <f:facet name="header">Account Details</f:facet>
 
-        <s:decorate id="id" template="layout/display.xhtml">
-            <ui:define name="label">Id</ui:define>
-            <h:outputText value="#{accountHome.instance.id}"/>
-        </s:decorate>
-
         <s:decorate id="username" template="layout/display.xhtml">
             <ui:define name="label">Username</ui:define>
             <h:outputText value="#{accountHome.instance.username}"/>
@@ -40,7 +35,7 @@
             <h:outputText value="#{accountHome.instance.lastname}"/>
         </s:decorate>
 
-		<s:decorate id="lastlogin" template="layout/display.xhtml">
+	<s:decorate id="lastlogin" template="layout/display.xhtml">
             <ui:define name="label">Lastlogin</ui:define>
             <h:outputText value="#{accountHome.instance.lastlogin}">
                 <s:convertDateTime type="date" dateStyle="short"/>
@@ -74,6 +69,7 @@
     <div class="actionButtons">
 
         <s:button view="/AccountEdit.xhtml"
+              rendered="#{identity.hasRole('admin')}"
                     id="edit"
                  value="Edit"/>
 
