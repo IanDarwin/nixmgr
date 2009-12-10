@@ -140,8 +140,8 @@ public class Account implements java.io.Serializable {
 		this.username = username;
 	}
 
-	@Column(name = "password", length = 8)
-	@Length(max = 8)
+	@Column(name = "password", length = 20)
+	@Length(max = 20)
 	@Pattern(regex=PASSWORD_PATT)
 	public String getPassword() {
 		return this.password;
