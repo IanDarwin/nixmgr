@@ -1,7 +1,10 @@
 TODO for 'usermgmt' accounting system
 -------------------------------------
 
-button colors vanish @Ernescliff - why?
+UnixAccountAccessor - MUST create account THEN run passwd, to make sure
+it's done according to encryption specified in login.conf!
+
+Button colors vanish @Ernescliff - why?
 
 Don't show ID on AccountEdit page
 
