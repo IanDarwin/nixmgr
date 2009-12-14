@@ -29,3 +29,9 @@ create table account_userrole (
 	account_id integer not null references account(id),
 	roles_id integer not null references userrole(id)
 );
+
+create table whitelist (
+	id serial primary key,
+	name varchar(255)
+);
+

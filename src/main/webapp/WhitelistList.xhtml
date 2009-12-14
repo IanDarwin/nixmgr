@@ -1,0 +1,135 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="whitelistSearch" styleClass="edit">
+
+        <rich:simpleTogglePanel label="Whitelist Search Filter" switchType="ajax">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Name</ui:define>
+                <h:inputText id="name" value="#{whitelistList.whitelist.name}"/>
+            </s:decorate>
+
+
+        </rich:simpleTogglePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Search" action="/WhitelistList.xhtml"/>
+            <s:button id="reset" value="Reset" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">Whitelist Search Results</f:facet>
+    <div class="results" id="whitelistList">
+
+    <h:outputText value="The whitelist search returned no results."
+               rendered="#{empty whitelistList.resultList}"/>
+
+    <rich:dataTable id="whitelistList"
+                var="_whitelist"
+              value="#{whitelistList.resultList}"
+           rendered="#{not empty whitelistList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{whitelistList}"/>
+                    <ui:param name="propertyLabel" value="Id"/>
+                    <ui:param name="propertyPath" value="whitelist.id"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_whitelist.id}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{whitelistList}"/>
+                    <ui:param name="propertyLabel" value="Name"/>
+                    <ui:param name="propertyPath" value="whitelist.name"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_whitelist.name}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Action</f:facet>
+            <s:link view="/#{empty from ? 'Whitelist' : from}.xhtml"
+                   value="#{empty from ? 'View' : 'Select'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="whitelist">
+                <f:param name="whitelistId"
+                        value="#{_whitelist.id}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/WhitelistEdit.xhtml"
+                   value="Edit"
+             propagation="none"
+                      id="whitelistEdit"
+                rendered="#{empty from}">
+                <f:param name="whitelistId"
+                        value="#{_whitelist.id}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/WhitelistList.xhtml"
+            rendered="#{whitelistList.previousExists}"
+               value="#{messages.left}#{messages.left} First Page"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/WhitelistList.xhtml"
+            rendered="#{whitelistList.previousExists}"
+               value="#{messages.left} Previous Page"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{whitelistList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/WhitelistList.xhtml"
+            rendered="#{whitelistList.nextExists}"
+               value="Next Page #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{whitelistList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/WhitelistList.xhtml"
+            rendered="#{whitelistList.nextExists}"
+               value="Last Page #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{whitelistList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <!-- NOT USED ...
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/WhitelistEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Create Whitelist Entry">
+            <f:param name="whitelistId"/>
+        </s:button>
+    </s:div>
+    ... -->
+
+</ui:define>
+
+</ui:composition>
