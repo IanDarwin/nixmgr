@@ -14,3 +14,6 @@ insert into account_userrole(account_id,roles_id) values(1,5);
 
 -- skip over id values given out
 select setval('hibernate_sequence', 10) from account;
+
+-- whitelist
+insert into whitelist(site) values('www.vatican.va');
