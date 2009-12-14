@@ -17,6 +17,7 @@ import unix.SystemFileAccessor;
 @Restrict("#{identity.hasRole('admin')}")
 public class WhitelistHome extends EntityHome<Whitelist> {
 
+	private static final long serialVersionUID = 3385939853354450988L;
 	private final static SystemFile FFF = SystemFile.WHITELIST;
 
 	public void setWhitelistId(Integer id) {

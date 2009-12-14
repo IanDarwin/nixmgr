@@ -1,12 +1,16 @@
 package action;
 
-import model.*;
+import java.util.Arrays;
+
+import model.Userrole;
+
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
-import java.util.Arrays;
 
 @Name("userroleList")
 public class UserroleList extends EntityQuery<Userrole> {
+
+	private static final long serialVersionUID = -2879698878894039382L;
 
 	private static final String EJBQL = "select userrole from Userrole userrole";
 

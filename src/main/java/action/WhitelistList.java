@@ -1,12 +1,16 @@
 package action;
 
-import model.*;
+import java.util.Arrays;
+
+import model.Whitelist;
+
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
-import java.util.Arrays;
 
 @Name("whitelistList")
 public class WhitelistList extends EntityQuery<Whitelist> {
+
+	private static final long serialVersionUID = 3553493386761604204L;
 
 	private static final String EJBQL = "select whitelist from Whitelist whitelist";
 
