@@ -30,6 +30,7 @@ public class AccountHome extends EntityHome<Account> {
 		SystemAccountAccessor.getInstance();
 	
 	@Override
+	// XXX Students can only save their own, by logic elsewhere(?)
 	public String persist() {
 		if (!osDAO.addAccount(getInstance())) {
 			return null;
