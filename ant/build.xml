@@ -13,7 +13,7 @@
     <property name="src.model.dir" value="src/main" />
     <property name="src.action.dir" value="src/hot" />
     <property name="src.test.dir" value="src/test" />
-    <property name="lib.dir" value="../seamlib" />
+    <property name="lib.dir" value="lib" />
     <property name="endorsed.dir" value="${lib.dir}/endorsed" />
     <property name="war.dir" value="exploded-archives/${project.name}.war" />
     <property name="classes.model.dir" value="${war.dir}/WEB-INF/classes" />
