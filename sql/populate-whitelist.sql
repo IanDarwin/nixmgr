@@ -8,7 +8,6 @@ insert into whitelist(name) values('www.alibris.com');
 insert into whitelist(name) values('www.almudi.org');
 insert into whitelist(name) values('www.amazon.ca');
 insert into whitelist(name) values('www.amazon.com');
-insert into whitelist(name) values('www.ernescliff.ca');
 insert into whitelist(name) values('www.expedia.ca');
 insert into whitelist(name) values('www.expedia.com   ');
 insert into whitelist(name) values('www.firstthings.com');
