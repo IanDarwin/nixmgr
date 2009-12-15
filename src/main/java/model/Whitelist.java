@@ -45,7 +45,7 @@ public class Whitelist implements java.io.Serializable {
 
 	@Column(name = "name", length = 255)
 	@Length(max = 255)
-	@Pattern(regex="[\\w\\d-]+")
+	@Pattern(regex="[\\w\\d.-]+")
 	public String getName() {
 		return this.name;
 	}
