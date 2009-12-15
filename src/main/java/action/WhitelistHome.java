@@ -1,11 +1,9 @@
 package action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import model.Whitelist;
 
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.framework.EntityHome;
@@ -76,16 +74,15 @@ public class WhitelistHome extends EntityHome<Whitelist> {
 		return synchModelToFile() ? resp : null;
 	}
 
-	@In(required=true)
-	private WhitelistList whitelistList;
-
+	@SuppressWarnings("unchecked")
 	private boolean synchModelToFile() {
-		List<Whitelist> all = whitelistList.getResultList();
-		List<String> names = new ArrayList<String>();
-		for (Whitelist w : all) {
-			names.add(w.getName());
-		}
-		SystemFileAccessor.store(FFF, names);
+		// Sorry to do this, but attempts to inject the WhitelistList failed w/ "can't create"
+		List<String> names = getEntityManager().
+			createQuery("select wl.name from Whitelist wl").
+			getResultList();
+		SystemFileAccessor.store(FFF, 
+				"List of sites that is allowed for all hosts",
+				names);
 		return true;	// store() will blow up if it fails.
 	}
 }
