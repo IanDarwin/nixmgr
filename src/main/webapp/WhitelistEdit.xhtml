@@ -31,8 +31,8 @@
             <s:decorate id="nameField" template="layout/edit.xhtml">
                 <ui:define name="label">Name</ui:define>
                 <h:inputText id="name"
-                           size="8"
-                      maxlength="8"
+                           size="32"
+                      maxlength="128"
                           value="#{whitelistHome.instance.name}">
                     <a:support event="onblur" reRender="nameField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>

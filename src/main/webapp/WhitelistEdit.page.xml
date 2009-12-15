@@ -14,7 +14,6 @@
    <param name="whitelistFrom"/>
    <param name="whitelistId" value="#{whitelistHome.whitelistId}"/>
 
-
    <navigation from-action="#{whitelistHome.persist}">
       <rule>
          <end-conversation/>
