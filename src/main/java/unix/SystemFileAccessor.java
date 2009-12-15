@@ -1,7 +1,14 @@
 package unix;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class SystemFileAccessor {
 
@@ -49,5 +56,16 @@ public class SystemFileAccessor {
 				p.close();
 			}
 		}
+	}
+	
+	/** Overload of store() that allows a comment string
+	 * @param sf
+	 * @param comment
+	 * @param contents
+	 */
+	public static void store(SystemFile sf, String comment, List<String> contents) {
+		contents.add(0, "# " + comment);
+		contents.add(1, "# saved on " + new Date());
+		store(sf, contents);
 	}
 }
