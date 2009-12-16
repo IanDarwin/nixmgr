@@ -28,7 +28,7 @@
 
 			<li><s:link value="#{messages['home.cancheckbal']}"
 				view="/Account.xhtml">
-				<f:param name="accountFrom" value="home"/>
+				<f:param name="accountId" value="#{loggedInUser.id}"/>
 				</s:link>
 				</li>
 

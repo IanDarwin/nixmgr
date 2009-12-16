@@ -7,7 +7,6 @@
 	<restrict>#{identity.loggedIn}</restrict>
 
 	<param name="accountFrom"/>
-	<param name="accountId"
-		value="#{accountFrom == 'home' ? loggedInUser.id : accountHome.accountId}"/>
+	<param name="accountId" value="#{accountHome.accountId}"/>
 
 </page>
