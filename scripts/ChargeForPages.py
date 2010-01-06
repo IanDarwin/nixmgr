@@ -18,7 +18,7 @@ cursor = conn.cursor()
 cursor.execute("select printcredits,printpagesused from account where username = '%s'" % username);
 results = cursor.fetchall()
 for row in results:
-	print 'User %s has %d page credits, %d printpagesused' % (username, row[0], row[1])
+	print 'Before charge, user %s had %d page credits, %d printpagesused' % (username, row[0], row[1])
 
 printcredits = int(row[0])
 printcredits = printcredits - pages
@@ -31,3 +31,5 @@ cursor.execute(
 	(printcredits, printpagesused, username))
 
 conn.commit()
+
+print "User %s successfully charged for %d pages" % (username, pages)
