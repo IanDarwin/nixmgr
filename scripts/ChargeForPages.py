@@ -15,8 +15,11 @@ class ChargeForPages:
 
 	def getCurrentPageCredits(self, username):
 		# returns printcredits
-		self.cursor.execute("select printcredits from account where username = '%s'" % username);
+		self.cursor.execute("select printcredits from account where username = '%s'" % username)
 		row = self.cursor.fetchone()
+		if row is None:
+			print "ERROR: cannot find balance for user %s" % username
+			continue
 		printcredits = int(row[0])
 		return printcredits
 
