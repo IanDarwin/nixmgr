@@ -5,6 +5,8 @@
 '''
 
 import sys
+import os
+import re
 
 prefix="usermgmt"		# used in device URL
 
@@ -32,7 +34,7 @@ def	main():
 	nargs = len(args)
 	if nargs == 0:
 		# CUPS calls with no args to discover what we do
-		print("network ${prefix} \"Unknown\" \"Accounted Printer (SNMP)\"\n")
+		print("network %s \"Unknown\" \"Accounted Printer (SNMP)\"" % prefix)
 		sys.exit(0)
 	if nargs < 5 or nargs > 6:
 		print("Usage: %s jobid username jobtitle copies printopts [file]" % sys.argv[0])
@@ -48,8 +50,21 @@ def	main():
 	# Grab the device id from the environment, make sure it's for us, strip
 	# off our prefix, and return the result to the environment.
 
-	patt="${prefix}://(.*)/(.*)"
+	try:
+		devURI = os.environ["DEVICE_URI"];
+	except KeyError:
+		print "No DEVICE_URI in environment!"
+		# sys.exit(1)
+		devURI = prefix + "://foo/printer1"
 
+	m = re.match("%s://(.*)/(.*)"%prefix, devURI);
+	if m == None:
+		print "ERROR: No match"
+		sys.exit(1)
+	newDevUri = "//" + m.group(1) + "//" + m.group(2)
+	print newDevUri
+	os.environ["DEVICE_URI"] = newDevUri
+	
 	validateUser(userName)
 
 	n = printerJobPages()
@@ -65,7 +80,4 @@ def	main():
 	sys.exit(0)
 
 if __name__ == '__main__':
-	try:
-		main()
-	except:
-		print "Error in accounting"
+	main()
