@@ -8,6 +8,8 @@ import sys
 import os
 import re
 
+from ChargeForPages import ChargeForPages
+
 prefix="usermgmt"		# used in device URL
 
 # To find out if your printer supportss  the needed MIB:
@@ -17,8 +19,14 @@ PRINTERSTATUS_OID = "1.3.6.1.2.1.25.3.5.1.1.1";		#printer status
 
 cupsBackendDir = "/usr/lib/cups/backend"
 
+accountant = ChargeForPages()
+
 def validateUser(userName):
-	print "Validating"
+	creditBal = accountant.getCurrentPageCredits(userName)
+	print "Current credit for %s is %d" % (userName, creditBal)
+	if creditBal < 1:
+		print "ERROR: User %s has page credit of %d" % (userName, creditBal)
+		sys.exit(1)
 
 def printerJobPages():
 	return 1
