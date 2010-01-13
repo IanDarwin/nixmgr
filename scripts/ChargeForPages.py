@@ -2,7 +2,7 @@
 
 import os
 
-class chargeforpages:
+class ChargeForPages:
 	""" Bill a user for a given number of pages"""
 
 	def __init__(self):
@@ -34,7 +34,7 @@ class chargeforpages:
 		print "User %s successfully charged for %d pages" % (username, pages)
 
 def main():
-	accountant = chargeforpages()
+	accountant = ChargeForPages()
 	testuser = 'ian'
 	print "Current credit for",testuser,"is", accountant.getCurrentPageCredits(testuser)
 	accountant.billUserForPages(testuser, 1)
