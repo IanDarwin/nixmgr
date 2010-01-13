@@ -2,34 +2,44 @@
 
 import os
 
-""" Bill a user for a given number of pages"""
+class chargeforpages:
+	""" Bill a user for a given number of pages"""
 
-username='ian'
-pages=6
+	def __init__(self):
+		# for PostgreSQL
+		from psycopg import connect
+		self.connString = "dbname=usermgmt user=usermgr password=plugh32 host=localhost"
+		self.conn = connect(self.connString)
 
-# for PostgreSQL
-from psycopg import connect
-connString = "dbname=usermgmt user=usermgr password=plugh32 host=localhost"
+		self.cursor = self.conn.cursor()
 
-conn = connect(connString)
+	def getCurrentPageCredits(self, username):
+		# returns printcredits
+		self.cursor.execute("select printcredits from account where username = '%s'" % username);
+		row = self.cursor.fetchone()
+		printcredits = int(row[0])
+		return printcredits
 
-cursor = conn.cursor()
+	def billUserForPages(self, username, pages):
+		printcredits = self.getCurrentPageCredits(username)
 
-cursor.execute("select printcredits,printpagesused from account where username = '%s'" % username);
-results = cursor.fetchall()
-for row in results:
-	print 'Before charge, user %s had %d page credits, %d printpagesused' % (username, row[0], row[1])
+		printcredits = printcredits - pages
 
-printcredits = int(row[0])
-printcredits = printcredits - pages
+		self.cursor.execute(
+			"update account set printcredits = %d where username = '%s'" %
+			(printcredits, username))
 
-printpagesused = int(row[1])
-printpagesused = printpagesused + pages
+		self.conn.commit()
 
-cursor.execute(
-	"update account set printcredits = %d,printpagesused=%d where username = '%s'" %
-	(printcredits, printpagesused, username))
+		print "User %s successfully charged for %d pages" % (username, pages)
 
-conn.commit()
+def main():
+	accountant = chargeforpages()
+	testuser = 'ian'
+	print "Current credit for",testuser,"is", accountant.getCurrentPageCredits(testuser)
+	accountant.billUserForPages(testuser, 1)
 
-print "User %s successfully charged for %d pages" % (username, pages)
+	print "Current credit for",testuser,"is", accountant.getCurrentPageCredits(testuser)
+
+if __name__ == '__main__':
+	main()
