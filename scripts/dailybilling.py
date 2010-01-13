@@ -5,7 +5,11 @@
 # Input format:
 # hpmfc ian 2 [13/Dec/2009:21:40:50 -0500] 1 1 - localhost
 
-import re;
+import re
+
+from ChargeForPages import ChargeForPages
+
+accountant = ChargeForPages()
 
 PRINTER=0
 USER=1
@@ -26,4 +30,4 @@ for l in open("/var/log/cups/page_log"):
 	pages[username] = n
 
 for (u,qty) in pages.items():
-	print "chargeforpages.py", u, qty
+	accountant.billUserForPages(u, qty)
