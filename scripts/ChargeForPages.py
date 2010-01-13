@@ -18,8 +18,7 @@ class ChargeForPages:
 		self.cursor.execute("select printcredits from account where username = '%s'" % username)
 		row = self.cursor.fetchone()
 		if row is None:
-			print "ERROR: cannot find balance for user %s" % username
-			continue
+			raise KeyError("ERROR: cannot find balance for user %s" % username)
 		printcredits = int(row[0])
 		return printcredits
 

@@ -30,4 +30,7 @@ for l in open("/var/log/cups/page_log"):
 	pages[username] = n
 
 for (u,qty) in pages.items():
-	accountant.billUserForPages(u, qty)
+	try:
+		accountant.billUserForPages(u, qty)
+	except KeyError:
+		print "Failed to account for %d pages for %s" % (qty,u)
