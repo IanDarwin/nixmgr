@@ -22,7 +22,7 @@ def printerJobPages():
 	return 1
 
 def copyFile(f1, f2):
-	print ("Copying")
+	f2.write(f1.read())
 
 def	billUser(userName, pages):
 	print "Billing user %s for %d pages" % (userName, pages)
@@ -60,7 +60,12 @@ def	main():
 
 	billUser(userName, n2 - n)
 
+	print "All done"
+
 	sys.exit(0)
 
 if __name__ == '__main__':
-    main()
+	try:
+		main()
+	except:
+		print "Error in accounting"
