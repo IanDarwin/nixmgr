@@ -2,12 +2,12 @@
 
 ''' CUPS filter for accounting for SNMP-managed networked printers,
 	learned how to do some of these things from the excellent (but Perl-based)
-	see http://fritz.potsdam.edu/projects/cupsapps/#accsnmp.
-	My version uses our account database instead of text files.
+	accsnmp, see http://fritz.potsdam.edu/projects/cupsapps/#accsnmp.
+	My version uses the usermgmt account database instead of text files.
 '''
 
 # TODO
-# retry loop
+# retry loop?
 
 # later: get SNMP actually working XXX for now daily*.py does the actual billing!
 
