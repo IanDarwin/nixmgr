@@ -33,7 +33,7 @@ def validateUser(userName):
 	creditBal = accountant.getCurrentPageCredits(userName)
 	print "Current credit for %s is %d" % (userName, creditBal)
 	if creditBal < 1:
-		sys.stderr.write("ERROR: User %s has page credit of %d" % (userName, creditBal))
+		sys.stderr.write("ERROR: User %s has page credit of %d\n" % (userName, creditBal))
 		sys.exit(1)
 
 def printerJobPages():
@@ -58,7 +58,7 @@ def	main():
 		print("network %s \"Unknown\" \"Accounted Printer (SNMP)\"" % prefix)
 		sys.exit(0)
 	if nargs < 5 or nargs > 6:
-		sys.stderr.write("ERROR: Usage: %s jobid username jobtitle copies printopts [file]" % sys.argv[0])
+		sys.stderr.write("ERROR: Usage: %s jobid username jobtitle copies printopts [file]\n" % sys.argv[0])
 		sys.exit(1)
 
 	if nargs == 5:
@@ -74,12 +74,12 @@ def	main():
 	try:
 		devURI = os.environ["DEVICE_URI"];
 	except KeyError:
-		sys.stderr.write("ERROR: No DEVICE_URI in environment!")
+		sys.stderr.write("ERROR: No DEVICE_URI in environment!\n")
 		sys.exit(1)
 
 	m = re.match(r'%s://(.+)/(.*)'%prefix, devURI);
 	if m == None:
-		sys.stderr.write("ERROR: Could not parse DEVICE_URI")
+		sys.stderr.write("ERROR: Could not parse DEVICE_URI\n")
 		sys.exit(1)
 	global realBackEnd
 	realBackEnd = m.group(1)
