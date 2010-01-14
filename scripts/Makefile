@@ -10,8 +10,8 @@ install: cupsaccountfilter.pyc
 cupsaccountfilter.pyc: cupsaccountfilter.py
 	python -c 'import cupsaccountfilter' # make .pyc
 
-test:	try
-	./try
+test:	testcups
+	./testcups
 
 clean:
 	rm -f *.pyc
