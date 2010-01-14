@@ -9,7 +9,6 @@
 # TODO
 # retry loop
 # better status handling?
-# catch exceptions and print as CUPS errors.
 
 # later: get SNMP actually working XXX for now daily*.py does the actual billing!
 
@@ -32,7 +31,11 @@ cupsBackendDir = "/usr/local/libexec/cups/backend"	# Somewhat OS-specific
 accountant = ChargeForPages()
 
 def validateUser(userName):
-	creditBal = accountant.getCurrentPageCredits(userName)
+	try:
+		creditBal = accountant.getCurrentPageCredits(userName)
+	except KeyError:
+		sys.stderr.write("ERROR: could not get balance for %s\n" % userName)
+		sys.exit(1)
 	print "Current credit for %s is %d" % (userName, creditBal)
 	if creditBal < 1:
 		sys.stderr.write("ERROR: User %s has page credit of %d\n" % (userName, creditBal))
@@ -41,13 +44,21 @@ def validateUser(userName):
 def printerJobPages():
 	return 1
 
-def copyFile(f1):
+def copyFile(inFile):
 	# build new argv array: drop fileName, and change argv[0] to real back end
 	newArgs = sys.argv[:5]
 	newArgs[0] = cupsBackendDir + '/' + realBackEnd;
-	proc = Popen(newArgs, stdin=f1)		# start processing
-	sys.stderr.write("INFO: Trying to send to printer")
-	return proc.wait()
+	try:
+		proc = Popen(newArgs, stdin=inFile)	# start processing
+	except OSError:
+		sys.stderr.write("ERROR: " + "Could not invoke %s\n" % newArgs[0])
+		sys.exit(1)
+	sys.stderr.write("INFO: Trying to send to printer\n")
+	print newArgs
+	ret = proc.wait()
+	if ret != 0:
+		sys.stderr.write("ERROR: Failure in %s backend for %s\n" % (realBackEnd,userName))
+		sys.exit(1)
 
 def	billUser(userName, pages):
 	print "Billing user %s for %d pages" % (userName, pages)
