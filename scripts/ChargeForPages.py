@@ -25,6 +25,9 @@ class ChargeForPages:
 	def billUserForPages(self, username, pages):
 		printcredits = self.getCurrentPageCredits(username)
 
+		if printcredits < 0:
+			sys.stderr.write("WARN: billing for %s but balance already down to %d\n" % (username, printcredits))
+
 		printcredits = printcredits - pages
 
 		self.cursor.execute(
