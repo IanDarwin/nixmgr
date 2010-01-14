@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
-''' CUPS filter for accounting, based loosely on accsnmp,
-    see http://fritz.potsdam.edu/projects/cupsapps/#accsnmp
+''' CUPS filter for accounting for SNMP-managed networked printers,
+	parts based loosely on accsnmp,
+	see http://fritz.potsdam.edu/projects/cupsapps/#accsnmp.
+	Uses our account database instead of text files.
 '''
 
 import sys
@@ -17,7 +19,7 @@ prefix="usermgmt"		# used in device URL
 LIFEPAGECOUNT_OID = "1.3.6.1.2.1.43.10.2.1.4.1.1";	#printer lifetime pagecount
 PRINTERSTATUS_OID = "1.3.6.1.2.1.25.3.5.1.1.1";		#printer status
 
-cupsBackendDir = "/usr/lib/cups/backend"
+cupsBackendDir = "/usr/local/libexec/cups/backend"	# Somewhat OS-specific
 
 accountant = ChargeForPages()
 
@@ -36,6 +38,7 @@ def copyFile(f1, f2):
 
 def	billUser(userName, pages):
 	print "Billing user %s for %d pages" % (userName, pages)
+	accountant.billUserForPages(userName, pages)
 
 def	main():
 	args = sys.argv[1:] # minus progname
@@ -65,23 +68,25 @@ def	main():
 		# sys.exit(1)
 		devURI = prefix + "://foo/printer1"
 
-	m = re.match("%s://(.*)/(.*)"%prefix, devURI);
+	m = re.match(r'%s://(.+)/(.*)'%prefix, devURI);
 	if m == None:
-		print "ERROR: No match"
+		print "ERROR: Could not parse DEVICE_URI"
 		sys.exit(1)
-	newDevUri = "//" + m.group(1) + "//" + m.group(2)
+	realBackEnd = m.group(1)
+	restOfDevice = m.group(2)
+	newDevUri = "//" + realBackEnd + "//" + restOfDevice
 	print newDevUri
 	os.environ["DEVICE_URI"] = newDevUri
 	
 	validateUser(userName)
 
-	n = printerJobPages()
+	n1 = printerJobPages()
 
 	copyFile(file, sys.stdout)
 
 	n2 = printerJobPages()
 
-	billUser(userName, n2 - n)
+	billUser(userName, n2 - n1)
 
 	print "All done"
 
