@@ -6,9 +6,16 @@
 	Uses our account database instead of text files.
 '''
 
+# TODO
+# exec the real backend
+# print status messagess correctly
+
+# later: get SNMP actually working XXX for now daily*.py does the actual billing!
+
 import sys
 import os
 import re
+from subprocess import Popen
 
 from ChargeForPages import ChargeForPages
 
@@ -33,8 +40,12 @@ def validateUser(userName):
 def printerJobPages():
 	return 1
 
-def copyFile(f1, f2):
-	f2.write(f1.read())
+def copyFile(f1):
+	# build new argv array: drop fileName, and change argv[0] to real back end
+	newArgs = sys.argv[:5]
+	newArgs[0] = cupsBackendDir + '/' + realBackEnd;
+	proc = Popen(newArgs, stdin=f1)
+	return proc.wait()
 
 def	billUser(userName, pages):
 	print "Billing user %s for %d pages" % (userName, pages)
@@ -72,6 +83,7 @@ def	main():
 	if m == None:
 		print "ERROR: Could not parse DEVICE_URI"
 		sys.exit(1)
+	global realBackEnd
 	realBackEnd = m.group(1)
 	restOfDevice = m.group(2)
 	newDevUri = "//" + realBackEnd + "//" + restOfDevice
@@ -82,7 +94,7 @@ def	main():
 
 	n1 = printerJobPages()
 
-	copyFile(file, sys.stdout)
+	copyFile(file)
 
 	n2 = printerJobPages()
 
