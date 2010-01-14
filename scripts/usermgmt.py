@@ -7,7 +7,7 @@
 '''
 
 # TODO
-# exec the real backend
+# catch exceptions and print as CUPS errors.
 
 # later: get SNMP actually working XXX for now daily*.py does the actual billing!
 
