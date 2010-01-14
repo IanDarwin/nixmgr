@@ -7,6 +7,8 @@
 '''
 
 # TODO
+# retry loop
+# better status handling?
 # catch exceptions and print as CUPS errors.
 
 # later: get SNMP actually working XXX for now daily*.py does the actual billing!
@@ -43,7 +45,8 @@ def copyFile(f1):
 	# build new argv array: drop fileName, and change argv[0] to real back end
 	newArgs = sys.argv[:5]
 	newArgs[0] = cupsBackendDir + '/' + realBackEnd;
-	proc = Popen(newArgs, stdin=f1)
+	proc = Popen(newArgs, stdin=f1)		# start processing
+	sys.stderr.write("INFO: Trying to send to printer")
 	return proc.wait()
 
 def	billUser(userName, pages):
