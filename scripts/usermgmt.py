@@ -46,7 +46,7 @@ def printerJobPages():
 
 def copyFile(inFile):
 	# build new argv array: drop fileName, and change argv[0] to real back end
-	newArgs = sys.argv[:5]
+	newArgs = sys.argv[:6]
 	newArgs[0] = cupsBackendDir + '/' + realBackEnd;
 	try:
 		proc = Popen(newArgs, stdin=inFile)	# start processing
@@ -57,7 +57,7 @@ def copyFile(inFile):
 	print newArgs
 	ret = proc.wait()
 	if ret != 0:
-		sys.stderr.write("ERROR: Failure in %s backend for %s\n" % (realBackEnd,userName))
+		sys.stderr.write("ERROR: Failure in %s backend\n" % realBackEnd)
 		sys.exit(1)
 
 def	billUser(userName, pages):
