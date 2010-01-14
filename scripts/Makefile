@@ -3,7 +3,9 @@
 export:	cupsaccountfilter.pyc
 
 install: cupsaccountfilter.pyc
-	cp cups* Charge* /usr/local/libexec/cups/backends/
+	rm -f /tmp/printlog
+	cp cups* Charge* /usr/local/libexec/cups/backend/
+	mv /usr/local/libexec/cups/backend/{cups*.py,usermgmt}
 
 cupsaccountfilter.pyc: cupsaccountfilter.py
 	python -c 'import cupsaccountfilter' # make .pyc

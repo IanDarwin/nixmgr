@@ -8,7 +8,6 @@
 
 # TODO
 # retry loop
-# better status handling?
 
 # later: get SNMP actually working XXX for now daily*.py does the actual billing!
 
@@ -18,6 +17,8 @@ import re
 from subprocess import Popen
 
 from ChargeForPages import ChargeForPages
+
+debuglog=open('/tmp/printlog', 'w')	# XXX TEMPORARY
 
 prefix="usermgmt"		# used in device URL
 
@@ -48,16 +49,19 @@ def copyFile(inFile):
 	# build new argv array: drop fileName, and change argv[0] to real back end
 	newArgs = sys.argv[:6]
 	newArgs[0] = cupsBackendDir + '/' + realBackEnd;
+	print >>debuglog, "ARGS:", newArgs
 	try:
-		proc = Popen(newArgs, stdin=inFile)	# start processing
-	except OSError:
-		sys.stderr.write("ERROR: " + "Could not invoke %s\n" % newArgs[0])
+		proc = Popen(newArgs,
+			close_fds=True,	# security, but assume ENV already sanitized
+			stdin=inFile)
+	except OSError, e:
+		sys.stderr.write("ERROR: Could not invoke %s due to error %s\n" % (newArgs[0], e))
 		sys.exit(1)
 	sys.stderr.write("INFO: Trying to send to printer\n")
 	print newArgs
 	ret = proc.wait()
 	if ret != 0:
-		sys.stderr.write("ERROR: Failure in %s backend\n" % realBackEnd)
+		sys.stderr.write("ERROR: Failure in %s backend, ret %d\n" % (realBackEnd,ret))
 		sys.exit(1)
 
 def	billUser(userName, pages):
@@ -91,16 +95,20 @@ def	main():
 		sys.stderr.write("ERROR: No DEVICE_URI in environment!\n")
 		sys.exit(1)
 
-	m = re.match(r'%s://(.+)/(.*)'%prefix, devURI);
+	# e.g.,  usermgmt://ipp://192.168.100.100
+	m = re.match(r'%s://([^/]+)://(.*)'%prefix, devURI);
 	if m == None:
 		sys.stderr.write("ERROR: Could not parse DEVICE_URI\n")
 		sys.exit(1)
 	global realBackEnd
 	realBackEnd = m.group(1)
 	restOfDevice = m.group(2)
-	newDevUri = "//" + realBackEnd + "//" + restOfDevice
-	print newDevUri
+	newDevUri = realBackEnd + "://" + restOfDevice
 	os.environ["DEVICE_URI"] = newDevUri
+
+	print >>debuglog, 1, realBackEnd	# XXX TEMPORARY
+	print >>debuglog, 2, restOfDevice
+	print >>debuglog, 3, os.environ["DEVICE_URI"]
 	
 	validateUser(userName)
 
@@ -116,3 +124,5 @@ def	main():
 
 if __name__ == '__main__':
 	main()
+
+debuglog.close()	# XXX TEMPORARY
