@@ -1,0 +1,3 @@
+psql -d usermgmt <<!
+update account set printcredits=100 where username='ian';
+!
