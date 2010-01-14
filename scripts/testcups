@@ -2,6 +2,12 @@
 
 set -x
 
+# test for no arguments
+cupsaccountfilter.py
+
+# test for wrong # args
+cupsaccountfilter.py foo
+
 # test that unknown account failure works
 env DEVICE_URI=usermgmt://foo/ cupsaccountfilter.py 123 jjjjjjj test.ps 1 - testdata
 
@@ -10,3 +16,6 @@ env DEVICE_URI=usermgmt://foo/ cupsaccountfilter.py 123 testfail test.ps 1 - tes
 
 # test that we get as far as trying the next filter
 env DEVICE_URI=usermgmt://NOSUCHFILTER/p1 cupsaccountfilter.py 123 ian test.ps 1 - testdata
+
+# test that we invoke the next filter
+env DEVICE_URI=usermgmt://socket/localhost:1234 cupsaccountfilter.py 123 ian test.ps 1 - testdata
