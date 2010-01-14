@@ -18,8 +18,6 @@ from subprocess import Popen
 
 from ChargeForPages import ChargeForPages
 
-debuglog=open('/tmp/printlog', 'w')	# XXX TEMPORARY
-
 prefix="usermgmt"		# used in device URL
 
 # To find out if your printer supports the needed MIB:
@@ -49,7 +47,6 @@ def copyFile(inFile):
 	# build new argv array: drop fileName, and change argv[0] to real back end
 	newArgs = sys.argv[:6]
 	newArgs[0] = cupsBackendDir + '/' + realBackEnd;
-	print >>debuglog, "ARGS:", newArgs
 	try:
 		proc = Popen(newArgs,
 			close_fds=True,	# security, but assume ENV already sanitized
@@ -106,10 +103,6 @@ def	main():
 	newDevUri = realBackEnd + "://" + restOfDevice
 	os.environ["DEVICE_URI"] = newDevUri
 
-	print >>debuglog, 1, realBackEnd	# XXX TEMPORARY
-	print >>debuglog, 2, restOfDevice
-	print >>debuglog, 3, os.environ["DEVICE_URI"]
-	
 	validateUser(userName)
 
 	n1 = printerJobPages()
@@ -124,5 +117,3 @@ def	main():
 
 if __name__ == '__main__':
 	main()
-
-debuglog.close()	# XXX TEMPORARY
