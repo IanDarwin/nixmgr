@@ -25,10 +25,12 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 	 * XXX The BSD "login class" 'student' is hard-coded here for now.
 	 */
 	private final static String ADD_STRING =
-	"sudo useradd -m -g =uid -L student -p \"$(encrypt %2$s)\" -s /bin/ksh -c \'%3$s\' \'%1$s\'";
+	"sudo useradd -m -g =uid -L student -p \"$(encrypt -m %2$s)\" -s /bin/ksh -c \'%3$s\' \'%1$s\'";
 
 	private final static String MOD_STRING =
-	"sudo usermod -p \"$(encrypt %2$s)\" -s /bin/ksh -c \'%3$s\' \'%1$s\'";
+	"sudo usermod -p \"$(encrypt -m %2$s)\" -s /bin/ksh -c \'%3$s\' \'%1$s\'";
+
+	private final static String SYNCH_STRING = "cd /var/yp; sudo make";
 
 	/** Create this Account to the operating system. */
 	public boolean addAccount(Account acct) {
@@ -78,6 +80,21 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 				"System command for " + runType + " failed: " + line);
 			}
 			int ret = proc.waitFor();
+
+			if (ret == 0) {
+				// Now try to sync our changed config data to NIS
+				// Catch any errors here as this is NOT fatal; the
+				// changes will get synched later by a cron job.
+				args[2] = SYNCH_STRING;
+				try {
+					System.out.println("Running " + SYNCH_STRING);
+					new ProcessBuilder(args).start().waitFor();
+				} catch (Throwable t) {
+					FacesMessages.instance().add(FacesMessage.SEVERITY_ERROR,
+					"System command to update NIS data failed: " + t);
+				}
+			}
+			// Return with main command's ret
 			return ret == 0;
 		} catch (IOException e) {
 			FacesMessages.instance().add("Could not execute system command: " + e);
