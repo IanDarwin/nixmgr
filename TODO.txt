@@ -1,6 +1,8 @@
 TODO for 'usermgmt' accounting system
 -------------------------------------
 
+Run jboss under a more privsep account.
+
 UnixAccountAccessor - MUST create account THEN run passwd, to make sure
 it's done according to encryption specified in login.conf!
 
