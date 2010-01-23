@@ -41,6 +41,11 @@
                 </h:inputText>
             </s:decorate>
             
+            <h:panelGroup>
+            	#{messages['login.randomize']}:
+				<h:outputText value="#{randomPass.random}"/>
+            </h:panelGroup>
+            
             <s:decorate id="firstnameField" template="layout/edit.xhtml">
                 <ui:define name="label">Firstname</ui:define>
                 <h:inputText id="firstname"

@@ -23,9 +23,11 @@
 	#{messages['login.password']}:
 	<h:inputSecret value="#{chPassAction.oldPassword}" required='true'/>
 	#{messages['login.newpass']}:
-	<h:inputSecret value="#{chPassAction.newPassword1}" required='true'/>
+	<h:inputSecret id='p1' value="#{chPassAction.newPassword1}" required='true'/>
 	#{messages['login.newpass']}:
-	<h:inputSecret value="#{chPassAction.newPassword2}" required='true'/>
+	<h:inputSecret id='p2' value="#{chPassAction.newPassword2}" required='true'/>
+	#{messages['login.randomize']}:
+	<h:outputText value="#{randomPass.random}"/>
 
 	</h:panelGrid>
 
