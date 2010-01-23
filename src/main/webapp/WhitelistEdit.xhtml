@@ -16,15 +16,12 @@
         <rich:panel>
             <f:facet name="header">#{whitelistHome.managed ? 'Edit' : 'Add'} Whitelist</f:facet>
 
-
             <s:decorate id="idField" template="layout/edit.xhtml">
                 <ui:define name="label">Id</ui:define>
-                <h:inputText id="id"
-                       required="true"
+                <h:outputText id="id"
                        disabled="#{whitelistHome.managed}"
                           value="#{whitelistHome.instance.id}">
-                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
-                </h:inputText>
+                </h:outputText>
             </s:decorate>
 
 
