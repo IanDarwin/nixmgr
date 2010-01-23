@@ -3,28 +3,25 @@ TODO for 'usermgmt' accounting system
 
 Run jboss under a more privsep account.
 
-UnixAccountAccessor - MUST create account THEN run passwd, to make sure
-it's done according to encryption specified in login.conf!
-
 Button colors vanish @Ernescliff - why?
-
-Don't show ID on AccountEdit page
 
 printcredits COMMENT #pages
 
-Remove extraneous jars from deployed-jars list?
+Bring in forgotten password logic
 
+Write external code to merge from passwd file to db
+
+Write re-create logic: if not accountCreated then add, else update.
+
+LONG-RANGE
+----------
 Save passwords hashed in database, only clear when changing
 
-Implement forgotten password logic?
-
-Read pwent (code in darwinsys) & merge with list in database?
-
-Handle case where account is in db but not in passwd file (using pwent?)
-	
 Merge in "bugola" project (better, 
 	provide a way to deploy 2 projects
 	with singlesignon).
-	
-Long-range:
-	let users buy credit on visa/paypal?
+
+let users buy credit on visa/paypal?
+
+UnixAccountAccessor - should later create account THEN run passwd, to make sure
+it's done according to encryption specified in login.conf! For now works using -m.
