@@ -4,7 +4,8 @@ package unix;
  */
 public enum SystemFile {
 	
-	WHITELIST("/etc/whitelist");
+	WHITELIST("/etc/whitelist"),
+	RESTRICTEDWORKSATATIONLIST("/etc/restrictedworkstations");
 
 	private final String unixName;
 

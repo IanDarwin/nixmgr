@@ -1,0 +1,57 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="restrictedWorkstationForm">
+
+        <rich:panel>
+            <f:facet name="header">restrictedWorkstation</f:facet>
+
+            <s:decorate template="layout/edit.xhtml">
+                <ui:define name="label">Location</ui:define>
+                <h:inputText id="name" required="true"
+                             value="#{restrictedWorkstationHome.instance.location}"/>
+            </s:decorate>
+            <s:decorate template="layout/edit.xhtml">
+                <ui:define name="label">Mac Address</ui:define>
+                <h:inputText id="name" required="true"
+                             value="#{restrictedWorkstationHome.instance.macAddress}"/>
+            </s:decorate>
+
+            <div style="clear:both"/>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{restrictedWorkstationHome.persist}"
+                       rendered="#{!restrictedWorkstationHome.managed}"/>
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{restrictedWorkstationHome.update}"
+                       rendered="#{restrictedWorkstationHome.managed}"/>
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{restrictedWorkstationHome.remove}"
+                      immediate="true"
+                       rendered="#{restrictedWorkstationHome.managed}"/>
+            <s:button propagation="end"
+                               id="cancel"
+                            value="Cancel"
+                             view="/RestrictedWorkstationList.xhtml"/>
+        </div>
+
+    </h:form>
+
+</ui:define>
+
+</ui:composition>

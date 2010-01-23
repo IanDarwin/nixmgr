@@ -16,6 +16,7 @@
     </rich:toolBarGroup>
 
     <rich:toolBarGroup rendered="#{identity.hasRole('admin')}">
+
     <s:link view="/AccountEdit.xhtml"
            value="Add Account"
 includePageParams="false"
@@ -28,11 +29,12 @@ includePageParams="false"
            value="White List"
 includePageParams="false"
      propagation="none"/>
-    <s:link view="/RestrictedWorkstationList.xhtml"
-           value="Restricted Workstations List"
-includePageParams="false"
+    <s:link view="/RestrictedWorkstationList.xhtml" 
+	   value="RestrictedWorkstation List"
      propagation="none"/>
+
     </rich:toolBarGroup>
+
     <!-- @newMenuItem@ -->
     <rich:toolBarGroup location="right">
         <h:outputText value="#{messages['general.loggedinas']} #{identity.username}" rendered="#{identity.loggedIn}"/>
