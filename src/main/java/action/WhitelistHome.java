@@ -16,7 +16,6 @@ import unix.SystemFileAccessor;
 public class WhitelistHome extends EntityHome<Whitelist> {
 
 	private static final long serialVersionUID = 3385939853354450988L;
-	private final static SystemFile FFF = SystemFile.WHITELIST;
 
 	public void setWhitelistId(Integer id) {
 		setId(id);
@@ -80,7 +79,7 @@ public class WhitelistHome extends EntityHome<Whitelist> {
 		List<String> names = getEntityManager().
 			createQuery("select wl.name from Whitelist wl").
 			getResultList();
-		SystemFileAccessor.store(FFF, 
+		SystemFileAccessor.store(SystemFile.WHITELIST, 
 				"List of sites that is allowed for all hosts",
 				names);
 		return true;	// store() will blow up if it fails.
