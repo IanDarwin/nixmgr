@@ -52,7 +52,7 @@ public class RestrictedWorkstationHome extends EntityHome<RestrictedWorkstation>
     
     // When this entity is saved or updated,
     // we MUST sync to external files and
-    // notify pf.
+    // notify pf. 
     
 	@Override
 	/** Save the instance to the DB, then rewrite the file */
@@ -84,11 +84,16 @@ public class RestrictedWorkstationHome extends EntityHome<RestrictedWorkstation>
 		return synchModelToFile() ? resp : null;
 	}
 
+	/** Sync model to file. The file is expected to be
+     * small (15-30 lines) so just re-write the
+     * whole thing when anything changes.
+     * @return
+     */
 	@SuppressWarnings("unchecked")
 	private boolean synchModelToFile() {
 		// Sorry to do this, but attempts to inject the List failed w/ "can't create"
 		List<String> names = getEntityManager().
-			createQuery("select ws.macAddress from RestrictedWorkstation ws").
+			createQuery("select concat(ws.macAddress,' # ',ws.location) from RestrictedWorkstation ws").
 			getResultList();
 		SystemFileAccessor.store(
 			SystemFile.RESTRICTEDWORKSATATIONLIST, 
