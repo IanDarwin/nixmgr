@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 
 import javax.faces.application.FacesMessage;
 
-import model.Account;
-
 import org.jboss.seam.faces.FacesMessages;
 
 public class UnixCommand {
