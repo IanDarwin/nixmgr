@@ -14,7 +14,7 @@
 import sys
 import os
 import re
-from subprocess import Popen
+from subprocess import Popen,PIPE
 
 from ChargeForPages import ChargeForPages
 
@@ -40,8 +40,19 @@ def validateUser(userName):
 		sys.stderr.write("ERROR: User %s has page credit of %d\n" % (userName, creditBal))
 		sys.exit(1)
 
+def snmpGet(ip, oid):
+	''' send SNMP oid to printer in 'ip', return int result '''
+	args = [ 'snmpget', '-O', 'v', '-v', '2c', '-c', 'public', oid ]
+	proc = Popen(args, stdout=PIPE)
+	printout = proc.stdout.read()
+	m=re.search(r'(\d+)', printout)
+	return int(m.group(1))
+
 def printerJobPages():
-	return 1
+	return snmpGet(printerIP, LIFEPAGECOUNT_OID)
+
+def printerStatus():
+	return snmpGet(printerIP, PRINTERSTATUS_OID)
 
 def copyFile(inFile):
 	# build new argv array: drop fileName, and change argv[0] to real back end
@@ -102,6 +113,9 @@ def	main():
 	restOfDevice = m.group(2)
 	newDevUri = realBackEnd + "://" + restOfDevice
 	os.environ["DEVICE_URI"] = newDevUri
+	m=re.match(r'([\d.]+)', realBackEnd)
+	global printerIP
+	printerIP = m.group(1)
 
 	validateUser(userName)
 
