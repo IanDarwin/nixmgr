@@ -39,12 +39,9 @@
                           value="#{accountHome.instance.password}">
                     <a:support event="onblur" reRender="passwordField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
+            	#{messages['login.randomize']}:&nbsp;
+		<h:outputText value="#{randomPass.random}"/>
             </s:decorate>
-            
-            <h:panelGroup>
-            	#{messages['login.randomize']}:
-				<h:outputText value="#{randomPass.random}"/>
-            </h:panelGroup>
             
             <s:decorate id="firstnameField" template="layout/edit.xhtml">
                 <ui:define name="label">Firstname</ui:define>

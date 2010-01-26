@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import model.Account;
 import model.Userrole;
 
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.framework.EntityHome;
@@ -42,7 +43,7 @@ public class AccountHome extends EntityHome<Account> {
 		String ret = super.persist();
 
 		// Send the notification email.
-		renderer.render("/view/account/welcome-email.xhtml");
+		renderer.render("/account/welcome-email.xhtml");
 
 		return ret;
 	}

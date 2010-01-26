@@ -71,6 +71,14 @@ public class Account implements java.io.Serializable {
 		return sb.toString();
 	}
 
+	/** Return Firstname Lastname for presentation */
+	@Transient
+	public String getName() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getFirstname()).append(" ").append(getLastname());
+		return sb.toString();
+	}
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false)
@@ -142,6 +150,7 @@ public class Account implements java.io.Serializable {
 	@Column(name = "password", length = 20)
 	@Length(max = 20)
 	@Pattern(regex=PASSWORD_PATT)
+	@NotNull
 	public String getPassword() {
 		return this.password;
 	}

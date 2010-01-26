@@ -56,7 +56,7 @@
       <action execute="#{redirect.returnToCapturedView}"/>
    </event>
 
-   <mail:mail-session host="localhost" port="2525" username="test" password="test" />
+   <mail:mail-session host="localhost" port="25" username="test" password="test" />
 
    <!-- For use with jBPM pageflow or process management -->
    <!--

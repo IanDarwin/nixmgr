@@ -15,21 +15,18 @@
   <m:header name="X-Composed-By" value="JBoss Seam"/>               
   <m:from name="Ernescliff" address="noreply@ernescliff.ca"/>             
   <m:replyTo address="noreply@phenogenomics.ca"/>
-  <m:to name="#{person.name}">#{person.email}</m:to>   
+  <m:to name="#{accountHome.instance.name}">#{accountHome.instance.email}</m:to>   
   <m:subject>Ernescliff - Registration Information</m:subject>         
-  <m:body type="plain">Dear #{person.firstName} #{person.lastName}:
+  <m:body type="plain">Dear #{accountHome.instance.name}:
 You are receiving this email because an account has been created for you
 at the Ernescliff College Residence in Toronto.
-If you did not originate or authorize this request, you can either ignore it or,
-better yet, please contact admin@ernescliff.ca.
-
-Your account can be used for printing (see the local web site for
+This account can be used for printing (see the local web site for
 information on setting up your Windows or Mac printer, if you need help);
 note that you must print via the server ('srv' at 192.168.100.1).
 
 Below is your account information. Please keep it for your records.
-Username: #{person.userName}
-Password: #{person.password}
+Username: #{accountHome.instance.username}
+Password: #{accountHome.instance.password}
 
 You may want to change your password via the "usermgmt" interface,
 at http://192.168.100.1:8080/.
