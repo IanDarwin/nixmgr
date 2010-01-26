@@ -9,6 +9,7 @@ import javax.persistence.Version;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Pattern;
 
 @Entity
 public class RestrictedWorkstation implements Serializable
@@ -41,7 +42,9 @@ public class RestrictedWorkstation implements Serializable
         this.version = version;
     }
 
-    @NotNull @Length(min = 18, max = 18)
+    @NotNull 
+    @Length(min = 17, max = 17)
+    @Pattern(regex="([0-9a-f][0-9a-f]:){5}[0-9a-f][0-9a-f]")
     public String getMacAddress() {
         return macAddress;
     }

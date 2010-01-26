@@ -18,7 +18,7 @@ public class RestrictedWorkstationHome extends EntityHome<RestrictedWorkstation>
 {
 	private static final long serialVersionUID = 1L;
 
-	private static final String PF_COMMAND = "sudo pfctl -Tl -f /etc/pf.conf";
+	private static final String PF_COMMAND = "sudo /usr/local/sbin/syncrestrictedworkstations";
 	
 	public void setRestrictedWorkstationId(Integer id) {
 		setId(id);
