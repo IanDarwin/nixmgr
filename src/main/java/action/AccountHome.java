@@ -13,6 +13,7 @@ import model.Userrole;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.framework.EntityHome;
+import org.jboss.seam.faces.Renderer;
 
 import unix.SystemAccountAccessor;
 
@@ -29,6 +30,8 @@ public class AccountHome extends EntityHome<Account> {
 	private static SystemAccountAccessor osDAO =
 		SystemAccountAccessor.getInstance();
 	
+	@In Renderer renderer;
+
 	@Override
 	// XXX Students can only save their own, by logic elsewhere(?)
 	public String persist() {
@@ -36,7 +39,12 @@ public class AccountHome extends EntityHome<Account> {
 			return null;
 		}
 		getInstance().setSystemAccountCreated(true);
-		return super.persist();
+		String ret = super.persist();
+
+		// Send the notification email.
+		renderer.render("/view/account/welcome-email.xhtml");
+
+		return ret;
 	}
 
 	@Override

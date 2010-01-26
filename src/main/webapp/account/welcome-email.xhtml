@@ -1,0 +1,41 @@
+<!-- 
+  This is the email that is sent to a newly-registered user.
+  
+ An Email is a user-facing view object, so it
+ logically belongs here in the view layer (our older SOFIA code
+ had email text hard-coded in controllers as Java quoted strings -
+ that's so unmaintainable!
+ 
+ See Section 13.4 of Seam In Action for more details on Seam Email.
+ -->
+<m:message xmlns="http://www.w3.org/1999/xhtml"                     
+  xmlns:m="http://jboss.com/products/seam/mail"
+  importance="normal">
+  
+  <m:header name="X-Composed-By" value="JBoss Seam"/>               
+  <m:from name="Ernescliff" address="noreply@ernescliff.ca"/>             
+  <m:replyTo address="noreply@phenogenomics.ca"/>
+  <m:to name="#{person.name}">#{person.email}</m:to>   
+  <m:subject>Ernescliff - Registration Information</m:subject>         
+  <m:body type="plain">Dear #{person.firstName} #{person.lastName}:
+You are receiving this email because an account has been created for you
+at the Ernescliff College Residence in Toronto.
+If you did not originate or authorize this request, you can either ignore it or,
+better yet, please contact admin@ernescliff.ca.
+
+Your account can be used for printing (see the local web site for
+information on setting up your Windows or Mac printer, if you need help);
+note that you must print via the server ('srv' at 192.168.100.1).
+
+Below is your account information. Please keep it for your records.
+Username: #{person.userName}
+Password: #{person.password}
+
+You may want to change your password via the "usermgmt" interface,
+at http://192.168.100.1:8080/.
+
+Welcome to the site!
+
+Administration Services
+  </m:body>
+</m:message>
