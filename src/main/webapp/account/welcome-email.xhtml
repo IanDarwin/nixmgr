@@ -13,8 +13,7 @@
   importance="normal">
   
   <m:header name="X-Composed-By" value="JBoss Seam"/>               
-  <m:from name="Ernescliff" address="noreply@ernescliff.ca"/>             
-  <m:replyTo address="noreply@phenogenomics.ca"/>
+  <m:from name="Ernescliff" address="#{loggedInUser.email}"/>             
   <m:to name="#{accountHome.instance.name}">#{accountHome.instance.email}</m:to>   
   <m:subject>Ernescliff - Computer Account Information</m:subject>         
   <m:body type="plain">Dear #{accountHome.instance.name}:
