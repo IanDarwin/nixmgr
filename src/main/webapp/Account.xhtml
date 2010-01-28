@@ -36,30 +36,15 @@
         </s:decorate>
 
 	<s:decorate id="lastlogin" template="layout/display.xhtml">
-            <ui:define name="label">Lastlogin</ui:define>
+            <ui:define name="label">Last usermgmt login</ui:define>
             <h:outputText value="#{accountHome.instance.lastlogin}">
                 <s:convertDateTime type="date" dateStyle="short"/>
             </h:outputText>
         </s:decorate>
 
-        <s:decorate id="logincredits" template="layout/display.xhtml">
-            <ui:define name="label">Logincredits</ui:define>
-            <h:outputText value="#{accountHome.instance.logincredits}"/>
-        </s:decorate>
-
-        <s:decorate id="loginused" template="layout/display.xhtml">
-            <ui:define name="label">Loginused</ui:define>
-            <h:outputText value="#{accountHome.instance.loginused}"/>
-        </s:decorate>
-
         <s:decorate id="printcredits" template="layout/display.xhtml">
-            <ui:define name="label">Printcredits</ui:define>
+            <ui:define name="label">Print credits (pages)</ui:define>
             <h:outputText value="#{accountHome.instance.printcredits}"/>
-        </s:decorate>
-
-        <s:decorate id="printpagesused" template="layout/display.xhtml">
-            <ui:define name="label">Printpagesused</ui:define>
-            <h:outputText value="#{accountHome.instance.printpagesused}"/>
         </s:decorate>
 
         <div style="clear:both"/>

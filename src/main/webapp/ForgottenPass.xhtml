@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      			xmlns:h="http://java.sun.com/jsf/html"
+      			xmlns:f="http://java.sun.com/jsf/core"
+      			xmlns:ui="http://java.sun.com/jsf/facelets"
+      			xmlns:s="http://jboss.com/products/seam/taglib"
+      			xmlns:a4j="http://richfaces.org/a4j"
+      			xmlns:rich="http://richfaces.org/rich"
+      			template="/layout/templateNoNav.xhtml">
+
+	<ui:param name="pageTitle" value="TCP LIMS Forgotten Password"/>
+
+	<ui:define name="content">
+
+		<link href="/stylesheet/form.css" rel="stylesheet" type="text/css" />
+		<style>
+			/* column widths */
+			.col1 {width:220px}
+		</style>
+		
+		<h:form name="pageForm">
+		
+			<div class="required_info"><h:outputText value="#{messages['general.requiredInfo']}" /> (<span class="asterisk">*</span>)</div>
+			<h:messages styleClass="validation"/>
+		
+			<h:panelGroup>
+			<p>
+			<h:outputText value="#{messages['forgot.phase1.para1']}"/>	
+			</p>
+			<p>
+			<h:outputText value="#{messages['forgot.ipaddress.logged']}"/>
+			</p>
+			</h:panelGroup>
+
+			<h:panelGrid columns="2" styleClass="section" columnClasses="label col1, input"> 
+				
+				<h:outputText>Enter your username OR email: <span class="asterisk">*</span></h:outputText>
+				<h:panelGroup>
+					<h:outputText value="#{messages['login.userName']}"/>
+					<h:inputText value="#{forgetterPojo.userName}"/>
+					<h:outputText value="#{messages['general.addressFieldLabel.email']}"/>
+					<h:inputText value="#{forgetterPojo.email}"/>
+				</h:panelGroup>
+
+				<h:outputText>Security check: <span class="asterisk">*</span></h:outputText>
+				<s:decorate id="verifyCaptchaField" template="/layout/edit.xhtml">
+					<h:graphicImage value="/seam/resource/captcha"/> 
+					<h:inputText value="#{captcha.response}" required="true"/>
+				</s:decorate>
+
+			</h:panelGrid>
+
+			<p>
+			<h:outputText value="#{messages['forgot.iassert.owner']}"/>
+			</p>
+			<div class="buttons">
+				<h:commandButton  name="Submit" action="#{forgetter.requestReset}" value="Reset my password"/>
+				<h:commandButton name="Cancel" immediate="true" action="#{forgetter.cancel}" value="Cancel"/>
+			</div>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

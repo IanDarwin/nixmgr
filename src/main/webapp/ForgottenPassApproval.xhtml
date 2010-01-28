@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      			xmlns:h="http://java.sun.com/jsf/html"
+      			xmlns:f="http://java.sun.com/jsf/core"
+      			xmlns:ui="http://java.sun.com/jsf/facelets"
+      			xmlns:s="http://jboss.com/products/seam/taglib"
+      			xmlns:a4j="http://richfaces.org/a4j"
+      			xmlns:rich="http://richfaces.org/rich"
+      			template="/layout/templateNoNav.xhtml">
+
+	<ui:param name="pageTitle" value="TCP LIMS: Forgotten Password Confirmation"/>
+
+	<ui:define name="content">
+
+		<link href="/stylesheet/form.css" rel="stylesheet" type="text/css" />
+		<style>
+			/* column widths */
+			.col1 {width:180px}
+		</style>
+
+		<h:form name="pageForm">
+
+			<h:messages globalOnly="true" styleClass="validation"/>
+				
+			<h:panelGroup>
+			<p>
+			<h:outputText value="#{messages['forgot.phase2.para1']}"/>	
+			</p>
+			<p>
+			<h:outputText value="#{messages['forgot.phase2.para2']}"/>	
+			</p>
+			<p>
+			<h:outputText value="#{messages['forgot.iassert.owner']}"/>
+			</p>
+			<p>
+			<h:outputText value="#{messages['forgot.ipaddress.logged']}"/>
+			</p>
+			</h:panelGroup>
+
+			<div class="buttons">
+				<h:commandButton  name="Approve" action="#{forgetter.approve}" value="Reset my password"/>
+				<h:commandButton name="Cancel" immediate="true" action="#{forgetter.cancel}" value="Cancel"/>
+			</div>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

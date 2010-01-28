@@ -76,35 +76,11 @@
                 </h:inputText>
             </s:decorate>
 
-            <s:decorate id="logincreditsField" template="layout/edit.xhtml">
-                <ui:define name="label">Logincredits</ui:define>
-                <h:inputText id="logincredits"
-                          value="#{accountHome.instance.logincredits}">
-                    <a:support event="onblur" reRender="logincreditsField" bypassUpdates="true" ajaxSingle="true"/>
-                </h:inputText>
-            </s:decorate>
-
-            <s:decorate id="loginusedField" template="layout/edit.xhtml">
-                <ui:define name="label">Loginused</ui:define>
-                <h:inputText id="loginused"
-                          value="#{accountHome.instance.loginused}">
-                    <a:support event="onblur" reRender="loginusedField" bypassUpdates="true" ajaxSingle="true"/>
-                </h:inputText>
-            </s:decorate>
-
             <s:decorate id="printcreditsField" template="layout/edit.xhtml">
-                <ui:define name="label">Printcredits</ui:define>
+                <ui:define name="label">Print credits (pages)</ui:define>
                 <h:inputText id="printcredits"
                           value="#{accountHome.instance.printcredits}">
                     <a:support event="onblur" reRender="printcreditsField" bypassUpdates="true" ajaxSingle="true"/>
-                </h:inputText>
-            </s:decorate>
-
-            <s:decorate id="printpagesusedField" template="layout/edit.xhtml">
-                <ui:define name="label">Printpagesused</ui:define>
-                <h:inputText id="printpagesused"
-                          value="#{accountHome.instance.printpagesused}">
-                    <a:support event="onblur" reRender="printpagesusedField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
             </s:decorate>
 

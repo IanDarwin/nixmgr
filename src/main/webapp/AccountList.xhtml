@@ -102,29 +102,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{accountList}"/>
-                    <ui:param name="propertyLabel" value="Logincredits"/>
-                    <ui:param name="propertyPath" value="account.logincredits"/>
-                </ui:include>
-            </f:facet>
-            <h:outputText value="#{_account.logincredits}"/>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
-                <ui:include src="layout/sort.xhtml">
-                    <ui:param name="entityList" value="#{accountList}"/>
-                    <ui:param name="propertyLabel" value="Loginused"/>
-                    <ui:param name="propertyPath" value="account.loginused"/>
-                </ui:include>
-            </f:facet>
-            <h:outputText value="#{_account.loginused}"/>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
-                <ui:include src="layout/sort.xhtml">
-                    <ui:param name="entityList" value="#{accountList}"/>
-                    <ui:param name="propertyLabel" value="Printcredits"/>
+                    <ui:param name="propertyLabel" value="Print credits"/>
                     <ui:param name="propertyPath" value="account.printcredits"/>
                 </ui:include>
             </f:facet>

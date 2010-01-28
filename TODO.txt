@@ -3,13 +3,9 @@ TODO for 'usermgmt' accounting system
 
 Run jboss under a more privsep account.
 
-Get on top of insert failures!! (probably hibernate_sequence vs serial!!)
-
-Mail newly-created account their details and password.
+FIX insert failures!! (probably hibernate_sequence vs serial!!)
 
 Button colors vanish @Ernescliff - why?
-
-printcredits COMMENT #pages
 
 Bring in forgotten password logic
 
