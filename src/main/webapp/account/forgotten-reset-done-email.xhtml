@@ -14,29 +14,27 @@
   importance="normal">
   
   <m:header name="X-Composed-By" value="JBoss Seam"/>               
-  <m:from name="TCP Admin" address="tcpadmin@phenogenomics.ca"/>
-  <m:replyTo address="tcpadmin@phenogenomics.ca"/>
-  <m:to name="#{forgetter.userName}">#{forgetter.person.personalAddress.email}</m:to>
-  <m:subject>LIMS - Password Reset Confirmation</m:subject>
+  <m:from name="Ernescliff Admin" address="admin@ernescliff.ca"/>
+  <m:to name="#{forgottenPassAction.name}">#{forgottenPassAction.email}</m:to>
+  <m:subject>Ernescliff - Password Reset Confirmation</m:subject>
   <m:body type="plain">
-Dear #{forgetter.person.firstName} #{forgetter.person.lastName}:
+Dear #{forgottenPassAction.name}:
 
 Now that you have authorized the request to change your password,
 we have changed your password as shown below.
 
 Below is your new account information. Please keep it safe.
-Username: #{forgetter.person.userName}
-Password: #{forgetter.password}
+Username: #{forgottenPassAction.userName}
+Password: #{forgottenPassAction.password}
 
 Please login and change your password to something memorable.  To change
 your password, please visit the preferences page at:
-https://#{tcp.serverbean.serverName}/person/preference.jsp
+https://192.168.100.1/ChPass.seam
 
 If you did not request this change, please accept our apologies,
 and change change your password (in this case please also forward 
-this mail to tcpadmin@phenogenomics.ca).
+this mail to admin@ernescliff.ca).
 
-If you need further assistance, please contact the Toronto
-Centre for Phenogenomics at tcpadmin@phenogenomics.ca.
+Thank you.
   </m:body>
 </m:message>

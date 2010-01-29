@@ -29,9 +29,10 @@ import com.darwinsys.security.PassPhrase;
  * notify the user that it's been changed.
  */
 @Entity
-@Table(name = "forgetterrequest", schema = "DB2INST1")
+@Table(name = "forgetterRequest", schema = "public")
 public class ForgetterRequest implements java.io.Serializable {
 
+	private static final long serialVersionUID = -281819781979721L;
 	private int id;
 	private String requestCode = PassPhrase.getNext(18);
 	private Account person;
@@ -49,7 +50,7 @@ public class ForgetterRequest implements java.io.Serializable {
 	public String toString() {
 		return "ForgetterRequest[" + id + 
 			"," + requestCode + "," + 
-			person == null ? "NO PERSON" : person.getUsername() + "]";
+			(person == null ? "NO PERSON" : person.getUsername()) + "]";
 	}
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)

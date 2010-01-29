@@ -10,8 +10,13 @@
         <s:link view="/home.xhtml" value="#{messages['general.homename']}" propagation="none"/>
 
     <s:link view="/ChPass.xhtml"
-           value="#{messages['login.changepass']}"
-     propagation="none"/>
+	value="#{messages['login.changepass']}"
+	propagation="none"/>
+
+    <s:link view="/ForgottenPass.xhtml"
+	value="#{messages['login.forgotpass']}"
+	propagation="none"
+	rendered="#{!identity.loggedIn}"/>
 
     </rich:toolBarGroup>
 

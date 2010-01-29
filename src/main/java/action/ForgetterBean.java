@@ -1,11 +1,13 @@
 package action;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 
 /** 
  * Trivial JavaBean to hold fields for both steps of ForgettenPassAction.
  */
-@Name("forgetterBean")
+@Name("forgetterBean") @Scope(ScopeType.EVENT)
 public class ForgetterBean {
 	
 	private String userName;
@@ -30,5 +32,11 @@ public class ForgetterBean {
 	public void setRequestCode(String requestCode) {
 		this.requestCode = requestCode;
 	}
-	
+	@Override
+	public String toString() {
+		return "ForgetterBean[" +
+			getUserName() + ',' +
+			getEmail() + ',' +
+			getRequestCode() + ']';				
+	}
 }

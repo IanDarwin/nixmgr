@@ -21,14 +21,14 @@ import org.jboss.seam.faces.Renderer;
 import com.darwinsys.security.PassPhrase;
 
 /**
- * ForgetterAction: allows existing users to recover their account password.
+ * ForgottenPassAction: allows existing users to recover their account password.
  * The password reset is noted in a ForgetterRequest,
  * and the user is sent an  email with a link to create a new password.  
  * <p>Has two related actions, requestReset() and approve().
  * <p>Do NOT annotate with Restrict("#{identity.loggedIn}")!
  */
-@Scope(ScopeType.PAGE) // MUST NOT STICK AROUND!! -- Ian
-@Name("forgetter")
+@Scope(ScopeType.EVENT)
+@Name("forgottenPassAction")
 public class ForgottenPassAction implements Serializable {
 
 	private static final long serialVersionUID = -7327405743544720117L;
@@ -39,31 +39,24 @@ public class ForgottenPassAction implements Serializable {
 
 	@In private FacesMessages facesMessages;
 
-	@Out (required = false) private ForgetterRequest forgetterRequest;
-
-	@In (required = false) private ForgetterBean forgetterBean;
+	@In(required = false) private ForgetterBean forgetterBean;
+	
+	@Out(required = false) 
+	private Account person = null;
 
 	/** Used by the "password changed OK" email */
-	private String userName = "";
+	private String userName;
 	private String password;
-	private String email = "";
-
-	@Out (required = false) private Account person = null;
+	private String email;
+	private String name;
+	private String requestCode;
 
 	/**
 	 * Request code parameter passed in during phase 2.
 	 */
 	private String approval;
 
-	/** Somebody (who may or may not be the authorized
-	 * user) has requested a Password Reset for the given
-	 * account (by userName or by email). Rather than just
-	 * resetting it (which could be used for a Denial of
-	 * Service), make a note of it and send the user an
-	 * email; if the owner of the user account's associated
-	 * email address clicks on the link, consider that
-	 * authentication, change the password, and
-	 * send it by email to the registered user's email.
+	/** Phase One of the forgotten password recovery.
 	 */
 	@Transactional
 	public String requestReset() {
@@ -71,9 +64,10 @@ public class ForgottenPassAction implements Serializable {
 		if (forgetterBean == null) {
 			throw new IllegalStateException("no forgetterBean!");
 		}
-		userName = forgetterBean.getUserName();
+		
+		userName = forgetterBean.getUserName(); // One of these two may be null here
 		email    = forgetterBean.getEmail();
-
+		
 		if ((userName == null || userName.length() == 0) && (email == null || email.length() == 0)) {
 			facesMessages.add("Please specify a user name or email address.");
 			return null;
@@ -82,18 +76,18 @@ public class ForgottenPassAction implements Serializable {
 		if (userName != null && userName.length() > 0) {			
 			// Make sure username is in use
 			try {
-				person = (Account) entityManager.createQuery("from Account p where p.userName=#{forgetter.userName}").getSingleResult();
+				person = (Account) entityManager.createQuery("from Account p where p.username=#{forgetterBean.userName}").getSingleResult();
 			} catch (NoResultException e) {
-				facesMessages.add("User #{forgetter.userName} was not found in our database.");
+				facesMessages.add("User named #{forgetterBean.userName} was not found in our database.");
 				return null;
 			}
 		}
 
 		if (email != null && email.length() > 0) {
 			try {
-				person = (Account) entityManager.createQuery("from Account p where p.email=#{forgetter.email}").getSingleResult();
+				person = (Account) entityManager.createQuery("from Account p where p.email=#{forgetterBean.email}").getSingleResult();
 			} catch (NoResultException e) {
-				this.facesMessages.add("Could not find an account with #{forgetter.email} as its email address.");
+				this.facesMessages.add("Could not find an account with #{forgetterBean.email} as its email address.");
 				return null;
 			}
 		}
@@ -104,6 +98,21 @@ public class ForgottenPassAction implements Serializable {
 			return null;
 		}
 		
+		// User normally sets only one of these two, so update the other.
+		// At this point, neither of these may be null.
+		if (userName == null || userName.length() == 0)
+			userName = person.getUsername();
+		if (userName == null) {
+			throw new NullPointerException("userName");
+		}
+		if (email == null || email.length() == 0)
+			email = person.getEmail();
+		if (email == null) {
+			throw new NullPointerException("email");
+		}
+		
+		name = person.getName();
+		
 		// Make sure the account is enabled (XXX when you implement this,
 		// use Enums instead of STRINGS in the database).
 		//if (!AccountStatus.Enabled.toString().equals(person.getAccountStatus())) {
@@ -111,12 +120,12 @@ public class ForgottenPassAction implements Serializable {
 		//	return null;
 		//}
 
-		forgetterRequest = new ForgetterRequest(person);
-
+		ForgetterRequest forgetterRequest = new ForgetterRequest(person);
+		requestCode = forgetterRequest.getRequestCode();
 		entityManager.persist(forgetterRequest);
 
 		// Send the notify email
-		renderer.render("/registration/forgetPassword/forgotten-email.xhtml");
+		renderer.render("/account/forgotten-request-email.xhtml");
 
 		// Tell user on-screen
 		facesMessages.add(
@@ -131,34 +140,41 @@ public class ForgottenPassAction implements Serializable {
 	/** Called when the user clicks on the "approve"
 	 * link in the email we sent them in "remember()"
 	 */
-	@Transactional @End
+	@End
+	@Transactional
 	public String approve() {
 
+		// 1A Look up the Forgetter Request in the database by its string name
 		ForgetterRequest verifyRequest = null;
 		try {
 			verifyRequest =  findForgetterRequest(approval);
 		} catch (NoResultException e) {
 			facesMessages.addFromResourceBundle("forget.approve.requestNotFound");
-			return null; // XXX ok??
+			return null;
 		}
 
-		// Retrieve the person related to this forgetter_request
+		// 1B Retrieve the Person named in the person field this forgetter_request
 		try {
 			person = 
 				(Account) entityManager.createQuery(
-						"from Person p where p.id = " + verifyRequest.getPerson().getId()).getSingleResult();
+					"from Account p where p.id = ?1").
+					setParameter(1, verifyRequest.getPerson().getId()).
+						getSingleResult();
 		} catch (NoResultException e) {
 			this.facesMessages.add(
 				"There was an error in your password change request; please start over");
 			return null;
 		}
 		
+		name = person.getName();
+		email = person.getEmail();
+		userName = person.getUsername();
 		password = PassPhrase.getNext(8);
 		person.setPassword(password);
 		entityManager.merge(person);	// write new password back
 		
 		// Send the notify email
-		renderer.render("/registration/forgetPassword/forgotten-reset-done-email.xhtml");
+		renderer.render("/account/forgotten-reset-done-email.xhtml");
 		
 		// Remove our in-memory reference to password
 		password = null;
@@ -195,7 +211,7 @@ public class ForgottenPassAction implements Serializable {
 	 * @param verifyRequest
 	 */
 	private void removeRequest(String verifyRequest) {
-		System.out.print("Forgetter.removeRequest()");
+		System.out.print("ForgottenPassAction.removeRequest()");
 		ForgetterRequest v = findForgetterRequest(verifyRequest);
 		entityManager.remove(v);	// cannot be re-used.
 		System.out.println(" DONE");
@@ -203,6 +219,10 @@ public class ForgottenPassAction implements Serializable {
 
 	public Account getPerson() {
 		return person;
+	}
+	
+	public void setPerson(Account person) {
+		this.person = person;
 	}
 
 	public String getPassword() {
@@ -218,7 +238,6 @@ public class ForgottenPassAction implements Serializable {
 	}
 
 	public void setUserName(String userName) {
-		System.out.printf("ForgetterAction.setUserName(%s)%n", userName);
 		this.userName = userName;
 	}
 
@@ -227,27 +246,17 @@ public class ForgottenPassAction implements Serializable {
 	}
 
 	public void setEmail(String email) {
-		System.out.printf("ForgetterAction.setEmail(%s)%n", email);
 		this.email = email;
 	}
 
-	/**
-	 * @return the forgetterRequest
-	 */
-	public ForgetterRequest getForgetterRequest() {
-		return forgetterRequest;
+	public String getName() {
+		return name;
 	}
 
-	/**
-	 * @param forgetterRequest the forgetterRequest to set
-	 */
-	public void setForgetterRequest(ForgetterRequest forgetterRequest) {
-		this.forgetterRequest = forgetterRequest;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	/**
-	 * @return the forgetterBean
-	 */
 	public ForgetterBean getForgetterBean() {
 		return forgetterBean;
 	}
@@ -260,16 +269,24 @@ public class ForgottenPassAction implements Serializable {
 	}
 
 	/**
-	 * @return the approval
+	 * @return the approval string used in Phase 2
 	 */
 	public String getApproval() {
 		return approval;
 	}
 
 	/**
-	 * @param approval the approval to set
+	 * @param approval The string set and used in Phase 2
 	 */
 	public void setApproval(String approval) {
 		this.approval = approval;
+	}
+
+	public String getRequestCode() {
+		return requestCode;
+	}
+
+	public void setRequestCode(String requestCode) {
+		this.requestCode = requestCode;
 	}
 }

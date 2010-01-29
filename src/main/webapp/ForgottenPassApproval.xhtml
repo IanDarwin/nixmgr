@@ -5,19 +5,14 @@
       			xmlns:s="http://jboss.com/products/seam/taglib"
       			xmlns:a4j="http://richfaces.org/a4j"
       			xmlns:rich="http://richfaces.org/rich"
-      			template="/layout/templateNoNav.xhtml">
+      			template="/layout/template.xhtml">
 
-	<ui:param name="pageTitle" value="TCP LIMS: Forgotten Password Confirmation"/>
+	<ui:define name="title">#{messages['login.changepass']}</ui:define>
 
-	<ui:define name="content">
-
-		<link href="/stylesheet/form.css" rel="stylesheet" type="text/css" />
-		<style>
-			/* column widths */
-			.col1 {width:180px}
-		</style>
-
-		<h:form name="pageForm">
+	<ui:define name="body">
+	<rich:panel>
+		<f:facet name="header">#{messages['login.changepass']}</f:facet>
+		<h:form name="pageForm"  styleClass="edit">
 
 			<h:messages globalOnly="true" styleClass="validation"/>
 				
@@ -37,12 +32,12 @@
 			</h:panelGroup>
 
 			<div class="buttons">
-				<h:commandButton  name="Approve" action="#{forgetter.approve}" value="Reset my password"/>
-				<h:commandButton name="Cancel" immediate="true" action="#{forgetter.cancel}" value="Cancel"/>
+				<h:commandButton  name="Approve" action="#{forgottenPassAction.approve}" value="Reset my password"/>
+				<h:commandButton name="Cancel" immediate="true" action="#{forgottenPassAction.cancel}" value="Cancel"/>
 			</div>
 
 		</h:form>
-
+	</rich:panel>
 	</ui:define>
 
 </ui:composition>
