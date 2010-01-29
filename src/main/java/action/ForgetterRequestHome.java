@@ -1,6 +1,7 @@
 package action;
 
-import model.*;
+import model.Account;
+import model.ForgetterRequest;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
