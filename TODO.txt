@@ -7,8 +7,6 @@ FIX insert failures!! (probably hibernate_sequence vs serial!!)
 
 Button colors vanish @Ernescliff - why?
 
-Bring in forgotten password logic
-
 Write external code to merge from passwd file to db
 
 Write re-create logic: if not accountCreated then add, else update.
