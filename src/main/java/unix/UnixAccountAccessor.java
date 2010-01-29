@@ -25,7 +25,7 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 	 * XXX The BSD "login class" 'student' is hard-coded here for now.
 	 */
 	private final static String ADD_STRING =
-	"sudo useradd -m -g =uid -L student -p \"$(encrypt -m %2$s)\" -s /bin/ksh -c \'%3$s\' \'%1$s\'";
+	"sudo useradd -m -g =uid -b /home/student -L student -p \"$(encrypt -m %2$s)\" -s /bin/ksh -c \'%3$s\' \'%1$s\'";
 
 	private final static String MOD_STRING =
 	"sudo usermod -p \"$(encrypt -m %2$s)\" -s /bin/ksh -c \'%3$s\' \'%1$s\'";
