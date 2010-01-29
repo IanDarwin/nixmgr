@@ -1,9 +1,9 @@
 TODO for 'usermgmt' accounting system
 -------------------------------------
 
-Run jboss under a more privsep account.
-
 FIX insert failures!! (probably hibernate_sequence vs serial!!)
+
+Audit logging.
 
 Button colors vanish @Ernescliff - why?
 
