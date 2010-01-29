@@ -128,7 +128,7 @@ public class ForgottenPassAction implements Serializable {
 					"will not be changed until you complete this process.");
 
 		// Send them back to the login page.
-		return "login";
+		return "/home.xhtml";
 	}
 
 	/** Called when the user clicks on the "approve"
@@ -182,7 +182,7 @@ public class ForgottenPassAction implements Serializable {
 				"We have sent an email to your registered email address " + 
 				"indicating your new password.");		
 
-		return "login";
+		return "/home.xhtml";
 	}
 	
 	/** Called if the user presses the Cancel button */
