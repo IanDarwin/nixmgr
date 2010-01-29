@@ -39,8 +39,6 @@ public class ForgottenPassAction implements Serializable {
 
 	@In private FacesMessages facesMessages;
 
-	@In(required = false) private ForgetterBean forgetterBean;
-	
 	@Out(required = false) 
 	private Account person = null;
 
@@ -61,13 +59,7 @@ public class ForgottenPassAction implements Serializable {
 	@Transactional
 	public String requestReset() {
 
-		if (forgetterBean == null) {
-			throw new IllegalStateException("no forgetterBean!");
-		}
-		
-		userName = forgetterBean.getUserName(); // One of these two may be null here
-		email    = forgetterBean.getEmail();
-		
+		// One of these two may be null here
 		if ((userName == null || userName.length() == 0) && (email == null || email.length() == 0)) {
 			facesMessages.add("Please specify a user name or email address.");
 			return null;
@@ -76,18 +68,18 @@ public class ForgottenPassAction implements Serializable {
 		if (userName != null && userName.length() > 0) {			
 			// Make sure username is in use
 			try {
-				person = (Account) entityManager.createQuery("from Account p where p.username=#{forgetterBean.userName}").getSingleResult();
+				person = (Account) entityManager.createQuery("from Account p where p.username=#{forgottenPassAction.userName}").getSingleResult();
 			} catch (NoResultException e) {
-				facesMessages.add("User named #{forgetterBean.userName} was not found in our database.");
+				facesMessages.add("User named #{forgottenPassAction.userName} was not found in our database.");
 				return null;
 			}
 		}
 
 		if (email != null && email.length() > 0) {
 			try {
-				person = (Account) entityManager.createQuery("from Account p where p.email=#{forgetterBean.email}").getSingleResult();
+				person = (Account) entityManager.createQuery("from Account p where p.email=#{forgottenPassAction.email}").getSingleResult();
 			} catch (NoResultException e) {
-				this.facesMessages.add("Could not find an account with #{forgetterBean.email} as its email address.");
+				this.facesMessages.add("Could not find an account with #{forgottenPassAction.email} as its email address.");
 				return null;
 			}
 		}
@@ -255,17 +247,6 @@ public class ForgottenPassAction implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public ForgetterBean getForgetterBean() {
-		return forgetterBean;
-	}
-
-	/**
-	 * @param forgetterBean the forgetterBean to set
-	 */
-	public void setForgetterBean(ForgetterBean forgetterBean) {
-		this.forgetterBean = forgetterBean;
 	}
 
 	/**
