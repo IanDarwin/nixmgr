@@ -18,6 +18,8 @@ import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Renderer;
 
+import unix.UnixAccountAccessor;
+
 import com.darwinsys.security.PassPhrase;
 
 /**
@@ -164,6 +166,8 @@ public class ForgottenPassAction implements Serializable {
 		password = PassPhrase.getNext(8);
 		person.setPassword(password);
 		entityManager.merge(person);	// write new password back
+		// Now change the Unix password.
+		UnixAccountAccessor.getInstance().updateAccount(person);
 		
 		// Send the notify email
 		renderer.render("/account/forgotten-reset-done-email.xhtml");
