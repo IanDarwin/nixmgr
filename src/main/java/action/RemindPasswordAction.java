@@ -1,6 +1,7 @@
 package action;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import model.Account;
 
@@ -22,6 +23,7 @@ public class RemindPasswordAction {
 
 	private String userName;
 	@In private EntityManager entityManager;
+	@In private FacesMessages facesMessages;
 	@In Renderer renderer;
 	private Account forgetful;
 
@@ -36,19 +38,20 @@ public class RemindPasswordAction {
 			return fail("Username is required");
 		}
 
-		forgetful = (Account) entityManager.createQuery(
+		try {
+		    forgetful = (Account) entityManager.createQuery(
 			"from Account a where a.username = ?1").setParameter(1,userName).
 			getSingleResult();
-
-		System.out.println("BEFORE: Forgetful = " + forgetful);
+		} catch (NoResultException ex) {
+			facesMessages.add("User name not found.");
+			return null;
+		}
 
 		// Need this in scope BEFORE the method ends (e.g., when 
 		// 99.44% of all outjections happen), so Do It Now.
 		Contexts.getConversationContext().set("forgetful", forgetful);
 
 		renderer.render("/account/remind-password-email.xhtml");
-
-		System.out.println("AFTER: Forgetful = " + forgetful);
 
 		return "reminded";
 	}
