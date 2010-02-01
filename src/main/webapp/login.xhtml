@@ -22,10 +22,13 @@
                     <h:outputLabel for="username">#{messages['login.userName']}
 			</h:outputLabel>
                     <h:inputText id="username"
+			   required="true"
                               value="#{credentials.username}"/>
 
-                    <h:outputLabel for="password">#{messages['login.password']}</h:outputLabel>
+                    <h:outputLabel for="password">#{messages['login.password']}
+			</h:outputLabel>
                     <h:inputSecret id="password"
+			     required="true"
                                 value="#{credentials.password}"/>
                 </h:panelGrid>
             </div>

@@ -4,6 +4,8 @@
       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
 	login-required='true'>
 
+	<begin-conversation join="true"/>
+
 	<navigation from-action="#{chPassAction.change}">
 		<rule>	<!-- "match any non-null outcome": SIA 3.3.2 -->
 			<redirect view-id="/home.xhtml">

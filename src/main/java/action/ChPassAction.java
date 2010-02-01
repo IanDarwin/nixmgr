@@ -1,7 +1,10 @@
 package action;
 
+import javax.persistence.EntityManager;
+
 import model.Account;
 
+import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.security.Restrict;
@@ -18,12 +21,15 @@ public class ChPassAction {
 	private String newPassword2;
 	@In
 	private Account loggedInUser;
+	@In
+	private EntityManager entityManager;
 
 	private String fail(String mesg) {
 		FacesMessages.instance().add(mesg);
 		return "failure";
 	}
 
+	@End
 	public String change() {
 		if (loggedInUser == null) {
 			fail("Interal error: loggedInUser is null");
@@ -44,16 +50,13 @@ public class ChPassAction {
 		}
 
 		loggedInUser.setPassword(newPassword1);
+		entityManager.flush();
 
 		// Now update the system account
 		if (!SystemAccountAccessor.getInstance().updateAccount(loggedInUser)) {
 			fail("System error: Could not update password");
 			return null;
 		}
-		// No need to explicitly update the database.
-		// since loggedInUser is known to JPA and all
-		// Seam methods are Transactional, the above
-		// setPassword() call is all that's needed.
 		
 		return "updated";
 	}
