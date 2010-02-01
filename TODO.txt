@@ -5,10 +5,7 @@ FIX insert failures!! (probably hibernate_sequence vs serial!!)
 
 Audit logging.
 
-Button colors vanish @Ernescliff - why?
-
 Write external code to merge from passwd file to db
-
 Write re-create logic: if not accountCreated then add, else update.
 
 LONG-RANGE
