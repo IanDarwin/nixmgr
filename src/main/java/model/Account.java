@@ -23,6 +23,7 @@ import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Pattern;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Role;
 import org.jboss.seam.annotations.Scope;
 
 /**
@@ -30,6 +31,7 @@ import org.jboss.seam.annotations.Scope;
  */
 @Entity
 @Name("loggedInUser")@Scope(ScopeType.SESSION)
+@Role(name="forgetful")
 @Table(name = "account", schema = "public",
     uniqueConstraints = @UniqueConstraint(columnNames="username"))
 public class Account implements java.io.Serializable {

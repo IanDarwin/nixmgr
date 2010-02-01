@@ -13,6 +13,11 @@
 	value="#{messages['login.changepass']}"
 	propagation="none"/>
 
+    <s:link view="/RemindPassword.xhtml"
+	value="Password Reminder"
+	propagation="none"
+	rendered="#{!identity.loggedIn}"/>
+
     <s:link view="/ForgottenPass.xhtml"
 	value="#{messages['login.forgotpass']}"
 	propagation="none"
