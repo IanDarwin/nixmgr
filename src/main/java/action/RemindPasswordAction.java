@@ -18,7 +18,6 @@ import org.jboss.seam.faces.Renderer;
 import unix.SystemAccountAccessor;
 
 @Name("remindPasswordAction")
-@Restrict("#{!identity.loggedIn}")
 public class RemindPasswordAction {
 
 	private String userName;
