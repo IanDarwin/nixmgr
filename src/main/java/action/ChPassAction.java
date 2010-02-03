@@ -13,6 +13,7 @@ import org.jboss.seam.faces.FacesMessages;
 import unix.SystemAccountAccessor;
 
 @Name("chPassAction")
+@Restrict("#{identity.loggedIn}")
 public class ChPassAction {
 	
 	private String oldPassword;
