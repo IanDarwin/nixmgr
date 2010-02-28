@@ -123,8 +123,8 @@ public class RestrictedWorkstationHome extends EntityHome<RestrictedWorkstation>
 			for (RestrictedWorkstation row : rows) {
 				out.printf("host H%s {%n", 
 					row.getLocation().trim().replaceAll("\\W+", "_"));
-				out.printf("hardware ethernet %s;%n", row.getMacAddress());
-				out.printf("fixed-address 192.168.3.%d;%n", i++);
+				out.printf("\thardware ethernet %s;%n", row.getMacAddress());
+				out.printf("\tfixed-address 192.168.3.%d;%n", i++);
 				out.println("}");
 			}
 			out.println("}");
