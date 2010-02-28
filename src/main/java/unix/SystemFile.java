@@ -5,7 +5,8 @@ package unix;
 public enum SystemFile {
 	
 	WHITELIST("/etc/whitelist"),
-	RESTRICTEDWORKSATATIONLIST("/etc/restrictedworkstations");
+	RESTRICTEDWORKSATATIONLIST("/etc/restrictedworkstations"), 
+	DHCPDCONFIG("/etc/dhcpd.conf");
 
 	private final String unixName;
 
