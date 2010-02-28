@@ -5,17 +5,12 @@ import javax.persistence.NoResultException;
 
 import model.Account;
 
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Renderer;
-
-import unix.SystemAccountAccessor;
 
 @Name("remindPasswordAction")
 public class RemindPasswordAction {
