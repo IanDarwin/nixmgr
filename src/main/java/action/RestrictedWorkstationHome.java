@@ -107,7 +107,6 @@ public class RestrictedWorkstationHome extends EntityHome<RestrictedWorkstation>
 			BufferedReader is = new BufferedReader(new FileReader(
 				SystemFile.DHCPDCONFIG.getName()));
 			fTemp = File.createTempFile("dhcp", "tmp");
-			System.out.println("RestrictedWorkstationHome: filename=" + fTemp);
 			PrintWriter out = new PrintWriter(fTemp);
 			String line = null;
 			while ((line = is.readLine()) != null) {
