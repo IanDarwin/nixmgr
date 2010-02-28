@@ -1,7 +1,7 @@
 TODO for 'usermgmt' accounting system
 -------------------------------------
 
-FIX insert failures!! (probably hibernate_sequence vs serial!!)
+Bug: admin cannot change own password in AccountEdit screen.
 
 Audit logging.
 
