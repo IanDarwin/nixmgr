@@ -20,7 +20,7 @@ public class RestrictedWorkstationHome extends EntityHome<RestrictedWorkstation>
 	private static final long serialVersionUID = 92080918018L;
 	
 	// TUNE THIS
-	private static final String NETWORK = "192.168.103";
+	private static final String NETWORK = "192.168.102";
 	// TUNE THIS
 	private static final int STARTING_HOST = 10;
 
@@ -118,6 +118,8 @@ public class RestrictedWorkstationHome extends EntityHome<RestrictedWorkstation>
 			// Now write our part
 			out.println(SPLITTER_COMMENT);
 			out.printf("subnet %s.0 netmask 255.255.255.0 {%n", NETWORK);
+			// Convention: we always use the .1 for the default router
+			out.printf("option routers %s.1;%n", NETWORK);
 			int i = STARTING_HOST;
 			for (RestrictedWorkstation row : rows) {
 				out.printf("host H%s {%n", 
