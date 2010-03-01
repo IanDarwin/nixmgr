@@ -9,9 +9,21 @@ import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.framework.EntityHome;
+import javax.faces.application.FacesMessage;
+import org.jboss.seam.faces.FacesMessages;
 
 import unix.SystemFile;
 
+/**
+ * Manages the "restricted workstation" list via DHCP and PF entries.
+ * This version puts the restricted workstations in an upper range of the
+ * subnet NETWORK, from STARTING_HOST *down* to but not including END_OF_DYNAMIC_RANGE.
+ * NOTE: 1) first time  you run this, you *must* remove one "}" before the stuff we add;
+ * 2) Must also have a rule in pf.conf to restrict workstations above 
+ * END_OF_DYNAMIC_RANGE; 3) THis would be MUCH easier if dhcpd had an include file
+ * mechanism (but that would require a rewrite of the parser, probably requiring
+ * use of yacc or other parser generator - maybe not a bad thing in its own right).
+ */
 @Name("restrictedWorkstationHome")
 @Restrict("#{identity.hasRole('admin')}")
 public class RestrictedWorkstationHome extends EntityHome<RestrictedWorkstation>
@@ -20,9 +32,11 @@ public class RestrictedWorkstationHome extends EntityHome<RestrictedWorkstation>
 	private static final long serialVersionUID = 92080918018L;
 	
 	// TUNE THIS
-	private static final String NETWORK = "192.168.102";
+	private static final String NETWORK = "192.168.100";
 	// TUNE THIS
-	private static final int STARTING_HOST = 10;
+	private static final int STARTING_HOST = 250;	// COUNTS DOWN FROM THIS
+	// TUNE THIS
+	private static final int END_OF_DYNAMIC_RANGE = 127; // end of dynamic range
 
 	private static final String DHCPD_COMMAND = 
 		"sudo pkill dhcpd; sudo /usr/sbin/dhcpd";
@@ -117,19 +131,21 @@ public class RestrictedWorkstationHome extends EntityHome<RestrictedWorkstation>
 
 			// Now write our part
 			out.println(SPLITTER_COMMENT);
-			out.printf("subnet %s.0 netmask 255.255.255.0 {%n", NETWORK);
-			// Convention: we always use the .1 for the default router
-			out.printf("option routers %s.1;%n", NETWORK);
 			int i = STARTING_HOST;
 			for (RestrictedWorkstation row : rows) {
 				out.printf("host H%s {%n", 
 					row.getLocation().trim().replaceAll("\\W+", "_"));
 				out.printf("\thardware ethernet %s;%n", row.getMacAddress());
-				out.printf("\tfixed-address 192.168.3.%d;%n", i++);
+				out.printf("\tfixed-address %s.%d;%n", NETWORK, i--);
 				out.println("}");
 			}
-			out.println("}");
+			out.println("}");	// end of file
 			out.close();
+			if (i < END_OF_DYNAMIC_RANGE) {
+				FacesMessages.createFacesMessage(
+					FacesMessage.SEVERITY_WARN,
+						"RESTRICTED AND DYNAMIC RANGES COLLIDE");
+			}
 			String copyCommand = String.format("sudo cp %s %s", 
 					fTemp.getAbsolutePath(),
 					SystemFile.DHCPDCONFIG.getName());
