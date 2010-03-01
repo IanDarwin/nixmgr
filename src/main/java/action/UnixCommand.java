@@ -28,7 +28,7 @@ public class UnixCommand {
 			// Any line it prints on {stdout,stderr} becomes a FacesMessage
 			while ((line = is.readLine()) != null) {
 				System.out.println("-->" + line);
-				FacesMessages.instance().add(FacesMessage.SEVERITY_ERROR,
+				FacesMessages.createFacesMessage(FacesMessage.SEVERITY_ERROR,
 				"System command for " + runType + " failed: " + line);
 			}
 			int ret = proc.waitFor();

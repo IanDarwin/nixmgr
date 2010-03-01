@@ -63,7 +63,8 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 	}
 
 	/** Obvious common code for account work */
-	private boolean runCommand(String runType, Account acct, String osCommand) {
+	private boolean runCommand(String runType, @SuppressWarnings("unused")
+	Account acct, String osCommand) {
 		// System.out.println("Running " + osCommand);
 		try {
 			String args[] = { "sh", "-c", osCommand };
@@ -76,7 +77,7 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 			// Any line it prints on {stdout,stderr} becomes a FacesMessage
 			while ((line = is.readLine()) != null) {
 				System.out.println("-->" + line);
-				FacesMessages.instance().add(FacesMessage.SEVERITY_ERROR,
+				FacesMessages.createFacesMessage(FacesMessage.SEVERITY_ERROR,
 				"System command for " + runType + " failed: " + line);
 			}
 			int ret = proc.waitFor();
@@ -90,7 +91,7 @@ public class UnixAccountAccessor extends SystemAccountAccessor {
 					System.out.println("Running " + SYNCH_STRING);
 					new ProcessBuilder(args).start().waitFor();
 				} catch (Throwable t) {
-					FacesMessages.instance().add(FacesMessage.SEVERITY_ERROR,
+					FacesMessages.createFacesMessage(FacesMessage.SEVERITY_ERROR,
 					"System command to update NIS data failed: " + t);
 				}
 			}

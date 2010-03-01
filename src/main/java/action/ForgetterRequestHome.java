@@ -10,6 +10,7 @@ import org.jboss.seam.framework.EntityHome;
 @Name("forgetterRequestHome")
 public class ForgetterRequestHome extends EntityHome<ForgetterRequest> {
 
+	private static final long serialVersionUID = 1L;
 	@In(create = true)
 	AccountHome personHome;
 
