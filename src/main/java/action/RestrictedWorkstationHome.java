@@ -37,8 +37,10 @@ public class RestrictedWorkstationHome extends EntityHome<RestrictedWorkstation>
 	private static final String NETWORK = "192.168.100";
 	// TUNE THIS
 	private static final int STARTING_HOST = 250;	// COUNTS DOWN FROM THIS
+	// Note: printers are 251, 252 etc but they don't open www to outside
+	
 	// TUNE THIS
-	private static final int END_OF_DYNAMIC_RANGE = 127; // end of dynamic range
+	private static final int END_OF_DYNAMIC_RANGE = 150; // end of dynamic range
 
 	private static final String DHCPD_COMMAND = 
 		"sudo pkill dhcpd; sudo /usr/sbin/dhcpd";
