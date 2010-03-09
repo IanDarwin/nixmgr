@@ -2,6 +2,9 @@
 
 set -x
 
+# This will actually print a page, at least at Ernescliff
+env DEVICE_URI=usermgmt://socket://192.168.100.251:9100 cupsaccountfilter.py 123 ian test.ps 1 - testdata && exit
+
 # test for no arguments
 cupsaccountfilter.py
 
