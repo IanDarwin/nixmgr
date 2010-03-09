@@ -9,8 +9,6 @@
 # TODO
 # retry loop?
 
-# later: get SNMP actually working XXX for now daily*.py does the actual billing!
-
 import sys
 import os
 import re
