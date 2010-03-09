@@ -38,10 +38,10 @@ def validateUser(userName):
 
 def snmpGet(ip, oid):
 	''' send SNMP oid to printer in 'ip', return int result '''
-	args = [ 'snmpget', '-v', '2c', '-c', 'public', ip, oid ]
+	args = [ 'snmpget', '-O', 'v', '-v', '2c', '-c', 'public', ip, oid ]
 	proc = Popen(args, stdout=PIPE)
 	printout = proc.stdout.read()
-	m=re.search(r'.*(\d+)', printout) # get last # on line
+	m=re.search(r'.*\D(\d+)', printout) # get last # on line
 	if m == None:
 		sys.stderr.write("ERROR: Could not parse SNMP output %s\n" % printout)
 		sys.exit(1)
@@ -91,10 +91,6 @@ def copyFile(inFile):
 	if ret != 0:
 		sys.stderr.write("ERROR: Failure in %s backend, ret %d\n" % (realBackEnd,ret))
 		sys.exit(1)
-
-def	billUser(userName, pages):
-	print "Billing user %s for %d pages" % (userName, pages)
-	accountant.billUserForPages(userName, pages)
 
 def	main():
 	args = sys.argv[1:] # minus progname
@@ -150,7 +146,8 @@ def	main():
 
 	n2 = printerJobPages()
 
-	billUser(userName, n2 - n1)
+	sys.stderr.write("INFO: Billing %s for %d - %d pages\n"%(userName,n2,n1))
+	accountant.billUserForPages(userName, n2 - n1)
 
 	sys.exit(0)
 
