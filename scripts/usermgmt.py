@@ -40,7 +40,7 @@ def snmpGet(ip, oid):
 	''' send SNMP oid to printer in 'ip', return int result '''
 	args = [ 'snmpget', '-v', '2c', '-c', 'public', ip, oid ]
 	proc = Popen(args, stdout=PIPE)
-	# printout = proc.stdout.read()
+	printout = proc.stdout.read()
 	m=re.search(r'.*(\d+)', printout) # get last # on line
 	if m == None:
 		sys.stderr.write("ERROR: Could not parse SNMP output %s\n" % printout)
