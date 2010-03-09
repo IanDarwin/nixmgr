@@ -4,5 +4,5 @@ NN=${1-100}
 
 psql -d usermgmt <<!
 update account set printcredits=$NN where username='ian';
-select username,printcredits from account;
+select username,printcredits from account where username = 'ian';
 !
