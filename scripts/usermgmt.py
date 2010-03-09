@@ -9,9 +9,7 @@
 # TODO
 # retry loop?
 
-import sys
-import os
-import re
+import os,re,sys,time
 from subprocess import Popen,PIPE
 
 from ChargeForPages import ChargeForPages
@@ -33,17 +31,20 @@ def validateUser(userName):
 	except KeyError:
 		sys.stderr.write("ERROR: could not get balance for %s\n" % userName)
 		sys.exit(1)
-	print "Current credit for %s is %d" % (userName, creditBal)
+	# print "Current credit for %s is %d" % (userName, creditBal)
 	if creditBal < 1:
 		sys.stderr.write("ERROR: User %s has page credit of %d\n" % (userName, creditBal))
 		sys.exit(1)
 
 def snmpGet(ip, oid):
 	''' send SNMP oid to printer in 'ip', return int result '''
-	args = [ 'snmpget', '-O', 'v', '-v', '2c', '-c', 'public', oid ]
+	args = [ 'snmpget', '-v', '2c', '-c', 'public', ip, oid ]
 	proc = Popen(args, stdout=PIPE)
-	printout = proc.stdout.read()
-	m=re.search(r'(\d+)', printout)
+	# printout = proc.stdout.read()
+	m=re.search(r'.*(\d+)', printout) # get last # on line
+	if m == None:
+		sys.stderr.write("ERROR: Could not parse SNMP output %s\n" % printout)
+		sys.exit(1)
 	return int(m.group(1))
 
 def printerJobPages():
@@ -52,10 +53,31 @@ def printerJobPages():
 def printerStatus():
 	return snmpGet(printerIP, PRINTERSTATUS_OID)
 
+def waitForPrinterToFinish():
+	time.sleep(1)
+        waitCount = 0
+        somethingPrinted = False
+        while True:
+                # 3 is idle, 4 is printing, 5 is warmup, 1 is other
+                prStatus = printerStatus()
+                if prStatus == 4:
+                        sys.stderr.write("INFO: Printer status: printing\n")
+                        somethingPrinted = True
+                else:
+			if prStatus != 4 and somethingPrinted:
+				waitCount += 1
+				# Wait until status is idle for several counts
+				if waitCount == 3:
+					sys.stderr.write("INFO: Job printed successfully\n")
+					return
+			else:
+				sys.stderr.write("INFO: Printer status: other\n")
+		time.sleep(2)
+
 def copyFile(inFile):
 	# build new argv array: drop fileName, and change argv[0] to real back end
 	newArgs = sys.argv[:6]
-	newArgs[0] = cupsBackendDir + '/' + realBackEnd;
+	newArgs[0] = cupsBackendDir + '/' + realBackEnd
 	try:
 		proc = Popen(newArgs,
 			close_fds=True,	# security, but assume ENV already sanitized
@@ -64,7 +86,7 @@ def copyFile(inFile):
 		sys.stderr.write("ERROR: Could not invoke %s due to error %s\n" % (newArgs[0], e))
 		sys.exit(1)
 	sys.stderr.write("INFO: Trying to send to printer\n")
-	print newArgs
+	# print newArgs
 	ret = proc.wait()
 	if ret != 0:
 		sys.stderr.write("ERROR: Failure in %s backend, ret %d\n" % (realBackEnd,ret))
@@ -79,7 +101,7 @@ def	main():
 	nargs = len(args)
 	if nargs == 0:
 		# CUPS calls with no args to discover what we do
-		print("network %s \"Unknown\" \"Accounted Printer (SNMP)\"" % prefix)
+		sys.stderr.write("network %s \"Unknown\" \"Accounted Printer (SNMP)\"" % prefix)
 		sys.exit(0)
 	if nargs < 5 or nargs > 6:
 		sys.stderr.write("ERROR: Usage: %s jobid username jobtitle copies printopts [file]\n" % sys.argv[0])
@@ -96,22 +118,25 @@ def	main():
 	# off our prefix, and return the result to the environment.
 
 	try:
-		devURI = os.environ["DEVICE_URI"];
+		devURI = os.environ["DEVICE_URI"]
 	except KeyError:
 		sys.stderr.write("ERROR: No DEVICE_URI in environment!\n")
 		sys.exit(1)
 
 	# e.g.,  usermgmt://ipp://192.168.100.100
-	m = re.match(r'%s://([^/]+)://(.*)'%prefix, devURI);
+	m = re.match(r'%s://([^/]+)://(.*)'%prefix, devURI)
 	if m == None:
-		sys.stderr.write("ERROR: Could not parse DEVICE_URI\n")
+		sys.stderr.write("ERROR: Could not parse DEVICE_URI %s\n"%devURI)
 		sys.exit(1)
 	global realBackEnd
 	realBackEnd = m.group(1)
 	restOfDevice = m.group(2)
 	newDevUri = realBackEnd + "://" + restOfDevice
 	os.environ["DEVICE_URI"] = newDevUri
-	m=re.match(r'([\d.]+)', realBackEnd)
+	m=re.match(r'([\d.]+)', restOfDevice)
+	if m == None:
+		sys.stderr.write("ERROR: Could not parse BACKEND part of %s\n"%devURI)
+		sys.exit(1)
 	global printerIP
 	printerIP = m.group(1)
 
@@ -120,6 +145,8 @@ def	main():
 	n1 = printerJobPages()
 
 	copyFile(file)
+
+	waitForPrinterToFinish()
 
 	n2 = printerJobPages()
 
