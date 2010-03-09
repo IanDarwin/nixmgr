@@ -36,7 +36,7 @@ class ChargeForPages:
 
 		self.conn.commit()
 
-		print "User %s successfully charged for %d pages" % (username, pages)
+		# print "INFO: User %s successfully charged for %d pages" % (username, pages)
 
 def main():
 	accountant = ChargeForPages()
