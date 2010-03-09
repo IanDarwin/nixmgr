@@ -4,6 +4,7 @@
 	learned how to do some of these things from the excellent (but Perl-based)
 	accsnmp, see http://fritz.potsdam.edu/projects/cupsapps/#accsnmp.
 	My version uses the usermgmt account database instead of text files.
+	MUST INSTALL as 'usermgmt' (minus the .py extension) in $l/libexec/cups/backend/
 '''
 
 # TODO
