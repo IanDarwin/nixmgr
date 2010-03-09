@@ -1,3 +1,8 @@
+#!/bin/sh
+
+NN=${1-100}
+
 psql -d usermgmt <<!
-update account set printcredits=100 where username='ian';
+update account set printcredits=$NN where username='ian';
+select username,printcredits from account;
 !
