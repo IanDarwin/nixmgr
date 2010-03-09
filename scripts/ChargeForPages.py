@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
 import os
+# for PostgreSQL
+from psycopg import connect
 
 class ChargeForPages:
 	""" Bill a user for a given number of pages"""
 
 	def __init__(self):
-		# for PostgreSQL
-		from psycopg import connect
 		self.connString = "dbname=usermgmt user=usermgr password=plugh32 host=localhost"
 		self.conn = connect(self.connString)
 
