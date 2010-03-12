@@ -14,7 +14,9 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.framework.EntityHome;
+import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Renderer;
+
 
 import unix.SystemAccountAccessor;
 
@@ -43,7 +45,13 @@ public class AccountHome extends EntityHome<Account> {
 		String ret = super.persist();
 
 		// Send the notification email.
-		renderer.render("/account/welcome-email.xhtml");
+		try {
+			renderer.render("/account/welcome-email.xhtml");
+		} catch (Exception e) {
+			FacesMessages.instance().add(
+			"Warning: could not send welcome email: " + e);
+			e.printStackTrace();	// to system log only
+		}
 
 		return ret;
 	}
