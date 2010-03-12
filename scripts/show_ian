@@ -1,3 +1,3 @@
 psql -d usermgmt <<!
-select id,username,printcredits from account where username='ian';
+select id,username,printcredits from account where username like 'ian%';
 !
