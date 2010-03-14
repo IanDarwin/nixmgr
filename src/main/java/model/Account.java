@@ -17,6 +17,10 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
 import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
@@ -29,7 +33,7 @@ import org.jboss.seam.annotations.Scope;
 /**
  * Account represents one external operating-system account
  */
-@Entity
+@Entity @Indexed
 @Name("loggedInUser")@Scope(ScopeType.SESSION)
 @Role(name="forgetful")
 @Table(name = "account", schema = "public",
@@ -82,9 +86,9 @@ public class Account implements java.io.Serializable {
 	}
 
 	@Id
+	@DocumentId
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false)
-	@NotNull
 	public int getId() {
 		return this.id;
 	}
@@ -96,6 +100,7 @@ public class Account implements java.io.Serializable {
 	@Column(name = "firstname", length = 15)
 	@NotNull
 	@Pattern(regex=NAME_PATT)
+	@Field(index=Index.TOKENIZED)
 	public String getFirstname() {
 		return this.firstname;
 	}
@@ -108,6 +113,7 @@ public class Account implements java.io.Serializable {
 	@Length(max = 15)
 	@NotNull
 	@Pattern(regex=NAME_PATT)
+	@Field(index=Index.TOKENIZED)
 	public String getLastname() {
 		return this.lastname;
 	}
@@ -120,6 +126,7 @@ public class Account implements java.io.Serializable {
 	@Length(max = 100)
 	@NotNull
 	@Email
+	@Field(index=Index.TOKENIZED)
 	public String getEmail() {
 		return email;
 	}
@@ -141,6 +148,7 @@ public class Account implements java.io.Serializable {
 	@Length(max = 8)
 	@NotNull
 	@Pattern(regex=USERNAME_PATTERN)
+	@Field(index=Index.TOKENIZED)
 	public String getUsername() {
 		return this.username;
 	}

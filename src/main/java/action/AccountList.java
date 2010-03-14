@@ -1,9 +1,17 @@
 package action;
 
 import java.util.Arrays;
+import java.util.List;
+
+import javax.persistence.Query;
 
 import model.Account;
 
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.queryParser.MultiFieldQueryParser;
+import org.apache.lucene.queryParser.ParseException;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.framework.EntityQuery;
@@ -14,23 +22,50 @@ public class AccountList extends EntityQuery<Account> {
 
 	private static final long serialVersionUID = 6399831773976567468L;
 
-	private static final String EJBQL = "select account from Account account";
+	// Combines the Seam-managed persistence context with Lucene capabilities
+	@In private FullTextEntityManager entityManager;
 
-	private static final String[] RESTRICTIONS = {
-			"lower(account.firstname) like concat(lower(#{accountList.account.firstname}),'%')",
-			"lower(account.lastname) like concat(lower(#{accountList.account.lastname}),'%')",
-			"lower(account.password) like concat(lower(#{accountList.account.password}),'%')",
-			"lower(account.username) like concat(lower(#{accountList.account.username}),'%')",};
+	private String queryString;
+
+	final String[] fields = {
+		"firstname", "lastname", "username", "email",
+	};
 
 	private Account account = new Account();
 
 	public AccountList() {
-		setEjbql(EJBQL);
-		setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
-		setMaxResults(25);
+		setEjbql("from Account");
 	}
 
 	public Account getAccount() {
 		return account;
+	}
+
+	public String getQueryString() {
+		return this.queryString;
+	}
+	public void setQueryString(String queryString) {
+		this.queryString = queryString;
+	}
+
+	@Override
+	public Account getSingleResult() {
+		return null;
+	}
+
+	@Override
+	protected Query createQuery() {
+		if (queryString == null || queryString.length() == 0) {
+			return entityManager.createQuery("from Account");
+		}
+		final MultiFieldQueryParser parser = new MultiFieldQueryParser(
+			fields, new StandardAnalyzer());
+		try {
+			final org.apache.lucene.search.Query luceneQuery = 
+				parser.parse(queryString);
+			return entityManager.createFullTextQuery(luceneQuery, Account.class);
+		} catch (ParseException ex) {
+			throw new RuntimeException("createQuery failed", ex);
+		}
 	}
 }

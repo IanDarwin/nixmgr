@@ -12,6 +12,7 @@ import model.Userrole;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.faces.FacesMessages;
@@ -36,6 +37,7 @@ public class AccountHome extends EntityHome<Account> {
 	@In Renderer renderer;
 
 	@Override
+	@RaiseEvent("accountCreated")
 	// XXX Students can only save their own, by logic elsewhere(?)
 	public String persist() {
 		if (!osDAO.addAccount(getInstance())) {
@@ -58,6 +60,7 @@ public class AccountHome extends EntityHome<Account> {
 
 	@Override
 	@Restrict("#{identity.hasRole('admin')}")
+	@RaiseEvent("accountCreated")
 	public String remove() {
 		if (!osDAO.deleteAccount(getInstance())) {
 			return null;
@@ -66,6 +69,7 @@ public class AccountHome extends EntityHome<Account> {
 	}
 
 	@Override
+	@RaiseEvent("accountEdited")
 	public String update() {
 		if (!osDAO.updateAccount(getInstance())) {
 			return null;

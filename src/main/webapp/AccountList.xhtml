@@ -17,18 +17,8 @@
         <rich:simpleTogglePanel label="Account Search Filter" switchType="ajax">
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Username</ui:define>
-                <h:inputText id="username" value="#{accountList.account.username}"/>
-            </s:decorate>
-
-            <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Firstname</ui:define>
-                <h:inputText id="firstname" value="#{accountList.account.firstname}"/>
-            </s:decorate>
-
-            <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Lastname</ui:define>
-                <h:inputText id="lastname" value="#{accountList.account.lastname}"/>
+                <ui:define name="label">Search</ui:define>
+                <h:inputText id="username" value="#{accountList.queryString}"/>
             </s:decorate>
 
         </rich:simpleTogglePanel>

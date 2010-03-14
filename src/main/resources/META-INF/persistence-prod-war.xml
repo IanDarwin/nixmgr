@@ -13,6 +13,16 @@
          <property name="hibernate.hbm2ddl.auto" value="validate"/>
          <property name="hibernate.jdbc.batch_size" value="20"/>
          <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
+	<!-- Next 4 properties added for Lucene Search -->
+	<property name="hibernate.search.default.indexBase"
+		value="/var/tmp/usermgmt/index"/>
+	<!-- Not needed with HA 3.3 -->
+	<property name="hibernate.ejb.event.post-insert"
+		value="org.hibernate.search.event.FullTextIndexEventListener"/>
+	<property name="hibernate.ejb.event.post-update"
+		value="org.hibernate.search.event.FullTextIndexEventListener"/>
+	<property name="hibernate.ejb.event.post-delete"
+		value="org.hibernate.search.event.FullTextIndexEventListener"/>   
       </properties>
    </persistence-unit>
     
