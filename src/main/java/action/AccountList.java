@@ -14,6 +14,7 @@ import org.hibernate.search.jpa.FullTextEntityManager;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.security.Restrict;
+import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.framework.EntityQuery;
 
 @Name("accountList")
@@ -58,14 +59,20 @@ public class AccountList extends EntityQuery<Account> {
 		if (queryString == null || queryString.length() == 0) {
 			return entityManager.createQuery("from Account");
 		}
-		final MultiFieldQueryParser parser = new MultiFieldQueryParser(
-			fields, new StandardAnalyzer());
 		try {
+			final MultiFieldQueryParser parser = new MultiFieldQueryParser(
+				fields, new StandardAnalyzer());
 			final org.apache.lucene.search.Query luceneQuery = 
 				parser.parse(queryString);
 			return entityManager.createFullTextQuery(luceneQuery, Account.class);
-		} catch (ParseException ex) {
-			throw new RuntimeException("createQuery failed", ex);
+		} catch (ParseException e) {
+			// Weird but this method gets called very often, so
+			// make sure we only print the message once.
+			// Sorry if this loses any other important message!
+			FacesMessages.instance().clear();
+			FacesMessages.instance().add("Parse error: " + e);
+			// return all instead of none
+			return entityManager.createQuery("from Account");
 		}
 	}
 }
