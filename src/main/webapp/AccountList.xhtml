@@ -19,6 +19,11 @@
             <s:decorate template="layout/display.xhtml">
                 <ui:define name="label">Search</ui:define>
                 <h:inputText id="username" value="#{accountList.queryString}"/>
+		<p>
+		Queries are case-insensitive.
+		Use plain text with wildcards, e.g., "ia*" matches 'i' plus 'a'
+		plus anything following.
+		</p>
             </s:decorate>
 
         </rich:simpleTogglePanel>
@@ -79,13 +84,11 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{accountList}"/>
-                    <ui:param name="propertyLabel" value="Lastlogin"/>
-                    <ui:param name="propertyPath" value="account.lastlogin"/>
+                    <ui:param name="propertyLabel" value="Email"/>
+                    <ui:param name="propertyPath" value="account.email"/>
                 </ui:include>
             </f:facet>
-            <h:outputText value="#{_account.lastlogin}">
-                <s:convertDateTime type="date" dateStyle="short"/>
-            </h:outputText>
+            <h:outputText value="#{_account.email}"/>
         </h:column>
 
         <h:column>
