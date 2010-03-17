@@ -32,14 +32,8 @@ public class AccountList extends EntityQuery<Account> {
 		"firstname", "lastname", "username", "email",
 	};
 
-	private Account account = new Account();
-
 	public AccountList() {
 		setEjbql("from Account");
-	}
-
-	public Account getAccount() {
-		return account;
 	}
 
 	public String getQueryString() {
@@ -56,6 +50,7 @@ public class AccountList extends EntityQuery<Account> {
 
 	@Override
 	protected Query createQuery() {
+		System.err.println("AccountList.createQuery()");
 		if (queryString == null || queryString.length() == 0) {
 			return entityManager.createQuery("from Account");
 		}
