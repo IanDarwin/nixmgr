@@ -31,13 +31,14 @@ public class ForgetterCleaner implements Job {
 	@In
 	private EntityManager entityManager;
 
-	/** XXX rewrite using ForgetterRequestList, doh! */
 	@SuppressWarnings("unchecked")
 	public void execute(JobExecutionContext ctx) throws JobExecutionException {
 		System.out.println("ForgetterCleaner.execute()");
 		final Calendar c = Calendar.getInstance();
 		c.roll(Calendar.DAY_OF_MONTH, - DAYS);
 		final Date d = c.getTime();
+		// XXX consider using ForgetterRequestList here, if it can be
+		// extended to have comparison operator for timeout age
 		final Query query = entityManager.createQuery("from ForgetterRequest r where r.recordCreated < ?");
 		query.setParameter(1, d);
 		List<ForgetterRequest> list = query.getResultList();
