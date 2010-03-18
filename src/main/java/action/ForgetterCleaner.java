@@ -10,17 +10,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.jboss.seam.annotations.In;
-import org.quartz.*;
+import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import model.ForgetterRequest;
 
 /** Quartz-scheduled bean to clean up old unused ForgetterRequest objects */
-@MessageDriven(activationConfig =
-{
-		// The cronTrigger expression attempts to run once/day at 2345 - temporarily 1145 for testing
-		@ActivationConfigProperty(propertyName="cronTrigger", propertyValue="0 45 11 * * ?")
+@Stateless(activationConfig = {
+	// The cronTrigger expression attempts to run once/day at 2345
+	@ActivationConfigProperty(
+		propertyName="cronTrigger",
+		propertyValue="0 45 23 * * ?")
 })
 public class ForgetterCleaner implements Job {
 	
