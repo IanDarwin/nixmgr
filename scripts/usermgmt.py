@@ -19,8 +19,8 @@ prefix="usermgmt"		# used in device URL
 
 # To find out if your printer supports the needed MIB:
 # snmpget -v 1 -c 'public' ianprint 1.3.6.1.2.1.43.10.2.1.4.1.1
-LIFEPAGECOUNT_OID = "1.3.6.1.2.1.43.10.2.1.4.1.1";	# pages since printer manufactured
-PRINTERSTATUS_OID = "1.3.6.1.2.1.25.3.5.1.1.1";		# current printer status
+LIFEPAGECOUNT_OID = "1.3.6.1.2.1.43.10.2.1.4.1.1"	# pages since printer manufactured
+PRINTERSTATUS_OID = "1.3.6.1.2.1.25.3.5.1.1.1"		# current printer status
 
 cupsBackendDir = "/usr/local/libexec/cups/backend"	# Somewhat OS-specific
 
