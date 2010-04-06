@@ -5,7 +5,7 @@ from syslog import openlog,syslog
 prefix = "cups-debug"
 
 openlog("cups-debug")
-syslog("Hello from cups-debug backend")
+#syslog("Hello from cups-debug backend")
 args = sys.argv[1:] # minus progname
 nargs = len(args)
 if nargs < 5 or nargs > 6:
