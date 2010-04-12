@@ -1,8 +1,5 @@
 package action;
 
-import java.util.Arrays;
-import java.util.List;
-
 import javax.persistence.Query;
 
 import model.Account;
