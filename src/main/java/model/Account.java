@@ -41,12 +41,16 @@ import org.jboss.seam.annotations.Scope;
 public class Account implements java.io.Serializable {
 
 	private static final long serialVersionUID = 8446621948625634088L;
+
 	/** names etc. can contain letters, spaces, apostrophe for the irish */
 	private final static String NAME_PATT = "[\\w '.]+";
+
 	/** login names must be lowercase, fit this length range */
 	private static final String USERNAME_PATTERN = "[a-z]{3,8}";
+
 	/** passwords must have this minimu length */
 	private static final String PASSWORD_PATT = ".{6,}";
+
 	private int id;
 	private String firstname;
 	private String lastname;
