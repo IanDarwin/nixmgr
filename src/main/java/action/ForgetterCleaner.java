@@ -9,15 +9,15 @@ import javax.ejb.MessageDriven;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import model.ForgetterRequest;
+
 import org.jboss.seam.annotations.In;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import model.ForgetterRequest;
-
 /** Quartz-scheduled bean to clean up old unused ForgetterRequest objects */
-@Stateless(activationConfig = {
+@MessageDriven(activationConfig = {
 	// The cronTrigger expression attempts to run once/day at 2345
 	@ActivationConfigProperty(
 		propertyName="cronTrigger",
