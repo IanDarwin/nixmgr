@@ -46,7 +46,7 @@ public class Account implements java.io.Serializable {
 	private final static String NAME_PATT = "[\\w '.]+";
 
 	/** login names must be lowercase, fit this length range */
-	private static final String USERNAME_PATTERN = "[a-z]{3,8}";
+	private static final String USERNAME_PATTERN = "[a-z]{3,12}";
 
 	/** passwords must have this minimu length */
 	private static final String PASSWORD_PATT = ".{6,}";
@@ -148,8 +148,8 @@ public class Account implements java.io.Serializable {
 		this.systemAccountCreated = unixcreated;
 	}
 
-	@Column(name = "username", length = 8)
-	@Length(max = 8)
+	@Column(name = "username", length = 12)
+	@Length(max = 12)
 	@NotNull
 	@Pattern(regex=USERNAME_PATTERN)
 	@Field(index=Index.TOKENIZED)

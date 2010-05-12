@@ -17,6 +17,9 @@ import org.jboss.seam.security.Identity;
 
 @Name("authenticator")
 public class Authenticator {
+
+	private static final long serialVersionUID = -532990820820450981L;
+
 	@Logger
 	private Log log;
 	@In
