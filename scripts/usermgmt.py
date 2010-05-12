@@ -5,6 +5,7 @@
 	accsnmp, see http://fritz.potsdam.edu/projects/cupsapps/#accsnmp.
 	My version uses the usermgmt account database instead of text files.
 	MUST INSTALL as 'usermgmt' (minus the .py extension) in $l/libexec/cups/backend/
+	Now bills only on the username, which must be in the passwd file.
 '''
 
 # TODO
