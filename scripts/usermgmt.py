@@ -112,6 +112,9 @@ def	main():
 		(jobId,userName,jobTitle,copies,printOpts,fileName) = args
 		file = open(fileName, 'r')
 
+	# Windoze capitalizes first character of name, correct it
+	userName = userName.lower();
+
 	# Grab the device id from the environment, make sure it's for us, strip
 	# off our prefix, and return the result to the environment.
 
