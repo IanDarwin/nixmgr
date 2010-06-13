@@ -27,12 +27,14 @@ cupsBackendDir = "/usr/local/libexec/cups/backend"	# Somewhat OS-specific
 
 accountant = ChargeForPages()
 
-def validateUser(userName):
+def validateUser(userName,password):
 	try:
-		creditBal = accountant.getCurrentPageCredits(userName)
+		creditBal = accountant.getUserInformation(userName,password)
 	except KeyError:
 		sys.stderr.write("ERROR: could not get balance for %s\n" % userName)
 		sys.exit(1)
+	except PasswordError:
+		sys.stderr.write("ERROR: invalid username/password combination\n");
 	# print "Current credit for %s is %d" % (userName, creditBal)
 	if creditBal < 1:
 		sys.stderr.write("ERROR: User %s has page credit of %d\n" % (userName, creditBal))
@@ -102,6 +104,8 @@ def	main():
 		sys.stderr.write("network %s \"Unknown\" \"Accounted Printer (SNMP)\"" % prefix)
 		sys.exit(0)
 	if nargs < 5 or nargs > 6:
+		# This username is the logged-in user, regardless of whether the
+		# user provided a username/password in the URL or via prompting.
 		sys.stderr.write("ERROR: Usage: %s jobid username jobtitle copies printopts [file]\n" % sys.argv[0])
 		sys.exit(1)
 
@@ -141,7 +145,10 @@ def	main():
 	global printerIP
 	printerIP = m.group(1)
 
-	validateUser(userName)
+	authUserName=os.environ["AUTH_USERNAME"]
+	authPassword=os.environ["AUTH_PASSWORD"]
+
+	validateUser(authUserName,authPassword)
 
 	n1 = printerJobPages()
 
@@ -151,8 +158,8 @@ def	main():
 
 	n2 = printerJobPages()
 
-	sys.stderr.write("INFO: Billing %s for %d - %d pages\n"%(userName,n2,n1))
-	accountant.billUserForPages(userName, n2 - n1)
+	sys.stderr.write("INFO: Billing %s for %d - %d pages\n"%(authUserName,n2,n1))
+	accountant.billUserForPages(authUserName, n2 - n1)
 
 	sys.exit(0)
 
