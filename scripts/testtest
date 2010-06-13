@@ -1,0 +1,30 @@
+#!/bin/sh
+
+set -x
+
+# Test the cupsdebug backend!
+
+# Check that authdata check works.
+env AUTH_USERNAME='ian' AUTH_PASSWORD='totallyBogus' cupsdebug://socket://192.168.100.251:9100 cupsdebug.py 123 ian test.ps 1 - testdata && exit
+
+env DEVICE_URI=cupsdebug://socket://192.168.100.251:9100 cupsdebug.py 123 ian test.ps 1 - testdata && exit
+
+# test for no arguments
+cupsdebug.py
+
+# test for wrong # args
+cupsdebug.py foo
+
+exit
+
+# test that unknown account failure works
+env DEVICE_URI=cupsdebug://ipp://1.1.1.1/lpr usermgmt.py 123 jjjjjjj test.ps 1 - testdata
+
+# test that account balance failure works
+env DEVICE_URI=cupsdebug://ipp://1.1.1.1/lpr usermgmt.py 123 testfail test.ps 1 - testdata
+
+# test that we get as far as trying the next filter
+env DEVICE_URI=cupsdebug://ipp://1.1.1.1/p1 usermgmt.py 123 ian test.ps 1 - testdata
+
+# test that we invoke the next filter
+env DEVICE_URI=cupsdebug://ipp://1.1.1.1/localhost:1234 usermgmt.py 123 ian test.ps 1 - testdata
