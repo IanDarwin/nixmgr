@@ -28,8 +28,9 @@ try:
 	authPassword="(present)" # comment out if syslog won't compromise
 	syslog("cupsdebug %s pw %s\n" % (authUserName, authPassword))
 except KeyError:
-	syslog("cupsdebug: NO AUTH\n");
+	syslog("cupsdebug: NO AUTH\n")
 	sys.stderr.write("ERROR: no auth data\n")
+	sys.exit(1)
 
 # Grab the device id from the environment, make sure it's for us, strip
 # off our prefix, and return the result to the environment.
