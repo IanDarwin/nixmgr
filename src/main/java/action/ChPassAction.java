@@ -49,10 +49,12 @@ public class ChPassAction {
 			return null;
 		}
 
+
+		// Update the Java-based UserMgmt account
 		loggedInUser.setPassword(newPassword1);
 		entityManager.flush();
 
-		// Now update the system account
+		// Now update the Unix system account
 		if (!SystemAccountAccessor.getInstance().updateAccount(loggedInUser)) {
 			fail("System error: Could not update password");
 			return null;
