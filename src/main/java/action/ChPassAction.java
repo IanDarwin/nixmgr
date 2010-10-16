@@ -11,6 +11,7 @@ import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.faces.FacesMessages;
 
 import unix.SystemAccountAccessor;
+import com.darwinsys.security.PassPhrase;
 
 @Name("chPassAction")
 @Restrict("#{identity.loggedIn}")
@@ -61,6 +62,10 @@ public class ChPassAction {
 		}
 		
 		return "updated";
+	}
+
+	public String getRandomPassword() {
+		return PassPhrase.getNext(7);
 	}
 
 	public String getNewPassword1() {
