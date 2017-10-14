@@ -1,0 +1,3 @@
+= UserMan
+
+Start of a simple User Management webapp. Originally done in Seam2; being translated (slowly) to JSF2.
