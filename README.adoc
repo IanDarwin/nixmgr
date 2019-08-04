@@ -1,4 +1,4 @@
 = nixmgr
 
 Start of a simple web-based User Management webapp. Meant to be part of a larger sysadmin project.
-Originally done in Seam2; being translated (slowly) to JSF2.
+Originally done in Seam2; most pages still need translating to JSF2.
