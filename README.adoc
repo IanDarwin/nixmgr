@@ -1,4 +1,6 @@
 = nixmgr
 
-Start of a simple web-based User Management webapp. Meant to be part of a larger sysadmin project.
-Originally done in Seam2; most pages still need translating to JSF2.
+The is the remains of a simple web-based User Management webapp for Unix. Meant to be part of a larger sysadmin project.
+Originally done in Seam2; most pages still need translating to JSF2. 
+
+Arguably not worth salvaging given the availability of RH Cockpit, Webmin, etc. Left here in case anyone wants to pick up the pieces.
